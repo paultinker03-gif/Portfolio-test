@@ -594,7 +594,7 @@ class Component extends DCLogic {
     window.addEventListener("touchmove", this._onIntroTouch, { passive: true });
     window.addEventListener("touchstart", this._onIntroTouch, { passive: true });
     window.addEventListener("pointerleave", this._onIntroLeave);
-    this._onIntroResize = () => { this._resizeIntro(); this._resizeNespresso(); this._syncIndicator(); };
+    this._onIntroResize = () => { this._resizeIntro(); this._resizeNespresso(); this._syncIndicator(); this.forceUpdate(); };
     window.addEventListener("resize", this._onIntroResize);
     window.addEventListener("orientationchange", this._onIntroResize);
     const introLoop = () => { this._drawIntro(); this._drawNespresso(); this._introRaf = requestAnimationFrame(introLoop); };
@@ -931,6 +931,7 @@ class Component extends DCLogic {
   renderVals() {
     const active = this.state.i;
     const info = this.state.info;
+    const isNarrowPortrait = typeof window !== "undefined" && window.innerWidth <= 700 && window.innerHeight > window.innerWidth;
     const introPalette = this.introPalette();
     const activeIsDayNight = !!DATA[active].dayNight;
     const activeTheme = activeIsDayNight
@@ -1017,8 +1018,8 @@ class Component extends DCLogic {
         linkColor: d.dayNight ? THEME.dark.link : theme.desc,
         groupLeft: d.abstractComp ? "-8%" : (d.dayNight ? "min(120px, 12vw)" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp ? "0" : "min(400px, 40vw)")),
         groupRight: d.dayNight ? "min(120px, 12vw)" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp || d.abstractComp ? "0" : "min(400px, 40vw)"),
-        groupTop: d.abstractComp ? "14%" : (d.dayNight ? "1%" : ((d.imageCount != null ? d.imageCount : 5) === 4 ? "3%" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp ? "0" : "9%"))),
-        groupBottom: d.abstractComp ? "22%" : (d.dayNight ? "1%" : ((d.imageCount != null ? d.imageCount : 5) === 4 ? "3%" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp ? "0" : "9%"))),
+        groupTop: d.abstractComp ? (isNarrowPortrait ? "30%" : "14%") : (d.dayNight ? "1%" : ((d.imageCount != null ? d.imageCount : 5) === 4 ? "3%" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp ? "0" : "9%"))),
+        groupBottom: d.abstractComp ? (isNarrowPortrait ? "6%" : "22%") : (d.dayNight ? "1%" : ((d.imageCount != null ? d.imageCount : 5) === 4 ? "3%" : ((d.imageCount != null ? d.imageCount : 5) === 6 || d.smartComp ? "0" : "9%"))),
         pe: on ? "auto" : "none",
         dx: on ? "0px" : (i < active ? "-9vw" : "9vw"),
         imgZ: (d.imageCount != null ? d.imageCount : 5) === 6 ? 1 : (on ? 5 : 1),
