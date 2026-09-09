@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vodafone Phones 2</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="modulepreload" href="https://unpkg.com/three@0.184.0/build/three.module.js" integrity="sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J" crossorigin>
+<link rel="modulepreload" href="https://unpkg.com/three@0.184.0/build/three.core.js" integrity="sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT" crossorigin>
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Get%20Started.png">
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Welcome-Option-02.png">
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Mobile%20Screen%2002.png">
+<link rel="preload" as="image" fetchpriority="high" href="uploads/0301-dashboard.png">
+<script>
+  // kick off decode of the phone screens immediately, in parallel with the three.js CDN fetch,
+  // so pixels are ready in the browser's image cache by the time the scene needs them
+  ['Get%20Started.png','Welcome-Option-02.png','Mobile%20Screen%2002.png','0301-dashboard.png'].forEach(f => {
+    const img = new Image();
+    img.decoding = 'sync';
+    img.src = 'uploads/' + f;
+    img.decode && img.decode().catch(() => {});
+  });
+</script>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: rgba(0,0,0,0) !important; background-color: rgba(0,0,0,0) !important; color-scheme: normal; }
+  #stage, #stage canvas { background: rgba(0,0,0,0) !important; }
+  #stage {
+    position: relative; width: 100%; height: 100vh; min-height: 520px; overflow: hidden;
+    background: transparent;
+    touch-action: none; cursor: grab;
+  }
+  #stage canvas { display: block; width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+
+<script type="module">
+import * as THREE from 'three';
+
+const stage = document.getElementById('stage');
+// embedded in the timeline: let the host section's own red show through
+if (new URLSearchParams(location.search).has('embed')) {
+  stage.style.height = '100%';
+  stage.style.minHeight = '0';
+}
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+stage.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+camera.position.set(0, 0, 12);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+const key = new THREE.DirectionalLight(0xffffff, 2.1);
+key.position.set(-4, 6, 8);
+scene.add(key);
+const rim = new THREE.DirectionalLight(0xff8a8a, 1.1);
+rim.position.set(6, -3, 4);
+scene.add(rim);
+
+const bodyMat = new THREE.MeshStandardMaterial({ name: 'phone-body', color: 0x14141a, roughness: 0.42, metalness: 0.35 });
+const edgeMat = new THREE.MeshStandardMaterial({ name: 'phone-edge', color: 0x2a2a32, roughness: 0.3, metalness: 0.6 });
+const loader = new THREE.TextureLoader();
+
+function roundedRectShape(w, h, r) {
+  const s = new THREE.Shape();
+  const x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y);
+  s.lineTo(x + w - r, y);
+  s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h);
+  s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r);
+  s.quadraticCurveTo(x, y, x + r, y);
+  return s;
+}
+
+function makePhone(cfg) {
+  const g = new THREE.Group();
+  g.name = cfg.name;
+  const h = cfg.height;
+  const w = h * cfg.aspect;
+  const bezel = h * 0.022;
+  const depth = 0.085;
+  const bevel = 0.022;
+
+  const bodyGeo = new THREE.ExtrudeGeometry(roundedRectShape(w, h, w * 0.13), {
+    depth: depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 4, curveSegments: 24
+  });
+  bodyGeo.translate(0, 0, -depth / 2);
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.name = cfg.name + '-body';
+  g.add(body);
+
+  const railGeo = new THREE.ExtrudeGeometry(roundedRectShape(w + 0.012, h + 0.012, w * 0.135), {
+    depth: depth * 0.42, bevelEnabled: true, bevelThickness: 0.01, bevelSize: 0.01, bevelSegments: 2, curveSegments: 24
+  });
+  railGeo.translate(0, 0, -depth * 0.21);
+  const rail = new THREE.Mesh(railGeo, edgeMat);
+  rail.name = cfg.name + '-rail';
+  g.add(rail);
+
+  const tex = loader.load(cfg.screen);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  const screenMat = new THREE.MeshBasicMaterial({ name: cfg.name + '-screen-mat', map: tex, toneMapped: false });
+  const sw = w - bezel * 2, sh = h - bezel * 2;
+  const screenGeo = new THREE.ShapeGeometry(roundedRectShape(sw, sh, sw * 0.105), 24);
+  const pos = screenGeo.attributes.position, uv = [];
+  for (let i = 0; i < pos.count; i++) uv.push((pos.getX(i) + sw / 2) / sw, (pos.getY(i) + sh / 2) / sh);
+  screenGeo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  const screen = new THREE.Mesh(screenGeo, screenMat);
+  screen.name = cfg.name + '-screen';
+  screen.position.z = depth / 2 + bevel + 0.002;
+  g.add(screen);
+
+  const notch = new THREE.Mesh(
+    new THREE.CapsuleGeometry(0.014, w * 0.16, 4, 12),
+    new THREE.MeshStandardMaterial({ name: 'speaker', color: 0x05050a, roughness: 0.9 })
+  );
+  notch.rotation.z = Math.PI / 2;
+  notch.position.set(0, h / 2 - bezel * 0.55, depth / 2 + bevel + 0.004);
+  g.add(notch);
+
+  g.position.set(cfg.x, cfg.y, cfg.z);
+  g.rotation.set(cfg.rx, cfg.ry, cfg.rz);
+  return g;
+}
+
+const TALL = 720 / 1480, WIDE = 750 / 1334;
+
+const configs = [
+  { name: 'get-started', screen: 'uploads/Get%20Started.png', aspect: TALL, height: 2.75,
+    x: -2.05, y: 1.05, z: 0.0, rx: 0.06, ry: 0.20, rz: -0.24, sens: 0.55, ease: 0.045, bobAmp: 0.05, bobFreq: 0.55, phase: 0 },
+  { name: 'welcome', screen: 'uploads/Welcome-Option-02.png', aspect: WIDE, height: 2.35,
+    x: 1.15, y: 1.55, z: -0.55, rx: -0.05, ry: -0.16, rz: -0.55, sens: 0.38, ease: 0.03, bobAmp: 0.04, bobFreq: 0.7, phase: 2.6 },
+  { name: 'chat', screen: 'uploads/Mobile%20Screen%2002.png', aspect: WIDE, height: 2.70,
+    x: 1.95, y: 0.15, z: 0.25, rx: 0.02, ry: -0.22, rz: -0.28, sens: 0.75, ease: 0.065, bobAmp: 0.06, bobFreq: 0.45, phase: 4.1 },
+  { name: 'dashboard', screen: 'uploads/0301-dashboard.png', aspect: TALL, height: 3.30,
+    x: -1.75, y: -0.85, z: 0.95, rx: 0.05, ry: 0.14, rz: -0.66, sens: 1.0, ease: 0.09, bobAmp: 0.07, bobFreq: 0.5, phase: 1.4 }
+];
+
+const phones = configs.map(cfg => {
+  const g = makePhone(cfg);
+  scene.add(g);
+  return { g, cfg, base: g.rotation.clone(), baseY: cfg.y, curX: 0, curY: 0, tgtX: 0, tgtY: 0 };
+});
+
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  // keep the whole composition visible on narrow or short boxes
+  const need = Math.max(9.4 / camera.aspect, 6.3);
+  camera.position.z = need / (2 * Math.tan((camera.fov * Math.PI / 180) / 2));
+  camera.updateProjectionMatrix();
+}
+resize();
+addEventListener('resize', resize);
+
+function aim(nx, ny) {
+  phones.forEach(p => {
+    p.tgtY = nx * 0.55 * p.cfg.sens;
+    p.tgtX = -ny * 0.40 * p.cfg.sens;
+  });
+}
+
+let drag = null, swipe = { x: 0, y: 0 };
+
+stage.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'mouse') return;
+  drag = { x: e.clientX, y: e.clientY };
+  drag.tx = 0; drag.ty = 0;
+  stage.style.cursor = 'grabbing';
+  try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+});
+
+stage.addEventListener('pointermove', e => {
+  const r = stage.getBoundingClientRect();
+  if (e.pointerType === 'mouse') {
+    aim(((e.clientX - r.left) / r.width) * 2 - 1, ((e.clientY - r.top) / r.height) * 2 - 1);
+    return;
+  }
+  if (!drag) return;
+  e.preventDefault();
+  const ddx = e.clientX - drag.x, ddy = e.clientY - drag.y;
+  swipe.x = Math.max(-1, Math.min(1, swipe.x + ddx * 0.009));
+  swipe.y = Math.max(-1, Math.min(1, swipe.y + ddy * 0.009));
+  drag = { x: e.clientX, y: e.clientY, tx: drag.tx + ddx, ty: drag.ty + ddy };
+  aim(swipe.x, swipe.y);
+}, { passive: false });
+
+function endDrag() {
+  // a decisive horizontal swipe still changes timeline section in the host page
+  if (drag && Math.abs(drag.tx) > 180 && Math.abs(drag.tx) > Math.abs(drag.ty) * 3) {
+    try { parent.postMessage({ type: 'vf3d-swipe', dir: drag.tx < 0 ? 1 : -1 }, '*'); } catch (err) {}
+  }
+  drag = null;
+  stage.style.cursor = 'grab';
+}
+stage.addEventListener('pointerup', endDrag);
+stage.addEventListener('pointercancel', endDrag);
+
+// fallback for browsers that don't deliver touch as pointer events here
+let last = null;
+stage.addEventListener('touchmove', e => {
+  if (drag) return;
+  const t = e.touches[0];
+  if (!t) return;
+  if (last) {
+    swipe.x = Math.max(-1, Math.min(1, swipe.x + (t.clientX - last.x) * 0.009));
+    swipe.y = Math.max(-1, Math.min(1, swipe.y + (t.clientY - last.y) * 0.009));
+    aim(swipe.x, swipe.y);
+  }
+  last = { x: t.clientX, y: t.clientY };
+  if (e.cancelable) e.preventDefault();
+}, { passive: false });
+stage.addEventListener('touchend', () => { last = null; });
+
+const t0 = performance.now();
+let running = true, rafId = null;
+function tick(now) {
+  const t = (now - t0) / 1000;
+  phones.forEach(p => {
+    p.curX += (p.tgtX - p.curX) * p.cfg.ease;
+    p.curY += (p.tgtY - p.curY) * p.cfg.ease;
+    p.g.rotation.x = p.base.x + p.curX;
+    p.g.rotation.y = p.base.y + p.curY;
+    p.g.rotation.z = p.base.z + Math.sin(t * p.cfg.bobFreq * 0.8 + p.cfg.phase) * 0.012;
+    p.g.position.y = p.baseY + Math.sin(t * p.cfg.bobFreq + p.cfg.phase) * p.cfg.bobAmp;
+  });
+  renderer.render(scene, camera);
+  if (running) rafId = requestAnimationFrame(tick);
+}
+function start() { if (!running) { running = true; rafId = requestAnimationFrame(tick); } }
+function stop() { running = false; if (rafId) cancelAnimationFrame(rafId); rafId = null; }
+// host page toggles rendering as this slide becomes active/adjacent/inactive, to save GPU when off-screen
+addEventListener('message', e => {
+  if (!e.data || e.data.type !== 'vf3d-visibility') return;
+  if (e.data.state === 'inactive') stop(); else start();
+});
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
