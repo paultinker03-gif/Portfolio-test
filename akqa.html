@@ -15,10 +15,14 @@
   }
 }
 </script>
+<script>
+  // classify BEFORE first paint so an embedded scene never flashes its own background
+  if (!new URLSearchParams(location.search).has('embed')) document.documentElement.className = 'standalone';
+</script>
 <style>
-  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #cbdaec; }
-  body { background: radial-gradient(circle at 50% 46%, #ebf6ff 0%, #ebf6ff 20%, #dbe8f7 62%, #cbdaec 100%); }
-  body.embed, html.embed { background: transparent !important; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: transparent; }
+  html.standalone, html.standalone body { background: #cbdaec; }
+  html.standalone body { background: radial-gradient(circle at 50% 46%, #ebf6ff 0%, #ebf6ff 20%, #dbe8f7 62%, #cbdaec 100%); }
   canvas { display: block; touch-action: none; cursor: default; }
 </style>
 </head>
@@ -27,7 +31,7 @@
 import * as THREE from 'three';
 
 const EMBED = new URLSearchParams(location.search).has('embed');
-if (EMBED) { document.documentElement.classList.add('embed'); document.body.classList.add('embed'); }
+
 
 const scene = new THREE.Scene();
 if (!EMBED) scene.fog = new THREE.Fog(0xcbdaec, 10, 18);
