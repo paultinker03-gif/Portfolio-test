@@ -229,10 +229,10 @@ const cells = [];
 function makeCell(cfg) {
   const front = cfg.layer === 'front';
   const mat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color().setHSL(0.985 + Math.random() * 0.008, 0.86, front ? 0.42 : 0.26),
-    roughness: front ? 0.26 : 0.45,
+    color: new THREE.Color(front ? 0xe8463c : 0xb52a26),
+    roughness: front ? 0.22 : 0.4,
     metalness: 0,
-    clearcoat: front ? 0.35 : 0.18,
+    clearcoat: front ? 0.55 : 0.25,
     clearcoatRoughness: 0.22,
     bumpMap: cellNoise,
     bumpScale: front ? 0.55 : 0.35,
