@@ -16,8 +16,8 @@
 }
 </script>
 <style>
-  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #730e14; }
-  body { background: radial-gradient(circle at 50% 46%, #c1231e 0%, #c1231e 20%, #a80c14 62%, #730e14 100%); }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #cbdaec; }
+  body { background: radial-gradient(circle at 50% 46%, #ebf6ff 0%, #ebf6ff 20%, #dbe8f7 62%, #cbdaec 100%); }
   body.embed, html.embed { background: transparent !important; }
   canvas { display: block; touch-action: none; cursor: default; }
 </style>
@@ -30,7 +30,7 @@ const EMBED = new URLSearchParams(location.search).has('embed');
 if (EMBED) { document.documentElement.classList.add('embed'); document.body.classList.add('embed'); }
 
 const scene = new THREE.Scene();
-if (!EMBED) scene.fog = new THREE.Fog(0x730e14, 10, 18);
+if (!EMBED) scene.fog = new THREE.Fog(0xcbdaec, 10, 18);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 0, 7.6);
