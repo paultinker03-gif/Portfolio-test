@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" sizes="512x512" href="./uploads/Favicon-9c0582e4.png">
+<link rel="apple-touch-icon" href="./uploads/Favicon-9c0582e4.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; background: #0E3B34; }
+a { color: inherit; text-decoration: none; }
+a:hover { color: inherit; }
+</style>
+</helmet>
+
+<div style="position:fixed;inset:0;overflow:hidden;background:{{ bg }};color:{{ ink }};transition:background-color 1.2s ease;font-family:'DM Serif Text',Georgia,serif;font-weight:400;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,4.2vh,56px) clamp(20px,5vw,72px);box-sizing:border-box;">
+
+  <header ref="{{ headerRef }}" style="display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.8vh,22px);flex:0 0 auto;position:relative;z-index:2;">
+    <p style="margin:0;font-size:clamp(13px,1.15vw,17px);letter-spacing:0.01em;font-style:italic;font-weight:600;font-family:'DM Serif Text',Georgia,serif;color:{{ ink }};">Selected case studies</p>
+    <nav style="display:flex;flex-wrap:wrap;justify-content:center;column-gap:clamp(18px,3.2vw,52px);row-gap:clamp(10px,1.6vh,14px);line-height:1.15;">
+      <sc-for list="{{ studies }}" as="s" hint-placeholder-count="5">
+        <a href="{{ s.url }}" style="font-size:clamp(13px,1.15vw,17px);letter-spacing:0.14em;text-transform:uppercase;font-weight:700;font-family:'DM Sans',sans-serif;padding-bottom:3px;border-bottom:1px solid transparent;color:{{ strong }};transition:border-color .25s ease,color .25s ease;" style-hover="border-bottom-color:currentColor;">{{ s.title }}</a>
+      </sc-for>
+    </nav>
+  </header>
+
+  <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;"></canvas>
+
+  <footer style="flex:0 0 auto;position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,20px);text-align:center;">
+    <h1 ref="{{ nameRef }}" style="margin:0;font-size:clamp(36px,min(8.3vw,11vh),122px);line-height:0.88;letter-spacing:0.01em;font-weight:700;font-family:'DM Serif Text',Georgia,serif;">Paul Tinker</h1>
+    <div style="display:flex;flex-direction:column;gap:4px;max-width:clamp(46ch,60vw,64ch);">
+      <p style="margin:0;font-size:clamp(13px,1.1vw,17px);line-height:1.45;letter-spacing:0.01em;font-weight:400;font-family:'DM Sans',sans-serif;color:{{ strong }};">I work at the intersection of Product, Design, Engineering and AI, creating the systems and experiences that help digital products scale.</p>
+      <p style="margin:0;font-size:clamp(13px,1.1vw,17px);line-height:1.45;letter-spacing:0.01em;font-weight:400;font-family:'DM Sans',sans-serif;color:{{ strong }};">Currently leading Nespresso's web experience revamp.</p>
+    </div>
+
+    <div style="{{ toggleWrap }}">
+      <button type="button" onClick="{{ toggleTheme }}" aria-label="Switch between day and night" title="Switch between day and night" style="appearance:none;border:0;padding:0;display:block;position:relative;width:58px;height:30px;border-radius:999px;background:{{ ink }};cursor:pointer;transition:background-color 1.2s ease;">
+        <span style="position:absolute;top:4px;left:{{ knobX }};width:22px;height:22px;border-radius:50%;background:{{ bg }};transition:left .45s cubic-bezier(.65,.02,.24,1),background-color 1.2s ease;"></span>
+      </button>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Night&quot;,&quot;Day&quot;],&quot;default&quot;:&quot;Day&quot;}}">
+class Component extends DCLogic {
+  state = { theme: null, narrow: typeof window !== 'undefined' && window.innerWidth < 700 };
+
+  theme() { return this.state.theme || this.props.theme || 'Day'; }
+  componentDidMount() {
+    const self = this;
+    this.t = 0;
+    this.px = null; this.py = null;
+    this.cx = 0; this.cy = 0;
+    this.dx = 0; this.dy = 0;
+    this.onMove = function (e) { self.px = e.clientX; self.py = e.clientY; };
+    this.onLeave = function () { self.px = null; self.py = null; };
+    window.addEventListener('pointermove', this.onMove, { passive: true });
+    window.addEventListener('pointerleave', this.onLeave);
+    this.onResize = function () {
+      self.resize();
+      const n = window.innerWidth < 700;
+      if (n !== self.state.narrow) self.setState({ narrow: n });
+    };
+    window.addEventListener('resize', this.onResize);
+    this.resize();
+    this.loop = function () { self.draw(); self.raf = requestAnimationFrame(self.loop); };
+    this.raf = requestAnimationFrame(this.loop);
+    try {
+      const saved = localStorage.getItem('pt-theme');
+      if (saved === 'Day' || saved === 'Night') this.setState({ theme: saved });
+    } catch (e) {}
+  }
+
+  setTheme(v) {
+    this.setState({ theme: v });
+    try { localStorage.setItem('pt-theme', v); } catch (e) {}
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('pointermove', this.onMove);
+    window.removeEventListener('pointerleave', this.onLeave);
+    window.removeEventListener('resize', this.onResize);
+  }
+
+  palette() {
+    const t = this.theme();
+    const lobes = [[232, 144, 122], [232, 150, 180], [107, 197, 164], [152, 148, 205]];
+    const day = {
+      bg: '#F8C777', ink: '#0E3B34',
+      strong: 'rgba(14,59,52,0.94)', soft: 'rgba(14,59,52,0.8)', lobes: lobes,
+      shadow: '40,8,0', shadowA: 0.11
+    };
+    const night = {
+      bg: '#0E3B34', ink: '#F8C777',
+      strong: 'rgba(248,199,119,0.92)', soft: 'rgba(248,199,119,0.8)', lobes: lobes,
+      shadow: '2,14,11', shadowA: 0.21
+    };
+    return t === 'Day' ? day : night;
+  }
+
+  resize() {
+    const c = this.canvas;
+    if (!c) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = c.getBoundingClientRect();
+    this.w = r.width; this.h = r.height;
+    c.width = Math.round(r.width * dpr);
+    c.height = Math.round(r.height * dpr);
+    c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (!this.cx) { this.cx = this.w / 2; this.cy = this.h / 2; }
+  }
+
+  draw() {
+    const c = this.canvas;
+    if (!c || !this.w) return;
+    const ctx = c.getContext('2d');
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pal = this.palette();
+    const ink = pal.ink;
+    this.t += reduce ? 0.002 : 0.0125;
+    const t = this.t;
+    const W = this.w, H = this.h;
+
+    const hdr = this.headerEl ? this.headerEl.getBoundingClientRect().bottom : H * 0.18;
+    const ftr = this.nameEl ? this.nameEl.getBoundingClientRect().top : H * 0.72;
+    const bandTop = hdr + Math.min(24, H * 0.03);
+    const bandBot = Math.max(bandTop + 60, ftr - Math.min(24, H * 0.03));
+    const band = bandBot - bandTop;
+
+    // cluster radius: everything (lobes + shadow) must fit the free band
+    const CR = Math.max(34, Math.min(Math.min(W, H) * 0.2, band / 3.6));
+
+    const homeX = W / 2, homeY = bandTop + band / 2;
+    let tx = homeX, ty = homeY;
+    if (this.px != null) {
+      tx = homeX + (this.px - homeX) * 0.16;
+      ty = homeY + (this.py - homeY) * 0.14;
+    }
+    tx += Math.sin(t * 0.37) * W * 0.012;
+    ty += Math.cos(t * 0.29) * H * 0.016;
+    this.cx += (tx - this.cx) * 0.045;
+    this.cy += (ty - this.cy) * 0.045;
+
+    let ang = 0, pull = 0;
+    if (this.px != null) {
+      const vx = this.px - this.cx, vy = this.py - this.cy;
+      ang = Math.atan2(vy, vx);
+      pull = Math.min(1, Math.sqrt(vx * vx + vy * vy) / (Math.min(W, H) * 0.55));
+    }
+    this.dx += (Math.cos(ang) * pull - this.dx) * 0.06;
+    this.dy += (Math.sin(ang) * pull - this.dy) * 0.06;
+    const bulge = Math.sqrt(this.dx * this.dx + this.dy * this.dy);
+    const bAng = Math.atan2(this.dy, this.dx);
+
+    const lo = bandTop + CR * 1.4, hi = bandBot - CR * 1.9;
+    this.cy = hi > lo ? Math.max(lo, Math.min(hi, this.cy)) : lo;
+
+    // three lobes — Product, Design, Engineering — orbiting a shared centre,
+    // separating and merging as they drift; the cursor pulls them apart
+    const orbit = CR * (0.7 + 0.14 * bulge) * (1 + 0.07 * Math.sin(t * 0.5));
+    const lobes = [];
+    for (let i = 0; i < 4; i++) {
+      const a0 = t * 0.11 + (i / 4) * Math.PI * 2 - Math.PI / 2;
+      // wob swings each lobe in and out, so pairs periodically fuse and separate
+      const wob = 1 + 0.34 * Math.sin(t * (0.55 + i * 0.21) + i * 2.1);
+      const lean = 0.24 * bulge * Math.cos(a0 - bAng);
+      const d = orbit * wob * (1 + lean);
+      const r = CR * (0.295 + 0.035 * Math.sin(t * (0.9 + i * 0.23) + i));
+      lobes.push({ x: this.cx + Math.cos(a0) * d, y: this.cy + Math.sin(a0) * d * 0.9, rr: r * r });
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    const sy = this.cy + CR * 1.35;
+    const SR = CR * 1.4;
+    const g = ctx.createRadialGradient(this.cx, sy, 0, this.cx, sy, SR);
+    const sh = pal.shadow, A = pal.shadowA;
+    const stop = function (p, k) { g.addColorStop(p, 'rgba(' + sh + ',' + (A * k).toFixed(4) + ')'); };
+    stop(0, 1); stop(0.25, 0.62); stop(0.5, 0.3); stop(0.72, 0.11); stop(0.88, 0.03); stop(1, 0);
+    ctx.save();
+    ctx.translate(this.cx, sy); ctx.scale(1, 0.16); ctx.translate(-this.cx, -sy);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(this.cx, sy, SR, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+
+    this.strokeField(ctx, lobes, this.cx, this.cy, CR, ink, pal.lobes);
+  }
+
+  // marching-squares contour of the summed metaball field: lobes merge where they meet
+  strokeField(ctx, lobes, cx, cy, CR, ink, cols) {
+    const T = 1;
+    const pad = CR * 1.9;
+    const x0 = cx - pad, x1 = cx + pad, y0 = cy - pad, y1 = cy + pad;
+    const cell = Math.max(3, CR * 0.055);
+    const nx = Math.ceil((x1 - x0) / cell), ny = Math.ceil((y1 - y0) / cell);
+
+    const f = function (x, y) {
+      let s = 0;
+      for (let i = 0; i < lobes.length; i++) {
+        const b = lobes[i], dx = x - b.x, dy = y - b.y;
+        s += b.rr / (dx * dx + dy * dy + 0.0001);
+      }
+      return s;
+    };
+
+    let row = new Float32Array(nx + 1);
+    for (let i = 0; i <= nx; i++) row[i] = f(x0 + i * cell, y0);
+
+    ctx.lineWidth = Math.max(3.5, CR * 0.055);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = ink;
+
+    // each lobe can carry its own colour; along the contour the colours mix by
+    // field weight, so where two lobes meet their hues blend into each other
+    const mixAt = function (x, y) {
+      let wsum = 0;
+      const w = [];
+      for (let i = 0; i < lobes.length; i++) {
+        const b = lobes[i], dx = x - b.x, dy = y - b.y;
+        const wi = Math.pow(b.rr / (dx * dx + dy * dy + 0.0001), 1.6);
+        w.push(wi); wsum += wi;
+      }
+      let r = 0, g = 0, bl = 0;
+      for (let i = 0; i < lobes.length; i++) {
+        const k = w[i] / wsum, c = cols[i % cols.length];
+        r += c[0] * k; g += c[1] * k; bl += c[2] * k;
+      }
+      return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(bl) + ')';
+    };
+
+    if (!cols) ctx.beginPath();
+    for (let j = 0; j < ny; j++) {
+      const yA = y0 + j * cell, yB = yA + cell;
+      const next = new Float32Array(nx + 1);
+      for (let i = 0; i <= nx; i++) next[i] = f(x0 + i * cell, yB);
+      for (let i = 0; i < nx; i++) {
+        const xA = x0 + i * cell, xB = xA + cell;
+        const va = row[i], vb = row[i + 1], vd = next[i + 1], ve = next[i];
+        const idx = (va > T ? 1 : 0) | (vb > T ? 2 : 0) | (vd > T ? 4 : 0) | (ve > T ? 8 : 0);
+        if (idx === 0 || idx === 15) continue;
+        const top = [xA + cell * (T - va) / (vb - va), yA];
+        const right = [xB, yA + cell * (T - vb) / (vd - vb)];
+        const bottom = [xA + cell * (T - ve) / (vd - ve), yB];
+        const left = [xA, yA + cell * (T - va) / (ve - va)];
+        const seg = cols
+          ? function (p, q) {
+              ctx.strokeStyle = mixAt((p[0] + q[0]) / 2, (p[1] + q[1]) / 2);
+              ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); ctx.stroke();
+            }
+          : function (p, q) { ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); };
+        switch (idx) {
+          case 1: case 14: seg(left, top); break;
+          case 2: case 13: seg(top, right); break;
+          case 3: case 12: seg(left, right); break;
+          case 4: case 11: seg(right, bottom); break;
+          case 6: case 9: seg(top, bottom); break;
+          case 7: case 8: seg(left, bottom); break;
+          case 5: seg(left, top); seg(right, bottom); break;
+          case 10: seg(top, right); seg(bottom, left); break;
+        }
+      }
+      row = next;
+    }
+    if (!cols) ctx.stroke();
+  }
+
+  renderVals() {
+    const self = this;
+    const p = this.palette();
+    return {
+      bg: p.bg, ink: p.ink, strong: p.strong, soft: p.soft,
+      knobX: this.theme() === 'Day' ? '32px' : '4px',
+      toggleWrap: this.state.narrow
+        ? { marginTop: 'clamp(12px,2vh,20px)', position: 'relative', zIndex: 3 }
+        : { position: 'absolute', right: 0, bottom: 0, zIndex: 3 },
+      toggleTheme: function () { self.setTheme(self.theme() === 'Day' ? 'Night' : 'Day'); },
+      studies: [
+        { title: 'AI', url: 'https://ai.paultinker.uk/' },
+        { title: 'Vodafone', url: 'https://vodafone.paultinker.uk/' },
+        { title: 'Smart', url: 'https://smart.paultinker.uk/' },
+        { title: 'Nespresso', url: 'https://nespresso.paultinker.uk/' },
+        { title: 'Earlier work', url: 'https://earlier.paultinker.uk/' }
+      ],
+      canvasRef: function (el) { self.canvas = el; if (el) self.resize(); },
+      headerRef: function (el) { self.headerEl = el; },
+      nameRef: function (el) { self.nameEl = el; }
+    };
+  }
+}
+</script>
+</body>
+</html>

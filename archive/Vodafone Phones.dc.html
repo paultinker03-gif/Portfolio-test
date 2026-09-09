@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<div class="stage-outer" ref="{{ setOuterRef }}" style="position:relative;width:100%;height:100vh;min-height:600px;overflow:hidden;background:radial-gradient(120% 120% at 30% 20%, #e6001a 0%, #b3000f 45%, #4a0006 100%);touch-action:none;">
+  <div class="stage-inner" ref="{{ setInnerRef }}" style="position:absolute;left:50%;top:50%;width:1476px;height:911px;perspective:1400px;">
+
+    <div id="phone-1" style="position:absolute;left:395px;top:330px;width:300px;height:591px;">
+      <div style="width:100%;height:100%;background:#0b0b0d;border-radius:38px;padding:12px;box-shadow:0 30px 70px rgba(0,0,0,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.08);position:relative;">
+        <div style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:56px;height:5px;border-radius:3px;background:#000;"></div>
+        <div style="width:100%;height:100%;border-radius:26px;overflow:hidden;background:#fff;position:relative;">
+          <div style="width:360px;height:740px;transform:scale(0.7667);transform-origin:top left;">
+            <x-import component-from-global-scope="GetStarted" from="./components/Components.bundle.js" hint-size="360px,740px"></x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phone-3" style="position:absolute;left:1010px;top:260px;width:300px;height:515px;">
+      <div style="width:100%;height:100%;background:#0b0b0d;border-radius:38px;padding:12px;box-shadow:0 30px 70px rgba(0,0,0,0.5), inset 0 0 0 1.5px rgba(255,255,255,0.08);position:relative;">
+        <div style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:56px;height:5px;border-radius:3px;background:#000;"></div>
+        <div style="width:100%;height:100%;border-radius:26px;overflow:hidden;background:#e6001a;position:relative;">
+          <div style="width:375px;height:667px;transform:scale(0.736);transform-origin:top left;">
+            <x-import component-from-global-scope="TemplateWelcomeOption02" from="./components/Components.bundle.js" hint-size="375px,667px"></x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phone-2" style="position:absolute;left:450px;top:560px;width:300px;height:591px;">
+      <div style="width:100%;height:100%;background:#0b0b0d;border-radius:38px;padding:12px;box-shadow:0 34px 80px rgba(0,0,0,0.55), inset 0 0 0 1.5px rgba(255,255,255,0.08);position:relative;">
+        <div style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:56px;height:5px;border-radius:3px;background:#000;"></div>
+        <div style="width:100%;height:100%;border-radius:26px;overflow:hidden;background:#f4f4f4;position:relative;">
+          <div style="width:360px;height:740px;transform:scale(0.7667);transform-origin:top left;">
+            <x-import component-from-global-scope="Dashboard0301" from="./components/Components.bundle.js" hint-size="360px,740px"></x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="phone-4" style="position:absolute;left:1150px;top:430px;width:300px;height:515px;">
+      <div style="width:100%;height:100%;background:#0b0b0d;border-radius:38px;padding:12px;box-shadow:0 34px 80px rgba(0,0,0,0.55), inset 0 0 0 1.5px rgba(255,255,255,0.08);position:relative;">
+        <div style="position:absolute;left:50%;top:6px;transform:translateX(-50%);width:56px;height:5px;border-radius:3px;background:#000;"></div>
+        <div style="width:100%;height:100%;border-radius:26px;overflow:hidden;background:#ebebeb;position:relative;">
+          <div style="width:375px;height:667px;transform:scale(0.736);transform-origin:top left;position:relative;">
+            <x-import component-from-global-scope="TemplateMobile" from="./components/Components.bundle.js" hint-size="375px,667px"></x-import>
+            <div style="position:absolute;left:38px;top:140px;width:285px;height:283px;background:#fff;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:16px;box-sizing:border-box;">
+              <div style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-size:15px;line-height:20px;color:#333;margin-bottom:14px;">Your average spend in the last six months</div>
+              <div style="position:relative;width:100%;height:98px;border-top:1px dashed #ccc;border-bottom:1px dashed #ccc;">
+                <div style="position:absolute;left:0;right:0;top:50%;border-top:1px dashed #ccc;"></div>
+                <div style="position:absolute;left:0;bottom:0;display:flex;align-items:flex-end;gap:9px;width:100%;">
+                  <sc-for list="{{ bars }}" as="bar" hint-placeholder-count="6">
+                    <div style="width:10px;height:{{ bar.total }}px;position:relative;border-radius:2.5px;overflow:hidden;transform-origin:bottom;animation:barRise 1.8s ease-in-out infinite alternate;animation-delay:{{ bar.delay }};">
+                      <div style="position:absolute;left:0;bottom:0;width:10px;height:{{ bar.plan }}px;border-radius:2.5px;background:linear-gradient(180deg, rgb(0,176,202) 0%, rgb(17,115,129) 100%);"></div>
+                      <sc-if value="{{ bar.hasOverage }}">
+                        <div style="position:absolute;left:0;top:0;width:10px;height:{{ bar.overage }}px;border-radius:2.5px;background:rgb(156,42,160);"></div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                <sc-for list="{{ months }}" as="m" hint-placeholder-count="6">
+                  <span style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-size:11px;color:#666;width:16px;text-align:center;">{{ m }}</span>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:16px;padding-top:10px;border-top:0.5px solid #ddd;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgb(0,176,202);display:inline-block;"></span><span style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-size:13px;color:#333;">Your plan</span></div>
+                <span style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;color:#333;">£40</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:8px;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:50%;background:rgb(156,42,160);display:inline-block;"></span><span style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-size:13px;color:#333;">Average out of plan spend</span></div>
+                <span style="font-family:'Vodafone Rg',Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;color:#333;">£12.50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.setOuterRef = this.setOuterRef.bind(this);
+    this.setInnerRef = this.setInnerRef.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    this.fit = this.fit.bind(this);
+    this.tick = this.tick.bind(this);
+  }
+
+  setOuterRef(el) { this.outerEl = el; }
+  setInnerRef(el) { this.innerEl = el; }
+
+  onMove(nx, ny) {
+    this.pointer = { x: nx, y: ny };
+    for (var i = 0; i < this.phones.length; i++) {
+      var p = this.phones[i];
+      p.targetY = nx * 18 * p.sens;
+      p.targetX = -ny * 14 * p.sens;
+    }
+  }
+
+  handleMouseMove(e) {
+    var r = this.outerEl.getBoundingClientRect();
+    var nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+    var ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+    this.onMove(nx, ny);
+  }
+
+  handleTouchMove(e) {
+    var t = e.touches[0];
+    if (!t) return;
+    if (this.lastTouch) {
+      this.swipeX = (this.swipeX || 0) + (t.clientX - this.lastTouch.x) * 0.01;
+      this.swipeY = (this.swipeY || 0) + (t.clientY - this.lastTouch.y) * 0.01;
+      this.swipeX = Math.max(-1, Math.min(1, this.swipeX));
+      this.swipeY = Math.max(-1, Math.min(1, this.swipeY));
+      this.onMove(this.swipeX, this.swipeY);
+    }
+    this.lastTouch = { x: t.clientX, y: t.clientY };
+  }
+
+  handleTouchEnd() { this.lastTouch = null; }
+
+  fit() {
+    var r = this.outerEl.getBoundingClientRect();
+    var s = Math.min(r.width / 1476, r.height / 911) * 0.94;
+    this.innerEl.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+  }
+
+  tick(t) {
+    var elapsed = (t - this.startTime) / 1000;
+    for (var i = 0; i < this.phones.length; i++) {
+      var p = this.phones[i];
+      p.curX += (p.targetX - p.curX) * p.ease;
+      p.curY += (p.targetY - p.curY) * p.ease;
+      var idle = Math.sin(elapsed * p.idleFreq + p.phase) * p.idleAmp;
+      if (p.el) {
+        p.el.style.transform = "translate(-50%, calc(-50% + " + idle + "px)) rotateZ(" + p.baseZ + "deg) rotateX(" + p.curX + "deg) rotateY(" + p.curY + "deg)";
+      }
+    }
+    this._raf = requestAnimationFrame(this.tick);
+  }
+
+  componentDidMount() {
+    this.months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
+
+    var rawBars = [
+      { plan: 50,   overage: 0,    delay: "0s" },
+      { plan: 48.5, overage: 11.5, delay: "0.12s" },
+      { plan: 48.5, overage: 22.5, delay: "0.24s" },
+      { plan: 48.5, overage: 0,    delay: "0.36s" },
+      { plan: 48.5, overage: 9.5,  delay: "0.48s" },
+      { plan: 48.5, overage: 48.5, delay: "0.6s" }
+    ];
+    this.bars = rawBars.map(function (b) {
+      return { plan: b.plan, overage: b.overage, delay: b.delay, total: b.plan + b.overage, hasOverage: b.overage > 0 };
+    });
+
+    this.phoneConfigs = [
+      { id: "phone-1", baseZ: -8,  sens: 0.55, ease: 0.05,  idleAmp: 6, idleFreq: 0.6,  phase: 0 },
+      { id: "phone-2", baseZ: 7,   sens: 1,    ease: 0.09,  idleAmp: 8, idleFreq: 0.5,  phase: 1.4 },
+      { id: "phone-3", baseZ: -13, sens: 0.4,  ease: 0.035, idleAmp: 5, idleFreq: 0.7,  phase: 2.7 },
+      { id: "phone-4", baseZ: 6,   sens: 0.75, ease: 0.07,  idleAmp: 7, idleFreq: 0.45, phase: 4.1 }
+    ];
+
+    this.pointer = { x: 0, y: 0 };
+    this.phones = [];
+    for (var i = 0; i < this.phoneConfigs.length; i++) {
+      var cfg = this.phoneConfigs[i];
+      this.phones.push({
+        id: cfg.id, baseZ: cfg.baseZ, sens: cfg.sens, ease: cfg.ease,
+        idleAmp: cfg.idleAmp, idleFreq: cfg.idleFreq, phase: cfg.phase,
+        el: document.getElementById(cfg.id),
+        curX: 0, curY: 0, targetX: 0, targetY: 0
+      });
+    }
+
+    this.lastTouch = null;
+    this.outerEl.addEventListener("mousemove", this.handleMouseMove);
+    this.outerEl.addEventListener("touchmove", this.handleTouchMove, { passive: true });
+    this.outerEl.addEventListener("touchend", this.handleTouchEnd);
+
+    this.fit();
+    window.addEventListener("resize", this.fit);
+
+    this.startTime = performance.now();
+    this._raf = requestAnimationFrame(this.tick);
+
+    this.forceUpdate();
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    window.removeEventListener("resize", this.fit);
+    if (this.outerEl) {
+      this.outerEl.removeEventListener("mousemove", this.handleMouseMove);
+      this.outerEl.removeEventListener("touchmove", this.handleTouchMove);
+      this.outerEl.removeEventListener("touchend", this.handleTouchEnd);
+    }
+  }
+
+  renderVals() {
+    return {
+      bars: this.bars || [],
+      months: this.months || [],
+      setOuterRef: this.setOuterRef,
+      setInnerRef: this.setInnerRef
+    };
+  }
+}
+</script>
+</body>
+</html>
