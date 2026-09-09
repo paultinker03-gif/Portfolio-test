@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guardian Phones</title>
+<link rel="preconnect" href="https://esm.sh" crossorigin>
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Spotify%201-86d81f06.png">
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Spotify%202-3caef593.png">
+<link rel="preload" as="image" fetchpriority="high" href="uploads/Spotify%203-2ed1e4ce.png">
+<style>
+  html, body { margin:0; padding:0; height:100%; background:rgba(0,0,0,0) !important; color-scheme:normal; }
+  guardian-scene, guardian-scene canvas { background:rgba(0,0,0,0) !important; }
+  guardian-scene { display:block; width:100%; height:100vh; min-height:520px; overflow:hidden; touch-action:none; }
+</style>
+</head>
+<body>
+<guardian-scene-copy background="transparent" parallax="1" float-speed="1"></guardian-scene-copy>
+<script src="guardian-scene-copy.js"></script>
+<script>
+  if (new URLSearchParams(location.search).has('embed')) {
+    const s = document.querySelector('guardian-scene-copy');
+    s.style.height = '100%';
+    s.style.minHeight = '0';
+  }
+</script>
+</body>
+</html>
