@@ -1,5 +1,5 @@
 (() => {
-const CDN = 'https://esm.sh/three@0.160.0';
+
 
 class GuardianSceneCopy extends HTMLElement {
   connectedCallback() {
@@ -35,9 +35,9 @@ class GuardianSceneCopy extends HTMLElement {
   async _build() {
     // fetch all three modules in parallel — serial awaits cost 3 round-trips
     const [THREE, { SVGLoader }, { RoomEnvironment }] = await Promise.all([
-      import(CDN),
-      import(CDN + '/examples/jsm/loaders/SVGLoader.js'),
-      import(CDN + '/examples/jsm/environments/RoomEnvironment.js')
+      import('three'),
+      import('three/addons/loaders/SVGLoader.js'),
+      import('three/addons/environments/RoomEnvironment.js')
     ]);
     this.THREE = THREE;
 
