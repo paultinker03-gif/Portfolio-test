@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AKQA — Cardiovascular System</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT"
+  }
+}
+</script>
+<script>
+  // classify BEFORE first paint so an embedded scene never flashes its own background
+  if (!new URLSearchParams(location.search).has('embed')) document.documentElement.className = 'standalone';
+</script>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: transparent; }
+  html.standalone, html.standalone body { background: #cbdaec; }
+  html.standalone body { background: radial-gradient(circle at 50% 46%, #ebf6ff 0%, #ebf6ff 20%, #dbe8f7 62%, #cbdaec 100%); }
+  canvas { display: block; touch-action: none; cursor: default; }
+</style>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+
+const EMBED = new URLSearchParams(location.search).has('embed');
+
+
+const scene = new THREE.Scene();
+if (!EMBED) scene.fog = new THREE.Fog(0xcbdaec, 10, 18);
+
+const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 7.6);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.domElement.style.opacity = '0';
+renderer.domElement.style.transition = 'opacity 260ms ease-out';
+document.body.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffdcd4, 0.45));
+const bounce = new THREE.HemisphereLight(0xff5b4a, 0x5c0d10, 0.45);
+scene.add(bounce);
+// embed mode has no env map (skipped for load cost), so compensate with light
+const key = new THREE.DirectionalLight(0xfff4ef, 1.6);
+key.position.set(2.6, 4.2, 4.5);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffb0a0, 0.6);
+fill.position.set(-3.2, -1.8, 2.2);
+scene.add(fill);
+// red bounce sits BEHIND the tablet so it rims the cells without tinting the screen
+const rim = new THREE.PointLight(0xff2630, 1.1, 15);
+rim.position.set(0, 0.5, -3.5);
+scene.add(rim);
+
+// ---------- studio environment (reflections) ----------
+function envTexture() {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 256;
+  const ctx = c.getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, '#ffffff');
+  g.addColorStop(0.38, '#d8d2cf');
+  g.addColorStop(0.52, '#6d5250');
+  g.addColorStop(1, '#2a0e10');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 256);
+  // soft light panels for believable specular streaks
+  ctx.globalAlpha = 0.85;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(40, 18, 150, 56);
+  ctx.fillRect(300, 34, 120, 40);
+  ctx.globalAlpha = 0.35;
+  ctx.fillStyle = '#ff6a55';
+  ctx.fillRect(0, 150, 512, 106);
+  const tex = new THREE.Texture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.needsUpdate = true;
+  return tex;
+}
+{
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromEquirectangular(envTexture()).texture;
+}
+
+// ---------- surface noise (cell membrane grain) ----------
+function noiseTexture(size = EMBED ? 128 : 256, scale = 22) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  const img = ctx.createImageData(size, size);
+  const grid = [];
+  const g = scale;
+  for (let i = 0; i <= g + 1; i++) { grid[i] = []; for (let j = 0; j <= g + 1; j++) grid[i][j] = Math.random(); }
+  const lerp = (a, b, t) => a + (b - a) * (t * t * (3 - 2 * t));
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const fx = (x / size) * g, fy = (y / size) * g;
+      const x0 = Math.floor(fx), y0 = Math.floor(fy);
+      const v = lerp(
+        lerp(grid[x0][y0], grid[x0 + 1][y0], fx - x0),
+        lerp(grid[x0][y0 + 1], grid[x0 + 1][y0 + 1], fx - x0),
+        fy - y0
+      );
+      const fine = Math.random() * 0.25;
+      const val = Math.min(255, Math.max(0, (v * 0.75 + fine) * 255));
+      const k = (y * size + x) * 4;
+      img.data[k] = img.data[k + 1] = img.data[k + 2] = val;
+      img.data[k + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(3, 3);
+  return tex;
+}
+const cellNoise = noiseTexture();
+
+// rig — what the cursor / swipe drives
+const rig = new THREE.Group();
+rig.scale.setScalar(0.63);
+scene.add(rig);
+
+// ---------- tablet (fixed, front-on) ----------
+const tabletSpin = new THREE.Group();
+tabletSpin.scale.setScalar(0.63);
+scene.add(tabletSpin);
+
+const TW = 2.5, TH = 3.35, TD = 0.15;
+
+function roundedRect(w, h, r) {
+  const s = new THREE.Shape();
+  const x = w / 2 - r, y = h / 2 - r;
+  s.absarc(x, y, r, 0, Math.PI / 2, false);
+  s.absarc(-x, y, r, Math.PI / 2, Math.PI, false);
+  s.absarc(-x, -y, r, Math.PI, Math.PI * 1.5, false);
+  s.absarc(x, -y, r, Math.PI * 1.5, Math.PI * 2, false);
+  s.closePath();
+  return s;
+}
+
+function roundedHole(w, h, r) {
+  const p = new THREE.Path();
+  const x = w / 2 - r, y = h / 2 - r;
+  p.absarc(x, -y, r, Math.PI * 2, Math.PI * 1.5, true);
+  p.absarc(-x, -y, r, Math.PI * 1.5, Math.PI, true);
+  p.absarc(-x, y, r, Math.PI, Math.PI / 2, true);
+  p.absarc(x, y, r, Math.PI / 2, 0, true);
+  p.closePath();
+  return p;
+}
+
+// anodised aluminium shell, rounded + bevelled
+const shellGeo = new THREE.ExtrudeGeometry(roundedRect(TW, TH, 0.19), {
+  depth: TD - 0.04, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02,
+  bevelSegments: 4, curveSegments: 24
+});
+shellGeo.translate(0, 0, -(TD - 0.04) / 2);
+const shell = new THREE.Mesh(shellGeo, new THREE.MeshPhysicalMaterial({
+  color: 0x9aa0a6, roughness: 0.33, metalness: 1, envMapIntensity: 1.1,
+  clearcoat: 0.2, name: 'aluminiumShell'
+}));
+shell.name = 'tabletShell';
+tabletSpin.add(shell);
+
+// glossy black bezel FRAME (rounded outline with a display aperture cut out)
+const SCW = TW * 0.88, SCH = TH * 0.885;
+const bezelShape = roundedRect(TW - 0.03, TH - 0.03, 0.175);
+bezelShape.holes.push(roundedHole(SCW + 0.02, SCH + 0.02, 0.02));
+const bezelGeo = new THREE.ExtrudeGeometry(bezelShape, {
+  depth: 0.03, bevelEnabled: false, curveSegments: 24
+});
+// sunk into the shell so no faces sit coplanar (kills the edge flicker)
+bezelGeo.translate(0, 0, TD / 2 - 0.018);
+const bezel = new THREE.Mesh(bezelGeo, new THREE.MeshPhysicalMaterial({
+  color: 0x08090a, roughness: 0.12, metalness: 0.35,
+  clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.4, name: 'bezel'
+}));
+bezel.name = 'tabletBezel';
+tabletSpin.add(bezel);
+
+const texManager = new THREE.LoadingManager();
+texManager.onLoad = () => { renderer.domElement.style.opacity = '1'; };
+const loader = new THREE.TextureLoader(texManager);
+const screenTex = loader.load('uploads/Frame 2-63e2c1f2.png');
+screenTex.colorSpace = THREE.SRGBColorSpace;
+screenTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+const screen = new THREE.Mesh(
+  new THREE.PlaneGeometry(SCW + 0.04, SCH + 0.04),
+  new THREE.MeshBasicMaterial({ map: screenTex, toneMapped: false, name: 'screen' })
+);
+screen.name = 'screen';
+screen.position.z = TD / 2 + 0.03;
+tabletSpin.add(screen);
+
+const darkMat = new THREE.MeshStandardMaterial({ color: 0x1b1d20, roughness: 0.45, metalness: 0.45 });
+const camDot = new THREE.Mesh(new THREE.CircleGeometry(0.018, 16), darkMat);
+camDot.position.set(0, TH / 2 - 0.095, TD / 2 + 0.032);
+tabletSpin.add(camDot);
+const homeBtn = new THREE.Mesh(new THREE.RingGeometry(0.036, 0.05, 32), darkMat);
+homeBtn.position.set(0, -TH / 2 + 0.095, TD / 2 + 0.032);
+tabletSpin.add(homeBtn);
+
+// ---------- red blood cells ----------
+function bloodCellGeometry(R = 0.5) {
+  const seg = 40, half = [];
+  for (let i = 0; i <= seg; i++) {
+    const u = i / seg;
+    // biconcave: thin dimpled centre, thickest rim, rounded edge
+    const t = (0.03 + 0.15 * Math.exp(-Math.pow((u - 0.74) / 0.36, 2))) * Math.sqrt(Math.max(1 - Math.pow(u, 8), 0));
+    half.push(new THREE.Vector2(u * R, t));
+  }
+  // closed profile: axis -> rim -> axis, mirrored, so the solid is watertight
+  const bottom = half.slice(0, -1).reverse().map(p => new THREE.Vector2(p.x, -p.y));
+  const geo = new THREE.LatheGeometry([...half, ...bottom], 72);
+  geo.computeVertexNormals();
+  return geo;
+}
+const cellGeo = bloodCellGeometry();
+
+const cells = [];
+function makeCell(cfg) {
+  const front = cfg.layer === 'front';
+  const mat = new THREE.MeshPhysicalMaterial({
+    color: new THREE.Color(front ? 0xd91f27 : 0x8f1218),
+    roughness: front ? 0.22 : 0.4,
+    metalness: 0,
+    clearcoat: front ? 0.55 : 0.25,
+    clearcoatRoughness: 0.22,
+    bumpMap: cellNoise,
+    bumpScale: front ? 0.55 : 0.35,
+    envMapIntensity: 0.12,
+    side: THREE.DoubleSide,
+    flatShading: false,
+    name: 'redBloodCellMaterial'
+  });
+  const mesh = new THREE.Mesh(cellGeo, mat);
+  mesh.name = 'redBloodCell';
+  mesh.position.set(cfg.x, cfg.y, cfg.z);
+  mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+  const sc = cfg.scale * 0.68;
+  mesh.scale.setScalar(sc);
+  const s = front ? 0.35 : 0.2;
+  mesh.userData = {
+    spin: {
+      x: (Math.random() - 0.5) * 0.016 * s,
+      y: (Math.random() - 0.5) * 0.020 * s,
+      z: (Math.random() - 0.5) * 0.014 * s
+    },
+    radius: 0.5 * sc,
+    offset: new THREE.Vector3(),
+    vel: new THREE.Vector3(),
+    base: mesh.position.clone(),
+    bobAmp: (front ? 0.11 : 0.06) * (0.6 + Math.random()),
+    bobSpeed: 0.16 + Math.random() * 0.35,
+    phase: Math.random() * Math.PI * 2,
+    drift: 0.4 + Math.random() * 0.8
+  };
+  rig.add(mesh);
+  cells.push(mesh);
+}
+
+// a few overlapping the tablet edge (front), a few behind
+[
+  { x: 1.42, y: 1.28, z: 0.75, scale: 1.45 },
+  { x: 1.82, y: 0.72, z: 0.95, scale: 1.0 },
+  { x: 1.55, y: -0.1, z: 0.55, scale: 0.85 },
+  { x: -1.5, y: -1.55, z: 0.8, scale: 1.35 },
+  { x: -1.1, y: -1.95, z: 0.5, scale: 0.95 },
+  { x: 1.3, y: -1.5, z: 0.6, scale: 1.05 }
+].forEach(c => makeCell({ ...c, layer: 'front' }));
+
+[
+  { x: -1.25, y: 1.5, z: -0.9, scale: 1.05 },
+  { x: 1.9, y: 0.35, z: -0.8, scale: 0.9 },
+  { x: 0.85, y: -1.85, z: -1.0, scale: 0.95 },
+  { x: -1.85, y: 0.2, z: -0.7, scale: 0.8 }
+].forEach(c => makeCell({ ...c, layer: 'back' }));
+
+// ---------- pointer / swipe ----------
+let targetRotX = 0, targetRotY = 0, curRotX = 0, curRotY = 0;
+let dragRotX = 0, dragRotY = 0, velX = 0, velY = 0;
+let lastX = 0, lastY = 0, hasLast = false;
+
+const el = renderer.domElement;
+function follow(e) {
+  // pointer / finger position drives a bounded lean — never a free rotation
+  targetRotY = ((e.clientX / window.innerWidth) * 2 - 1) * 0.3;
+  targetRotX = -((e.clientY / window.innerHeight) * 2 - 1) * 0.18;
+  if (hasLast) {
+    // swipe adds a springy nudge that settles back
+    velX = THREE.MathUtils.clamp(velX + (e.clientX - lastX) * 0.0006, -0.012, 0.012);
+    velY = THREE.MathUtils.clamp(velY + (e.clientY - lastY) * 0.0006, -0.012, 0.012);
+  }
+  lastX = e.clientX; lastY = e.clientY; hasLast = true;
+}
+el.addEventListener('pointermove', follow);
+el.addEventListener('pointerdown', follow);
+// forwarded touch from the host page: a finger crossing the whole screen would swing
+// the full lean range, so coarse pointers get a much gentler amount
+const TOUCH = matchMedia('(hover: none) and (pointer: coarse)').matches;
+const FWD = TOUCH ? 0.28 : 1;
+window.addEventListener('message', (ev) => {
+  const d = ev.data;
+  if (!d || d.type !== 'cvPointer') return;
+  targetRotY = (d.nx * 2 - 1) * 0.3 * FWD;
+  targetRotX = -(d.ny * 2 - 1) * 0.18 * FWD;
+});
+let resting = false;
+el.addEventListener('pointerleave', () => {
+  // no snap on exit: forget the last sample and drift back to rest, slowly
+  hasLast = false;
+  targetRotX = 0; targetRotY = 0;
+  resting = true;
+});
+el.addEventListener('pointerenter', () => { resting = false; });
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+const clock = new THREE.Clock();
+let visible = true;
+new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { threshold: 0 }).observe(renderer.domElement);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) visible = true; });
+
+let raf = 0, lastFrame = 0;
+function animate(now) {
+  raf = requestAnimationFrame(animate);
+  if (!visible || document.hidden) return;
+  if (now - lastFrame < 32) return; // cap at ~30fps
+  lastFrame = now;
+  const t = clock.getElapsedTime();
+
+  // start dead-on, ease the motion in over the first ~1.6s
+  const intro = Math.min(t / 1.6, 1);
+  const ramp = intro * intro * (3 - 2 * intro);
+
+  // returning to rest is much gentler than following the cursor
+  const ease = resting ? 0.012 : 0.055;
+  curRotX += (targetRotX - curRotX) * ease;
+  curRotY += (targetRotY - curRotY) * ease;
+
+  // swipe nudge, spring-damped back to zero
+  dragRotX += velY; dragRotY += velX;
+  velX *= resting ? 0.96 : 0.9; velY *= resting ? 0.96 : 0.9;
+  dragRotX *= resting ? 0.975 : 0.92; dragRotY *= resting ? 0.975 : 0.92;
+  dragRotX = THREE.MathUtils.clamp(dragRotX, -0.12, 0.12);
+  dragRotY = THREE.MathUtils.clamp(dragRotY, -0.12, 0.12);
+
+  // constant gentle wobble
+  const wobX = Math.sin(t * 0.31) * 0.022 + Math.sin(t * 0.17 + 2) * 0.014;
+  const wobY = Math.sin(t * 0.23 + 1) * 0.028 + Math.sin(t * 0.13) * 0.016;
+
+  rig.rotation.x = (curRotX + dragRotX + wobX) * ramp;
+  rig.rotation.y = (curRotY + dragRotY + wobY) * ramp;
+  rig.rotation.z = Math.sin(t * 0.19 + 0.7) * 0.012 * ramp;
+
+  tabletSpin.rotation.set(0, 0, 0);
+
+  for (const c of cells) {
+    const d = c.userData;
+    c.rotation.x += d.spin.x;
+    c.rotation.y += d.spin.y;
+    c.rotation.z += d.spin.z;
+    d.target = d.target || new THREE.Vector3();
+    d.target.set(
+      d.base.x + Math.cos(t * d.bobSpeed * 0.7 + d.phase) * d.bobAmp * 0.5 * d.drift,
+      d.base.y + Math.sin(t * d.bobSpeed + d.phase) * d.bobAmp,
+      d.base.z
+    );
+  }
+
+  // soft collisions: touching cells bump apart instead of blending
+  const ab = new THREE.Vector3();
+  for (let i = 0; i < cells.length; i++) {
+    for (let j = i + 1; j < cells.length; j++) {
+      const a = cells[i], b = cells[j];
+      ab.subVectors(b.position, a.position);
+      const min = (a.userData.radius + b.userData.radius) * 0.92;
+      const dist = ab.length();
+      if (dist > 0.0001 && dist < min) {
+        const push = ((min - dist) / min) * 0.006;
+        ab.normalize();
+        a.userData.vel.addScaledVector(ab, -push);
+        b.userData.vel.addScaledVector(ab, push);
+      }
+    }
+  }
+
+  for (const c of cells) {
+    const d = c.userData;
+    d.offset.add(d.vel).multiplyScalar(0.96);
+    d.vel.multiplyScalar(0.9);
+    c.position.copy(d.target).add(d.offset);
+  }
+
+  renderer.render(scene, camera);
+}
+function start() { if (!raf) raf = requestAnimationFrame(animate); }
+function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+document.addEventListener('visibilitychange', () => { document.hidden ? stop() : (visible = true, start()); });
+start();
+</script>
+</body>
+</html>
