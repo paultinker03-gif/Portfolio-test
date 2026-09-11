@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Badge</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="11fe4c9f-f88d-4165-8030-5560eaa3156f" class="page sans"><header><h1 class="page-title" dir="auto">Badge</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="1e068a8b-e544-4987-8a0a-4600528a3386" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=5152%3A3274">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-badge--standard">Storybook link</a></p><hr id="b3845912-cc8c-48f2-ae09-3e0dda0ac387" dir="auto"/><p id="aa8dfda2-5a86-4e1b-85a9-72184a7bd824" class="" dir="auto">Badges are small visual indicators used to communicate granular detail about other elements. This could be a number value, such as percentage totals, or dynamic status information. Badges cannot be selected or interacted with.</p><p id="97153dfa-6fb9-47f3-8874-4225c8b3c7bb" class="" dir="auto">We use badges most often in <a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a>, <a href="../Data%20display/Simple%20table%2017eba882c7a0466295fbf21aaade82e4.html" data-notion-page-id="17eba882-c7a0-4662-95fb-f21aaade82e4" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Simple table</a>, <a href="../Page%20layout/Cards%20-%20Information%20c2efa40d912140ce957810def30f896e.html" data-notion-page-id="c2efa40d-9121-40ce-9578-10def30f896e" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Cards - Information</a> and <a href="../Data%20display/Complex%20table%20(Genius)%2002b7db793dac44989d7f35054fdb773c.html" data-notion-page-id="02b7db79-3dac-4498-9d7f-35054fdb773c" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Complex table (Genius)</a>.</p><figure id="63f896fc-5018-4f0c-87cb-8ddc4dfbc629" class="image" data-notion-image="Badge/Badge.png" dir="ltr"><a href="Badge/Badge.png"><img style="width:680px" src="Badge/Badge.png"/></a></figure><h3 id="cd416058-93b7-4aba-9bb6-e73b1800bb94" class="" dir="auto">Use when</h3><ul id="8f587842-890d-47de-9e43-495efdf25a96" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Displaying dynamic numeric values.</li></ul><ul id="3e907b7a-c812-490a-80e0-d983f36e2607" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Displaying the dynamic statuses of other elements.</li></ul><table id="96636128-a831-40c3-b925-51e7792a62ee" class="simple-table" dir="ltr"><tbody><tr id="50a782ab-79b7-4c9f-9f36-2eefbbf140ec" dir="ltr"><td id=";aek" class="">Variant</td><td id="amDc" class="">Purpose</td></tr><tr id="b751d391-c228-42dc-892b-0b4283705c92" dir="ltr"><td id=";aek" class=""><strong>Success</strong></td><td id="amDc" class="">Lets the user know their action was successful.</td></tr><tr id="35fe15e2-8c05-4185-b418-8e9bd1a17ca7" dir="ltr"><td id=";aek" class=""><strong>Negative</strong></td><td id="amDc" class="">Indicates when an action was unsuccessful and the user needs to resolve it to continue.</td></tr><tr id="f9f7ae2b-1022-47e0-a896-27b5dd3fe506" dir="ltr"><td id=";aek" class=""><strong>Warning</strong></td><td id="amDc" class="">When the action was partially unsuccessful but it doesn&#x27;t block the user from continuing.</td></tr><tr id="adddd1b8-0ac5-49e8-be8a-7785d21c0ffb" dir="ltr"><td id=";aek" class=""><strong>Information</strong></td><td id="amDc" class="">When displaying neutral information with no consequence and when an action is pending. There are two variants of information badge, depending on which background they&#x27;re on: <code>name1</code> and <code>name2</code>.</td></tr></tbody></table><h2 id="66cc2d26-0a81-49a6-8580-d0f7339119fb" class="" dir="auto">Elements</h2><ol type="1" id="4eea3c43-4c22-42cc-aa1e-092e6d79aef7" class="numbered-list" start="1" dir="auto"><li><strong>Badge – </strong>badge colour helps indicate the variant.</li></ol><ol type="1" id="5e84a55f-cba1-46ed-ae8f-660e335e3e24" class="numbered-list" start="2" dir="auto"><li><strong>Label – </strong>short description of the status.</li></ol><h2 id="3b568bbf-d7e5-452d-a728-9a85a0e2a072" class="" dir="auto">Visual</h2><h3 id="ddcbd4fd-50b5-4ccb-a07d-e498fb04d89c" class="" dir="auto">Alignment</h3><p id="3d089617-02c1-42b4-8235-7bcc9fb05288" class="" dir="auto">Align to the right or left of the container.</p><p id="46f3720d-b587-4658-bd6d-3d9979bd5a6c" class="" dir="auto">Each context has a typical direction of alignment. For example, badges in the genius are usually aligned to the right.</p><p id="6107a2f5-c7a5-410e-8d0f-faa542148d82" class="" dir="auto">Keep alignment consistent within the other components they&#x27;re placed in.</p><h3 id="484ddd1b-25d8-497c-b6d4-492fa90e5dba" class="" dir="auto">Groups</h3><p id="832f87c5-7278-426d-ad10-25c6ff943516" class="" dir="auto">Only one badge per element. We don&#x27;t currently support multiple badges.</p><p id="2e61f2ba-9e1e-44c2-be86-275e7887c3a8" class="" dir="auto">No limits on how many badges per page.</p><h3 id="6dc86998-3677-45f3-9cf8-ce8a11dc993c" class="" dir="auto">Sizes</h3><p id="f387d36c-a992-4a2c-8d1e-bf4b121a919e" class="" dir="auto">There are two sizes for badges. Use <code>xs</code> for badges with text and <code>2xs</code> for numerals.</p><h3 id="9dd1e35e-7b10-4a48-8d70-3e5ec591d784" class="" dir="auto">Typography</h3><p id="1d07eb8a-44f6-4ea9-8ea4-030011e7e19b" class="" dir="auto">All badge labels use <code>regular-sm</code> styling.</p><h3 id="12409f42-6dbf-4515-aae7-a394f96f5d97" class="" dir="auto">Colour</h3><p id="ce2d9ff5-62f6-41df-b1ae-1ef1f859c1f4" class="" dir="auto">Badges use specific colour palettes by variant, all on the <code>base–2</code> palette except for <code>information–name1</code>.</p><table id="e20cf6b6-615e-46a0-9351-51dca7b00355" class="simple-table" dir="ltr"><tbody><tr id="203fbf32-37c3-4920-afd1-8262a0fc6185" dir="ltr"><td id="seAH" class="">Variant</td><td id="e@LS" class="">Token</td></tr><tr id="61ac616c-40c2-4a34-aa44-517c9970cc66" dir="ltr"><td id="seAH" class=""><strong>Success</strong></td><td id="e@LS" class=""><code>positive-secondary–core</code></td></tr><tr id="07ab0e77-ccbf-492f-9056-2f7b47c8c83f" dir="ltr"><td id="seAH" class=""><strong>Error</strong></td><td id="e@LS" class=""><code>negative-secondary–core</code></td></tr><tr id="a1bc9449-c1c1-412f-9ac2-4fa96caf7ef2" dir="ltr"><td id="seAH" class=""><strong>Warning</strong></td><td id="e@LS" class=""><code>warning-secondary–core</code></td></tr><tr id="930e09b5-8284-4d4f-a0a8-ce9fd1ab8248" dir="ltr"><td id="seAH" class=""><strong>Information–name1</strong></td><td id="e@LS" class=""><code>info-secondary–core</code></td></tr><tr id="1851585d-f458-4c6e-be4a-bc9252d9a617" dir="ltr"><td id="seAH" class=""><strong>Information–name2</strong></td><td id="e@LS" class=""><code>layout–core</code></td></tr></tbody></table><h2 id="f4fc9992-0504-403b-ab5b-5ad08dd41f11" class="" dir="auto">Behaviour</h2><p id="13b0a464-6810-4a87-871c-87b1fbe644f3" class="" dir="auto">Badges are static components that users cannot interact with.</p><hr id="029f024c-e45b-4ddc-a2c3-28816d3e1584" dir="auto"/><h2 id="3056eadb-7ef8-4230-8ff8-f76a78d25cf7" class="" dir="auto">Content</h2><ul id="d8df59c2-5b50-4d63-9c88-f8c07c5bcc80" class="bulleted-list" dir="auto"><li style="list-style-type:disc">If possible, keep to one word. Two words if needed.</li></ul><ul id="79b722bd-7f7b-49c5-8442-52ffec76dd00" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Write in sentence case.</li></ul><ul id="85e21698-eda0-40c9-a314-906848a17072" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Text must be clear enough to distinguish immediately without only relying on colour.</li></ul><h3 id="0a85d39f-cb3e-4d39-9769-8e0feded75b6" class="" dir="auto">Standard badge terms</h3><p id="beec46b9-5ad4-44b3-b511-160e850422ec" class="" dir="auto"><code>Success</code>: &quot;Success&quot;</p><p id="38c4e45a-5343-46a0-8d98-2627fce77eea" class="" dir="auto"><code>Negative</code>: &quot;Mandatory&quot; or &quot;Fail&quot;</p><p id="3597f132-1ad0-4390-8345-45173e282748" class="" dir="auto"><code>Warning</code>: &quot;Optional&quot;, &quot;Error&quot; or &quot;Errors detected&quot;</p><p id="bdb8c757-160d-4912-aed4-d5533fd4ba84" class="" dir="auto"><code>Information</code>: &quot;Pending&quot;</p><hr id="8e5c2b32-9a09-4b48-a027-ffe52a3e7fde" dir="auto"/><h2 id="2588cd53-5a78-485c-ad48-315e08c5ff7b" class="" dir="auto">Related</h2><p id="3d0a6c8c-4e5c-48be-8660-b4b02c240a55" class="" dir="auto"><a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a></p><p id="0e073796-aaab-48eb-b75b-cd3be7057abe" class="" dir="auto"><a href="../Data%20display/Simple%20table%2017eba882c7a0466295fbf21aaade82e4.html" data-notion-page-id="17eba882-c7a0-4662-95fb-f21aaade82e4" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Simple table</a></p><p id="16a59659-b044-4e66-a941-066686fb14ee" class="" dir="auto"><a href="../Page%20layout/Cards%20-%20Information%20c2efa40d912140ce957810def30f896e.html" data-notion-page-id="c2efa40d-9121-40ce-9578-10def30f896e" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Cards - Information</a></p><p id="504dea37-9294-409c-a817-7e4eb44612d0" class="" dir="auto"><a href="../Data%20display/Complex%20table%20(Genius)%2002b7db793dac44989d7f35054fdb773c.html" data-notion-page-id="02b7db79-3dac-4498-9d7f-35054fdb773c" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Complex table (Genius)</a></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

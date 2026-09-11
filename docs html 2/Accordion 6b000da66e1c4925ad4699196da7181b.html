@@ -1,0 +1,797 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Accordion</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="6b000da6-6e1c-4925-ad46-99196da7181b" class="page sans"><header><h1 class="page-title" dir="auto">Accordion</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="c25b8bba-cdd9-41e7-9123-0e7153d30a95" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=11569%3A1782">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-accordion--standard">Storybook link</a></p><hr id="6f552ef9-c193-4cd6-a6a5-a4cbebf08867" dir="auto"/><p id="4dda441d-e8d1-4e99-be0e-37a2dab46850" class="" dir="auto">The accordion component provides large amounts of content in a small space by hiding it behind panels. The title gives an overview of the content, allowing users to decide at a glance whether to reveal the panel content or not.</p><p id="78fa0401-447f-4aaa-8db5-7155240e8996" class="" dir="auto">When applied to content-rich pages, accordions can minimise scrolling and make the page appear less daunting to read. Remember that users may not read all content behind an accordion, so avoid hiding critical information inside a panel.</p><figure id="307029c2-b413-4635-aa84-cc95d5f0cf6d" class="image" data-notion-image="Accordion/Accordion.png" dir="ltr"><a href="Accordion/Accordion.png"><img style="width:680px" src="Accordion/Accordion.png"/></a></figure><h3 id="a16a2dfe-8d58-400d-be2a-c99e401c32ba" class="" dir="auto">Use when</h3><ul id="907fd918-ffde-45cc-b02b-b8a574b7a2b9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Reducing the amount of content on a page.</li></ul><ul id="1c975ee1-681a-4521-b0f6-87e9189d24ee" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Organising related content into groups.</li></ul><ul id="4170eef3-53ad-44c4-bc5b-fc63173e3d61" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sharing additional or optional content.</li></ul><p id="c1b17ed4-a803-4ce6-a027-e46e36b7cdfb" class="" dir="auto"><span style="border-bottom:0.05em solid"><strong>Don&#x27;t use when</strong></span></p><ul id="5b21e143-2e6a-40c0-8af0-633e6c16b9aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Sharing content that&#x27;s essential for users to complete their journey.</li></ul><h2 id="48e5de9d-d8b1-45e4-acbf-d6dd6fa1aa5a" class="" dir="auto">Elements</h2><ol type="1" id="a0543b47-9731-4630-8a5e-9ea63af0a5f5" class="numbered-list" start="1" dir="auto"><li><strong>Panel –</strong> Includes the title of the content section and is the touch target.</li></ol><ol type="1" id="defd895b-90e4-4166-92b9-ee3d98d59fe4" class="numbered-list" start="2" dir="auto"><li><strong>Icon – </strong>Chevron icon that indicates if the panel is collapsed or expanded.</li></ol><ol type="1" id="0a3fd37f-b9f5-4b09-af84-f7fab87487de" class="numbered-list" start="3" dir="auto"><li><strong>Dropdown</strong> – Expanded content from the panel.</li></ol><ol type="1" id="9fcbe086-4295-49ed-8bb6-c7940b286e97" class="numbered-list" start="4" dir="auto"><li><strong>Badge (optional) </strong>– Used to communicate granular detail about other elements and only applies to the small variant.</li></ol><h2 id="6ae7f563-b947-4f82-9b2c-74bd1c2a4f40" class="" dir="auto">Visual</h2><figure id="8e76e066-3920-4340-8bf7-d6404941f78c" class="image" data-notion-image="Accordion/Basic-Alert-Template.png" dir="ltr"><a href="Accordion/Basic-Alert-Template.png"><img style="width:700px" src="Accordion/Basic-Alert-Template.png"/></a></figure><h3 id="5ffa1601-8a0a-451b-9be5-117f0f0c4f5a" class="" dir="auto">Alignment</h3><p id="10994f56-ca27-4bb5-946a-401f75fca0bd" class="" dir="auto">Align the chevron icon to the right of the title.</p><h3 id="ba0efa6d-fd66-4482-92d4-c52fcd4cb67a" class="" dir="auto">Layout</h3><p id="9123f6a0-5dc4-4719-a96a-1488802ce2c4" class="" dir="auto">Always make accordions full width and stack vertically.</p><h3 id="cbe16a02-1309-4641-91ed-de30cbedd670" class="" dir="auto">Groups</h3><p id="a6247978-8f37-41f8-b95b-14574da74098" class="" dir="auto">Always group at least two accordion panels together at a time. Although there&#x27;s no limit on how many can be grouped together on one page.</p><p id="d33ecf38-8776-4501-884e-1b422eb02041" class="" dir="auto">Separate panels with a <a href="../Page%20layout/Divider%207ed79b1bbc554dc9ad567e57634e5628.html" data-notion-page-id="7ed79b1b-bc55-4dc9-ad56-7e57634e5628" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Divider</a> at the top and bottom of the group, and between every panel. Don&#x27;t insert space between panels vertically.</p><h3 id="38254e36-838e-490d-84bf-07cacf10a60f" class="" dir="auto">Colour</h3><p id="9b64e579-fc02-4ee4-8824-5fd28a3f552c" class="" dir="auto">All colours on the <code>base–2</code> palette.</p><table id="8cc43d77-cd93-4da1-b3c1-5ba1910bba60" class="simple-table" dir="ltr"><tbody><tr id="e534b367-ec33-427c-94fd-01bfe22e288c" dir="ltr"><td id="e`di" class="">Element</td><td id="N&lt;By" class="">Colour token</td></tr><tr id="17e3e6cd-db06-4e34-bff8-ce5da50fdddd" dir="ltr"><td id="e`di" class=""><strong>Panel label</strong></td><td id="N&lt;By" class=""><code>layout–content–primary</code></td></tr><tr id="85ee5576-0954-41c0-a1a1-d5fa2380c7cb" dir="ltr"><td id="e`di" class=""><strong>Icon</strong></td><td id="N&lt;By" class=""><code>layout–accent–secondary</code></td></tr><tr id="abe299f4-aaa6-41b7-931e-8297e70e2263" dir="ltr"><td id="e`di" class=""><strong>Dropdown content</strong></td><td id="N&lt;By" class=""><code>layout–content–secondary</code></td></tr><tr id="efe479a3-592d-43df-a683-97ab268c1d15" dir="ltr"><td id="e`di" class=""><strong>Divider</strong></td><td id="N&lt;By" class=""><code>layout–border–secondary</code></td></tr><tr id="14aa31ae-0418-404c-a55c-9cd31e357706" dir="ltr"><td id="e`di" class=""><strong>Badge</strong></td><td id="N&lt;By" class="">See <a href="../Feedback/Badge%2011fe4c9ff88d416580305560eaa3156f.html" data-notion-page-id="11fe4c9f-f88d-4165-8030-5560eaa3156f" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Badge</a> for more information</td></tr></tbody></table><h2 id="af080005-e653-4cd2-bbe1-47a1c6adc2f6" class="" dir="auto">Variants</h2><p id="af4048ba-2d79-4fa8-93a1-46d42bacfdd4" class="" dir="auto">There are two accordion variants we use, medium and small. The medium is the default and is used in most places. The small is used for tight spaces within cards.</p><h3 id="527518de-035a-472c-9559-76f53fcf326d" class="" dir="auto">Medium</h3><figure id="bd712d86-618f-4eb6-9a61-c5917dff1766" class="image" data-notion-image="Accordion/SizeMedium_DeviceMobile.png" dir="ltr"><a href="Accordion/SizeMedium_DeviceMobile.png"><img style="width:328px" src="Accordion/SizeMedium_DeviceMobile.png"/></a></figure><h3 id="d33cb76a-b871-4b5c-b619-e1aa08b1ccce" class="" dir="auto">Small</h3><p id="53f07690-0b47-4c9f-b88b-3f50fa512f42" class="" dir="auto">The small variant can have badges, whereas the medium does not.</p><figure id="5b2812d8-e364-4160-bbff-b28e6b5784e2" class="image" data-notion-image="Accordion/SizeSmall_DeviceMobile.png" dir="ltr"><a href="Accordion/SizeSmall_DeviceMobile.png"><img style="width:328px" src="Accordion/SizeSmall_DeviceMobile.png"/></a></figure><p id="9ebe027d-26cf-48a0-ad51-ae0f023296ce" class="" dir="auto">
+</p><p id="46a547ca-b90f-49e7-96cb-ead266e444c9" class="" dir="auto">An example of the small variant used in <a href="https://www.figma.com/file/a2gAxHA5saQIl152HlOOyx/NIAC-Member?type=design&amp;node-id=9423%3A88806&amp;t=RSga5YImCXnwtSrr-1">NIAC member, investments redirect</a>.</p><div id="ffae2a90-6a87-47e5-89cf-8f14f6d15980" class="column-list" data-notion-column-list="" dir="auto"><div id="2701b7fd-0f87-417f-92f2-e54cf59c31ad" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><figure id="c32393f9-49b9-4813-9ab7-08afd994da1b" class="image" data-notion-image="Accordion/Investments_Variant__Pre-built_strategies_selected.png" dir="ltr"><a href="Accordion/Investments_Variant__Pre-built_strategies_selected.png"><img style="width:453px" src="Accordion/Investments_Variant__Pre-built_strategies_selected.png"/></a></figure><p id="09b5cf91-4391-4656-9b06-560fbd1e069f" class="" dir="auto">
+</p></div><div id="ba816a8a-42ff-4ebc-966b-354eae4a2b46" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><figure id="8753d6f3-ee40-4ea4-bf4d-588e3e344e83" class="image" data-notion-image="Accordion/Investments_Variant__Pre-built_strategies_selected-1.png" dir="ltr"><a href="Accordion/Investments_Variant__Pre-built_strategies_selected-1.png"><img style="width:453px" src="Accordion/Investments_Variant__Pre-built_strategies_selected-1.png"/></a></figure><p id="b3c507be-9535-474f-a421-c3fe0c9137fe" class="" dir="auto">
+</p></div></div><h2 id="354b59ea-c60e-4349-b45a-f095032fa509" class="" dir="auto">Behaviour</h2><h3 id="39a6acca-b881-470b-b0fb-ff329cdbc9fd" class="" dir="auto">States</h3><p id="d343f743-253d-4390-9255-474986d28dfe" class="" dir="auto">Accordions have two states:</p><ul id="1c292e65-00da-43fd-919e-7b800eb7d801" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>collapsed</code> with the content hidden behind the heading</li></ul><ul id="5f1113b0-8e32-447e-88e6-d93ecf2d5fdd" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>expanded</code> is when users select the heading and panel content is revealed</li></ul><p id="b3711315-2d37-4104-ae4a-768e64673c85" class="" dir="auto">The chevron icon indicates which state each individual panel is in – down when <code>collapsed</code> and up when <code>expanded</code>.</p><h3 id="3454f5ca-fe8c-4a65-acd3-a7cc9e2c5f27" class="" dir="auto">Interaction</h3><p id="f4456af8-6d22-485f-b555-4bb80ac46062" class="" dir="auto">The touch target to switch between states is the entire heading, not just the icon.</p><hr id="a8b3a983-ace0-4836-8871-78f294787892" dir="auto"/><h2 id="e22ad32e-18d1-46ca-8678-8872ad8209f2" class="" dir="auto">Content</h2><h3 id="230fb90d-0c22-45af-8cf2-bf7e2c854769" class="" dir="auto">Panel label</h3><ul id="ebbd5519-ef43-4978-9488-7a8be5d3f7e7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Each title must be unique from all other titles.</li></ul><ul id="c12179bb-d379-41fe-af14-beb6060c5fdc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use a concise label that clearly describes the hidden content in the panel. This helps users navigate content without having to expand all panels.</li></ul><h3 id="19777a56-841b-4a97-9344-531a45b092c7" class="" dir="auto">Dropdown description</h3><ul id="28931b34-a0a4-4f18-86af-70102ac81cfa" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Never hide content that users need to complete their journey behind the dropdown. Insert secondary information only.</li></ul><ul id="326fe41d-e776-45b8-a0f1-2bd0de8082d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use simple content such as text and links.</li></ul><ul id="754d10a3-e516-477d-86b9-abbc6a94f84a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Use form controls only to change how we display data. Never use form controls to collect data such as personal details.</li></ul><ul id="b17d4225-2ad9-4fed-bf3d-e407b8c80878" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Split up longer content with subheadings if appropriate.</li></ul><ul id="cb80e044-0165-4e87-8c99-8dfc58fa10c1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">The first panel can be open by default.</li></ul><hr id="50ff0337-00bc-4bc3-9c9a-eee6761621cb" dir="auto"/><h2 id="513a0a13-a2f8-4147-b4f5-6996b7de61af" class="" dir="auto">Related</h2><p id="666371a6-8f64-4b9e-9c96-717abb73dd6d" class="" dir="auto"><a href="../Data%20display/Complex%20table%20(Genius)%2002b7db793dac44989d7f35054fdb773c.html" data-notion-page-id="02b7db79-3dac-4498-9d7f-35054fdb773c" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Complex table (Genius)</a></p><p id="c80a9e4e-6031-463e-9cb6-5b7a8c47fcb6" class="" dir="auto"><a href="../Feedback/Badge%2011fe4c9ff88d416580305560eaa3156f.html" data-notion-page-id="11fe4c9f-f88d-4165-8030-5560eaa3156f" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Badge</a></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

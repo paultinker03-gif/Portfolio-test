@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Content patterns</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="6891b758-c789-4461-9aea-fb9aa68a5bbf" class="page sans"><header><h1 class="page-title" dir="auto">Content patterns</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="d2ec4f15-36eb-4f9b-9b4b-acf3b99be833" class="" dir="auto">Content patterns are reusable patterns for text in UX. We take the idea of design patterns and apply them to content.</p><p id="6e0f9326-4af5-4fff-93f2-dbb86f9d2b09" class="" dir="auto"><strong>Table of contents</strong></p><ul id="2f175aba-ec92-412d-a913-ede49d5a7918" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Why-we-use-patterns">Why we use patterns</a></li></ul><ul id="8d757bf5-70cf-4b3f-b4f4-d5f4a6836b4b" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#When-we-use-patterns">When we use patterns</a></li></ul><ul id="94df2f1d-4fc5-495c-be41-652a652e1d2e" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#The-patterns">The patterns</a><ul id="841f4366-6a5d-4807-8699-32c013d1c214" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Headings-(titles)">Headings (titles)</a><ul id="36bb0a26-75f5-45a7-b439-1ca6285370cc" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Context-heading">Context heading</a></li></ul><ul id="019867be-0d9d-4443-8017-2bc841c84666" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Action-heading">Action heading</a></li></ul></li></ul><ul id="8f64b38f-4cde-4c9b-9937-7318a7e4c7f7" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Actions">Actions</a><ul id="37bfa0af-b0fa-4b06-94d6-1abc4d0a5e7d" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Buttons">Buttons</a></li></ul><ul id="54f37aa7-ceb1-4356-8dc0-5bdc05ae814a" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Menu-items">Menu items</a></li></ul></li></ul><ul id="e57c9672-3d6f-4f57-9f64-1767253023ea" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Ledes-and-descriptions">Ledes and descriptions</a></li></ul><ul id="c15541a1-95c7-46ce-b850-7e18be2ff65b" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Empty-state">Empty state</a></li></ul><ul id="bb908d86-082a-4e1b-8109-40eb4c96c866" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Hint-text">Hint text</a></li></ul><ul id="2e87cd7d-f630-44cb-838f-4c119641c436" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Controls">Controls</a></li></ul><ul id="ada56dc8-0dff-40f8-81bb-581982cfc5fd" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Text-input">Text input</a></li></ul><ul id="62a1ac53-f50c-4997-b36b-f2cc8e71cdc6" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Transition-/-loading">Transition / loading</a></li></ul><ul id="0973ca78-c022-4a18-a1a5-2fcd69b5df52" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Confirmation">Confirmation</a></li></ul><ul id="412a0cfc-1ac8-474d-be34-33ce40526c7e" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Notification">Notification</a></li></ul><ul id="4863c846-4c5e-4930-9ed8-202a350f4c17" class="bulleted-list" dir="auto"><li style="list-style-type:circle"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Errors">Errors</a><ul id="f4d52736-02cf-42c5-b63c-e0e5c68e5967" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Inline">Inline</a></li></ul><ul id="ffec20c0-4c21-4c58-8352-71ffc68a1840" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Detour">Detour</a></li></ul><ul id="b4e4a9e8-a15e-4410-80a5-19b8de0ebe0e" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Blocking---solution-known.">Blocking - solution known.</a></li></ul><ul id="c6be22ca-5cdc-446b-bee6-158f6d47994b" class="bulleted-list" dir="auto"><li style="list-style-type:square"><a href="https://smartpension.atlassian.net/wiki/spaces/DS/pages/2190770241/Content+design+patterns#Blocking---solution-not-known.">Blocking - solution not known.</a></li></ul></li></ul></li></ul><h1 id="339aaed1-91cd-47b9-84e1-865b9f718d42" class="" dir="auto">Why we use patterns</h1><p id="1f1e35d1-e4e1-479f-9581-f5e7983e2577" class="" dir="auto">
+</p><p id="9110deb8-2ebc-4423-b2de-8d085f70d51d" class="" dir="auto">We have a broad idea of how we do content design at Smart but there are some shared patterns that can help us improve the consistency across all of our platforms and products. Excellent content makes a difference to the user experience.</p><p id="c1bafae3-5278-4d56-b2d2-dbefdb5b3f12" class="" dir="auto">We can pre-populate our drag-and-drop Figma components to reflect our content patterns and<a href="https://write-smart.webflow.io/"> our voice, tone and style</a>. This sets our designers up for success and creates quality content right from the start, reducing the need for checks and feedback.</p><h1 id="0eeea8f4-70e3-4a99-a525-b7be7259a1d8" class="" dir="auto">When we use patterns</h1><p id="9847e55b-0f46-4591-b0e3-239890233cf6" class="" dir="auto">It’s not always appropriate to use content patterns. When thinking about the <a href="https://www.designorate.com/the-double-diamond-design-thinking-process-and-how-to-use-it/">double diamond of design</a>, we use content patterns when converging not diverging.</p><table id="1b15e107-b4d4-406d-9966-4f1b4baa82d8" class="simple-table" dir="ltr"><tbody><tr id="891cc712-70e9-4772-bbf1-4a6e73099960" dir="ltr"><td id="Nw?h" class=""><strong>Do use for</strong></td><td id="^NZr" class=""><strong>Don’t use for</strong></td></tr><tr id="7e50253f-3ebf-46cb-849f-33e028acdb4d" dir="ltr"><td id="Nw?h" class="">• Auditing content<br/>• Iterating content<br/>• Growing the design system</td><td id="^NZr" class="">• Research phases<br/>• Ideation phases</td></tr></tbody></table><h1 id="19c1fb88-024a-4bde-84d5-bfdcef3b9fa1" class="" dir="auto">The patterns</h1><p id="3ece0383-ea3b-45da-ab0f-41f9a19815db" class="" dir="auto">Italics indicate where you should replace words.</p><h2 id="e5bd4636-f5f7-4fdc-8852-37aaa36b9ab9" class="" dir="auto">Headings (titles)</h2><h3 id="0b12a556-847e-4298-a8c5-759ff27b20cf" class="" dir="auto">Context heading</h3><div id="08d79797-f664-418b-b4da-11f1c9ada0ee" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:41.17647058823529%"/><col style="width:29.411764705882355%"/><col style="width:29.411764705882348%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Clarify the context for the user.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="7c03493e-a9ce-4b78-8deb-9c2f70c59b62"><td class="cell-title"><a href="Content%20patterns/Untitled/Pattern%207c03493ea9ce4b788deb9c2f70c59b62.html" data-notion-page-id="7c03493e-a9ce-4b78-8deb-9c2f70c59b62" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Pattern</a></td><td class="cell-Ehpx">• “&lt;Page name&gt;”<br/>• “&lt;Content area name&gt;”<br/>• “&lt;Content item&gt;”</td><td class="cell-bWB`"></td></tr><tr id="577331da-67ac-4c11-8d0d-ba9e9ead3955"><td class="cell-title"><a href="Content%20patterns/Untitled/Notes%20577331da67ac4c118d0dba9e9ead3955.html" data-notion-page-id="577331da-67ac-4c11-8d0d-ba9e9ead3955" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Notes</a></td><td class="cell-Ehpx">Keep headings scannable. Where additional context is needed, use a lede (see below).<br/>Example:<br/></td><td class="cell-bWB`"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled/Notes/Screenshot_2021-10-12_at_14.26.59.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled/Notes/Screenshot_2021-10-12_at_14.26.59.png" alt="attachments/2656763993/2657222731.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h3 id="f286d37b-f09c-4f8b-b3fe-7f468884ceb5" class="" dir="auto">Action heading</h3><div id="879f6720-4518-4f74-9c41-49b7670d7333" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:41.17647058823529%"/><col style="width:29.411764705882355%"/><col style="width:29.411764705882348%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Clarify the action the user needs to take.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="b6ece343-35d4-4897-b494-e62d17efa666"><td class="cell-title"><a href="Content%20patterns/Untitled%20879f-7333/Pattern%20b6ece34335d44897b494e62d17efa666.html" data-notion-page-id="b6ece343-35d4-4897-b494-e62d17efa666" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Pattern</a></td><td class="cell-v^XO">• “<em>Verb</em> the <em>noun”</em><br/>• <em>“Verb </em>your<em> noun”</em></td><td class="cell-{aoQ"></td></tr><tr id="75d92be8-ee0e-4923-9ecb-a09e0f8c64b2"><td class="cell-title"><a href="Content%20patterns/Untitled%20879f-7333/Notes%2075d92be8ee0e49239ecba09e0f8c64b2.html" data-notion-page-id="75d92be8-ee0e-4923-9ecb-a09e0f8c64b2" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Notes</a></td><td class="cell-v^XO">Use the same verb in the action button.<br/>Keep headings scannable. Where additional context is needed, use a lede (see below).<br/>Example:<br/></td><td class="cell-{aoQ"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20879f-7333/Notes/Screenshot_2021-10-12_at_14.26.05.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20879f-7333/Notes/Screenshot_2021-10-12_at_14.26.05.png" alt="attachments/2656763993/2657222737.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="b345e1d6-bfad-445d-b814-a2f2bf8f3e45" class="" dir="auto">Actions</h2><h3 id="5eaa3c5f-a53f-43c7-abaa-9db90147def4" class="" dir="auto">Buttons</h3><table id="341f3550-cab0-489e-af60-86158407801c" class="simple-table" dir="ltr"><tbody><tr id="d04d98a2-741c-4a2f-a42f-a27329d0fe70" dir="ltr"><td id="@[D=" class=""><strong>Purpose</strong></td><td id="\l]^" class="">Let the user navigate or take action.</td></tr><tr id="9bb9e12e-bf20-4bed-a680-6659e6dc3533" dir="ltr"><td id="@[D=" class=""><strong>Pattern</strong></td><td id="\l]^" class="">• <em>“Verb</em> the <em>noun”</em><br/>• <em>“Verb </em>your<em> noun”</em><br/>• <em>“Verb”</em><br/>• <em>“Verb </em>now”</td></tr><tr id="8b6e496e-da3d-4f93-b564-9fe7666e3765" dir="ltr"><td id="@[D=" class=""><strong>Notes</strong></td><td id="\l]^" class="">Where there is an action heading, use the same verb that’s been used in the heading.<br/>Some standard terms we use on our buttons:<br/>• “Continue” (not next)<br/>• “Back”<br/>• “Cancel“<br/>• “Edit” (not modify)</td></tr></tbody></table><h3 id="1c87d7eb-3ec5-482f-b9f2-6f8e10f156e9" class="" dir="auto">Menu items</h3><div id="b9ff5ea4-04b1-4280-803a-68f31dc42bf9" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Let the user navigate or take action.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="f544e740-70c2-4717-bf3f-80ba66156a66"><td class="cell-title"><a href="Content%20patterns/Untitled%20b9ff-2bf9/Untitled%20f544e74070c24717bf3f80ba66156a66.html" data-notion-page-id="f544e740-70c2-4717-bf3f-80ba66156a66" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-QHx="><strong>Pattern</strong></td><td class="cell-QY@J">• <em>“Noun”</em><br/>• <em>“Noun </em>and<em> noun”</em></td><td class="cell-VVLB"></td></tr><tr id="4b8296c7-4372-4bb3-9a82-25120c812529"><td class="cell-title"><a href="Content%20patterns/Untitled%20b9ff-2bf9/Untitled%204b8296c743724bb39a8225120c812529.html" data-notion-page-id="4b8296c7-4372-4bb3-9a82-25120c812529" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-QHx="><strong>Notes</strong></td><td class="cell-QY@J">Use a group of nouns that are designed so they work well together.<br/>Avoiding prepending “your” to menu items. For example use “Account” and not “Your account”.<br/>Keep each menu item short.<br/>Example:<br/></td><td class="cell-VVLB"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20b9ff-2bf9/Untitled%204b82-2529/Screenshot_2021-10-12_at_14.28.21.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20b9ff-2bf9/Untitled%204b82-2529/Screenshot_2021-10-12_at_14.28.21.png" alt="attachments/2656763993/2657222743.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="2a1c9fdc-cc45-4943-84ba-3cbb5d1e1fca" class="" dir="auto">Ledes and descriptions</h2><div id="1f3abdc9-4c65-49a6-8e9e-de7f2c3351a5" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:29.411764705882355%"/><col style="width:41.17647058823529%"/><col style="width:29.411764705882348%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Give more context for the user to complete their task, set expectations or reduce liability.A lede is a short strip of text that appears immediately below a heading and before any body copy.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="f772022f-97cf-4b99-aac7-5804c309c145"><td class="cell-Mc|f"><strong>Pattern</strong></td><td class="cell-title"><a href="Content%20patterns/Untitled%201f3a-51a5/To%20do%20X,%20verb%20the%20noun%20Verbing%20the%20noun%20helps%20you%20%20f772022f97cf4b99aac75804c309c145.html" data-notion-page-id="f772022f-97cf-4b99-aac7-5804c309c145" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">To do X, verb the noun. Verbing the noun helps you do X. If X happens, you’ll see Y</a></td><td class="cell-|;?u"></td></tr><tr id="6fdbdc79-5a92-4491-990a-a3c52e511f76"><td class="cell-Mc|f"><strong>Notes</strong></td><td class="cell-title"><a href="Content%20patterns/Untitled%201f3a-51a5/Keep%20ledes%20short%20If%20you%20find%20yourself%20going%20over%20o%206fdbdc795a924491990aa3c52e511f76.html" data-notion-page-id="6fdbdc79-5a92-4491-990a-a3c52e511f76" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Keep ledes short. If you find yourself going over one sentence (or two lines on a desktop screen), then consider using the body copy instead of a lede.Example of a lede:Remember, only use a lede if it’s absolutely necessary.</a></td><td class="cell-|;?u"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%201f3a-51a5/Keep%20ledes%20short%20If%20you%20find%20yourself%20going%20over%20o/Screenshot_2021-10-12_at_14.17.16.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%201f3a-51a5/Keep%20ledes%20short%20If%20you%20find%20yourself%20going%20over%20o/Screenshot_2021-10-12_at_14.17.16.png" alt="attachments/2656763993/2657222749.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="9b9892fc-8af4-4c0f-a9ef-29dab0744d17" class="" dir="auto">Empty state</h2><table id="32b5cabc-a1df-470e-8f68-892d385923ef" class="simple-table" dir="ltr"><tbody><tr id="a36d9182-4ec3-456e-8714-47d45cc83fa1" dir="ltr"><td id="HfHZ" class=""><strong>Purpose</strong></td><td id="bhzr" class="">Set expectations for the user. Indicate what they need to do. Or build excitement!</td></tr><tr id="2ea77cc9-3383-4a70-b401-5d2720c5be3b" dir="ltr"><td id="HfHZ" class=""><strong>Pattern</strong></td><td id="bhzr" class="">If user can do something to change the empty state<br/>• <em><strong>“Verb</strong></em><strong> the </strong><em><strong>noun</strong></em><br/>To <em>verb X</em>, <em>verb the noun. </em><br/>[Button: <em>Verb</em>]”<br/>• Once you’ve <em>verbed the noun</em> you’ll see <em>X </em>[here]<br/>• “<strong>[&lt;area name&gt; or omit]</strong><em>Verb the noun</em> to <em>see X</em> [here]<br/>[Button: <em>Verb the noun]</em>”<br/>If user can’t do anything to change the empty state or has to wait for something<br/>• <strong>“[&lt;area name&gt; or omit]</strong><br/>[If/once] <em>X happens</em>, you’ll <em>see Y </em>[here]”<br/>If a field with a dropdown selection:<br/>• “Select option”</td></tr><tr id="e46ccd60-390e-4212-8843-16a98daf0a4a" dir="ltr"><td id="HfHZ" class=""><strong>Notes</strong></td><td id="bhzr" class="">For example:<br/>• “Once you’ve made your first payment, you’ll see a list of transactions here”<br/>• “If we approve your request, you’ll see it here.”<br/>• “Select an option to a see a list of matching employees.”</td></tr></tbody></table><h2 id="9a030a22-f41c-49cb-a5df-c7c97c8c0874" class="" dir="auto">Hint text</h2><div id="c2e1e054-5ec9-4c16-9b67-50fc265c123f" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:29.411764705882355%"/><col style="width:41.17647058823529%"/><col style="width:29.411764705882348%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Help the user provide specific formats or informations for fields.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="4a0c00bc-0d04-45e3-833d-e0efd8e1bd32"><td class="cell-_uWz"><strong>Pattern</strong></td><td class="cell-title"><a href="Content%20patterns/Untitled%20c2e1-123f/%E2%80%9CFor%20example,%20correct%20format%20%E2%80%9D%E2%80%9CUse%20description%20of%20%204a0c00bc0d0445e3833de0efd8e1bd32.html" data-notion-page-id="4a0c00bc-0d04-45e3-833d-e0efd8e1bd32" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">“For example, &lt;correct format&gt;”“Use &lt;description of what to use”</a></td><td class="cell-]Ca="></td></tr><tr id="cebb19f6-5fac-4206-82e2-ba3d1ba518ad"><td class="cell-_uWz"><strong>Notes</strong></td><td class="cell-title"><a href="Content%20patterns/Untitled%20c2e1-123f/Examples%20%E2%80%9CFor%20example,%2001%20October%201990%E2%80%9D%E2%80%9CUse%20a%20mobi%20cebb19f65fac420682e2ba3d1ba518ad.html" data-notion-page-id="cebb19f6-5fac-4206-82e2-ba3d1ba518ad" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Examples:“For example, 01 October 1990”“Use a mobile number if you have one”“Use the name on your passport”</a></td><td class="cell-]Ca="><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20c2e1-123f/Examples%20%E2%80%9CFor%20example,%2001%20October%201990%E2%80%9D%E2%80%9CUse%20a%20mobi/Screenshot_2021-10-12_at_14.30.03.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20c2e1-123f/Examples%20%E2%80%9CFor%20example,%2001%20October%201990%E2%80%9D%E2%80%9CUse%20a%20mobi/Screenshot_2021-10-12_at_14.30.03.png" alt="attachments/2656763993/2657222755.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="e0bee653-7eeb-4303-81f6-4b4b493e2900" class="" dir="auto">Controls</h2><table id="fa80c244-7335-4aa8-9fd4-30c5e2e7a3fa" class="simple-table" dir="ltr"><tbody><tr id="5c958a32-7396-4270-9190-a5c0a564cd89" dir="ltr"><td id="TD^w" class=""><strong>Purpose</strong></td><td id="@?&gt;l" class="">Tell people the name and state of possible settings/preferences</td></tr><tr id="366ed72f-af47-4087-8453-86b4c34e0dee" dir="ltr"><td id="TD^w" class=""><strong>Pattern</strong></td><td id="@?&gt;l" class="">• <em>“Verb noun”</em></td></tr><tr id="a445065d-243d-425b-986c-aeebde6eda07" dir="ltr"><td id="TD^w" class=""><strong>Notes</strong></td><td id="@?&gt;l" class="">Ideally, copy should remain the same for the control regardless of its state, especially if it’s a switch. The state should be reflected using the UI.<br/>Examples:<br/>• “Mute microphone”<br/>• “Hide payments”<br/>Ensure that the verbs are consistent. For example, don’t mix “show” and “hide” commands.</td></tr></tbody></table><h2 id="06688f04-1bd7-4aa2-934f-05ce19e30dec" class="" dir="auto">Text input</h2><table id="f34ac951-bfbd-40ed-8688-54060f218b6d" class="simple-table" dir="ltr"><tbody><tr id="551abb52-f5f0-4f39-9010-67fcdeb6f057" dir="ltr"><td id="&lt;;HB" class=""><strong>Purpose</strong></td><td id="&lt;fo=" class="">Help users to enter accurate information</td></tr><tr id="b75d244f-b90e-458c-9733-01ef6565d9f0" dir="ltr"><td id="&lt;;HB" class=""><strong>Pattern</strong></td><td id="&lt;fo=" class="">• &lt;Common information name&gt;<br/>• <em>Verb the noun</em> (confirm email)</td></tr><tr id="5ffaddd8-6b3c-48f4-a12a-9a5f82361d69" dir="ltr"><td id="&lt;;HB" class=""><strong>Notes</strong></td><td id="&lt;fo=" class="">Examples:<br/>• “Email address”<br/>• “First name”<br/>• “Phone number”<br/>• “Confirm your email address”<br/>• “Enter your message”</td></tr></tbody></table><h2 id="ebdeddd3-222f-4e6b-a596-35cbd6a8ca09" class="" dir="auto">Transition / loading</h2><div id="c7d45f25-5de9-4008-8bb6-062787c7d0c7" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Let the user know an action is taking place</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="37c15fbf-ac44-41fb-90a0-ada6abacf17d"><td class="cell-title"><a href="Content%20patterns/Untitled%20c7d4-d0c7/Untitled%2037c15fbfac4441fb90a0ada6abacf17d.html" data-notion-page-id="37c15fbf-ac44-41fb-90a0-ada6abacf17d" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-HWK}"><strong>Pattern</strong></td><td class="cell-azCG">• <em>“We’re verb</em>ing<em> </em>the <em>noun”</em><br/>• <em>“Verbing </em>your <em>noun”</em><br/>Where the space is very small, use an ellipses<br/>• <em>“Verbing…”</em></td><td class="cell-jpIM"></td></tr><tr id="f901b484-ca02-4771-9588-8062f55bdf86"><td class="cell-title"><a href="Content%20patterns/Untitled%20c7d4-d0c7/Untitled%20f901b484ca02477195888062f55bdf86.html" data-notion-page-id="f901b484-ca02-4771-9588-8062f55bdf86" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-HWK}"><strong>Notes</strong></td><td class="cell-azCG">Always use text to inform the user something is happening, even if there is no further information.<br/>Spinners require context.<br/></td><td class="cell-jpIM"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20c7d4-d0c7/Untitled%20f901-df86/Screenshot_2021-10-12_at_14.33.46.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20c7d4-d0c7/Untitled%20f901-df86/Screenshot_2021-10-12_at_14.33.46.png" alt="attachments/2656763993/2657222761.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="05820fe7-04e8-4edf-a008-1a507b6a175d" class="" dir="auto">Confirmation</h2><div id="874fd3b5-7959-4698-a135-f40ac689d7d8" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Let the user know an action has successfully taken place / finished.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="9f43cca0-a22d-457b-b892-51a5fa1b2f9a"><td class="cell-title"><a href="Content%20patterns/Untitled%20874f-d7d8/Untitled%209f43cca0a22d457bb89251a5fa1b2f9a.html" data-notion-page-id="9f43cca0-a22d-457b-b892-51a5fa1b2f9a" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-Gc|}"><strong>Pattern</strong></td><td class="cell-H&gt;W&lt;">• “We’ve <em>verb</em>ed your <em>noun”</em><br/>• “You’ve successfully <em>verbed </em>your <em>noun”</em><br/>If the space is very small and you have used the ellipses variant for transition, use:<br/>• <em>“Noun verbed”</em></td><td class="cell-Go?L"></td></tr><tr id="4d898d4a-60be-4118-9909-996974445e86"><td class="cell-title"><a href="Content%20patterns/Untitled%20874f-d7d8/Untitled%204d898d4a60be41189909996974445e86.html" data-notion-page-id="4d898d4a-60be-4118-9909-996974445e86" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-Gc|}"><strong>Notes</strong></td><td class="cell-H&gt;W&lt;">Where possible, if you are saving, uploading or downloading something, say where the item has been saved/uploaded/downloaded to.<br/>For example, “We’ve saved your file to your documents folder.”<br/>Where possible specify a record that the action has been completed for.<br/>For example, “We’ve updated the details for Miss Jane Doe”.<br/>Example:<br/></td><td class="cell-Go?L"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20874f-d7d8/Untitled%204d89-5e86/Screenshot_2021-10-12_at_14.35.10.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20874f-d7d8/Untitled%204d89-5e86/Screenshot_2021-10-12_at_14.35.10.png" alt="attachments/2656763993/2657222767.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="ba95b405-fa8f-4329-9868-7d95c238ec97" class="" dir="auto">Notification</h2><table id="55c00dc4-4bc7-49c8-9c61-242745672ab4" class="simple-table" dir="ltr"><tbody><tr id="72ca0dc0-7a8b-4e5f-96e6-a93f90e76326" dir="ltr"><td id="c?DD" class=""><strong>Purpose</strong></td><td id="oQRJ" class="">Inform or remind a user to engage with the experience in a particular way.</td></tr><tr id="49eafee1-8f05-4586-86ef-89cc1196600a" dir="ltr"><td id="c?DD" class=""><strong>Pattern</strong></td><td id="oQRJ" class="">• <em>“Verb </em>the <em>noun </em>to<em> do X”</em><br/>• <em><strong>“Verb </strong></em><strong>the</strong><em><strong> noun</strong></em><em>&lt;Description why the user should do it&gt;”</em></td></tr><tr id="8a239bd2-b903-45d8-97d9-73c98c25f272" dir="ltr"><td id="c?DD" class=""><strong>Notes</strong></td><td id="oQRJ" class="">Always lead with the action you want the user to take. See examples below.</td></tr></tbody></table><div id="3867858f-592d-4307-834b-acdf356ede18" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:41.17647058823529%"/><col style="width:29.411764705882355%"/><col style="width:29.411764705882348%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Do this</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Property</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="edb331dd-e4d1-4aee-9070-1fd3428aa1dd"><td class="cell-title"><a href="Content%20patterns/Untitled%203867-de18/NOT%20this%20edb331dde4d14aee90701fd3428aa1dd.html" data-notion-page-id="edb331dd-e4d1-4aee-9070-1fd3428aa1dd" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">NOT this</a></td><td class="cell-m|oE"></td><td class="cell-lD?H"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%203867-de18/NOT%20this/Screenshot_2021-10-12_at_12.43.15.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%203867-de18/NOT%20this/Screenshot_2021-10-12_at_12.43.15.png" alt="attachments/2656763993/2657222779.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h2 id="0d7058f9-deb6-4503-a9e3-64e440c13cda" class="" dir="auto">Errors</h2><h3 id="921b14d0-19b9-44ab-8656-681d86452780" class="" dir="auto">Inline</h3><div id="732e6f9e-1140-4012-8b17-538f0edd4beb" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Let a user know there is an error inline and how to fix it</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="658724c3-c9fa-4858-9f2b-9c9050869e4b"><td class="cell-title"><a href="Content%20patterns/Untitled%20732e-4beb/Untitled%20658724c3c9fa48589f2b9c9050869e4b.html" data-notion-page-id="658724c3-c9fa-4858-9f2b-9c9050869e4b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-kx]\"><strong>Pattern</strong></td><td class="cell-v~|h">• “<em>Verb </em>the <em>noun”</em><br/>• “<em>Verb </em>a <em>noun</em>”</td><td class="cell-G_}V"></td></tr><tr id="31907b21-3059-4d96-8154-f0458a976334"><td class="cell-title"><a href="Content%20patterns/Untitled%20732e-4beb/Untitled%2031907b2130594d968154f0458a976334.html" data-notion-page-id="31907b21-3059-4d96-8154-f0458a976334" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-kx]\"><strong>Notes</strong></td><td class="cell-v~|h">For example,<br/>• “Enter a city”<br/>• “Select a title”<br/>• “Remove an option”<br/></td><td class="cell-G_}V"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20732e-4beb/Untitled%203190-6334/Screenshot_2021-10-12_at_15.12.36.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20732e-4beb/Untitled%203190-6334/Screenshot_2021-10-12_at_15.12.36.png" alt="attachments/2656763993/2657222785.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h3 id="c9b236fa-c93f-44a5-a0b0-82cbfbdcedc4" class="" dir="auto">Detour</h3><div id="35cabd3c-e5c8-4063-81fb-dfd469bd2611" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Informing the user that they need to complete a different task before they can complete the task they’re currently attempting.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="447b17ca-142a-4ff0-b41f-0bf669178199"><td class="cell-title"><a href="Content%20patterns/Untitled%2035ca-2611/Untitled%20447b17ca142a4ff0b41f0bf669178199.html" data-notion-page-id="447b17ca-142a-4ff0-b41f-0bf669178199" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-vhcY"><strong>Pattern</strong></td><td class="cell-CxNs">• <em><strong>“Verb </strong></em><strong>the</strong><em><strong> noun</strong></em><strong> [or omit]</strong><br/>&lt;Describe the problem&gt;. T<em>o verb X </em>you need to<em> verb Y.</em><br/>[Button: <em>Verb</em>]”<br/>• “You need to do <em>Y</em> before you can <em>X”</em></td><td class="cell-{lYD"></td></tr><tr id="11f245f0-6635-42ad-a8d7-73ef0c89f964"><td class="cell-title"><a href="Content%20patterns/Untitled%2035ca-2611/Untitled%2011f245f0663542ada8d773ef0c89f964.html" data-notion-page-id="11f245f0-6635-42ad-a8d7-73ef0c89f964" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-vhcY"><strong>Notes</strong></td><td class="cell-CxNs">For example:<br/>• <strong>“Remove an admin</strong><br/>You already have two admins. To make this user an admin, you first need to remove an existing admin.<br/><strong>View admins”</strong><br/>• “You already have two admins. To make this user an admin, you first need to remove an existing admin.”<br/>• “You need to add an active mandate to pay for contributions.”<br/></td><td class="cell-{lYD"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%2035ca-2611/Untitled%2011f2-f964/Screenshot_2021-10-12_at_15.05.54.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%2035ca-2611/Untitled%2011f2-f964/Screenshot_2021-10-12_at_15.05.54.png" alt="attachments/2656763993/2657222791.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h3 id="b6ed1ae0-bed9-4256-b942-756b0a63ca0a" class="" dir="auto">Blocking - solution known.</h3><div id="fdbd6c3d-96ad-4fbf-9e68-aed20fb819fd" class="collection-content" dir="ltr"><h4 class="collection-title"></h4><div class="collection-content-wrapper"><table class="collection-content"><colgroup><col style="width:31.818181818181817%"/><col style="width:22.727272727272727%"/><col style="width:22.727272727272727%"/><col style="width:22.72727272727272%"/></colgroup><thead><tr><th><span class="icon property-icon"><img src="https://app.notion.com/icons/font_gray.svg" style="width:14px;height:14px;display:block"/></span>Title</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Purpose</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/description_gray.svg" style="width:14px;height:14px;display:block"/></span>Informing the user they can’t do something until it is unblocked by someone or something else.</th><th><span class="icon property-icon"><img src="https://app.notion.com/icons/attachment_gray.svg" style="width:14px;height:14px;display:block"/></span>Files</th></tr></thead><tbody><tr id="cc9d3c53-99ec-4ed7-aa9f-7260396e4b49"><td class="cell-title"><a href="Content%20patterns/Untitled%20fdbd-19fd/Untitled%20cc9d3c5399ec4ed7aa9f7260396e4b49.html" data-notion-page-id="cc9d3c53-99ec-4ed7-aa9f-7260396e4b49" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-[=O`"><strong>Pattern</strong></td><td class="cell-n~[K">• “You can’t <em>verb X</em> <em>until</em> <em>Y happens</em>.”<br/>• <strong>“You can’t </strong><em><strong>verb x </strong></em><strong>right now</strong><br/>&lt;description what the roblem is&gt;”</td><td class="cell-oCF;"></td></tr><tr id="7812ebb4-1b5a-4ba4-a0b6-6699b4f1a457"><td class="cell-title"><a href="Content%20patterns/Untitled%20fdbd-19fd/Untitled%207812ebb41b5a4ba4a0b66699b4f1a457.html" data-notion-page-id="7812ebb4-1b5a-4ba4-a0b6-6699b4f1a457" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Untitled</a></td><td class="cell-[=O`"><strong>Notes</strong></td><td class="cell-n~[K">For example:<br/>• “You can’t contribute to this scheme until your employer enrols you.”<br/>• “You can’t use this card for payment until your bank has approved it”<br/></td><td class="cell-oCF;"><span style="margin-inline-end:6px"><a href="Content%20patterns/Untitled%20fdbd-19fd/Untitled%207812-a457/Screenshot_2021-10-12_at_15.09.18.png"><img style="width:20px;max-height:24px" src="Content%20patterns/Untitled%20fdbd-19fd/Untitled%207812-a457/Screenshot_2021-10-12_at_15.09.18.png" alt="attachments/2656763993/2657222797.png"/></a></span></td></tr></tbody></table></div><br/><br/></div><h3 id="9d13a302-e2ca-4316-aa1c-6aa23b5364a3" class="" dir="auto">Blocking - solution not known.</h3><table id="b2b88814-0fbc-4b70-af4d-0425ba94f5f6" class="simple-table" dir="ltr"><tbody><tr id="7c1df9ec-6d7e-4f79-8425-ca3b12ac14a8" dir="ltr"><td id="]GoP" class=""><strong>Purpose</strong></td><td id="&lt;Sqq" class="">Informing the user they can’t do something as they are blocked by something or someone else.</td></tr><tr id="9f9d8230-3e7c-48e7-9422-8ea38fe09110" dir="ltr"><td id="]GoP" class=""><strong>Pattern</strong></td><td id="&lt;Sqq" class="">• “Sorry, you can’t <em>verb</em> <em>the noun</em> right now.”<br/>• “Sorry, we couldn’t <em>verb the</em> <em>noun.”</em></td></tr><tr id="f5ba1b7c-eae2-4397-b7a1-0c08cf94a2fd" dir="ltr"><td id="]GoP" class=""><strong>Notes</strong></td><td id="&lt;Sqq" class="">For example:<br/>• “Sorry, we couldn’t update the details for Miss Kim Fox”<br/>• “Sorry, you can’t update your phone number right now.”</td></tr></tbody></table></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

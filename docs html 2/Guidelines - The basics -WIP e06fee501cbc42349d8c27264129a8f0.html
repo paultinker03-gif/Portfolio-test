@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Guidelines - The basics -WIP</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="e06fee50-1cbc-4234-9d8c-27264129a8f0" class="page sans"><header><h1 class="page-title" dir="auto">Guidelines - The basics -WIP</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><figure id="24b256c2-7294-4cd3-9535-fc4d5a117684" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-tables.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-tables.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-tables.png"/></a></figure><figure id="3f726328-cd9f-4006-bd60-54a32e086c77" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Colour.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Colour.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Colour.png"/></a></figure><figure id="750dccf5-9ba5-4564-81bd-0f6578860a9d" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"/></a></figure><figure id="9fa81581-db65-4395-bb21-5284622f93bf" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-focus-order.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-focus-order.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-focus-order.png"/></a></figure><figure id="e72a2549-c2d8-45dd-815d-730a2088da2c" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Inputs.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Inputs.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Inputs.png"/></a></figure><figure id="9037b9f4-f532-4df7-823e-e458d8eedcd1" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-heading.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-heading.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-heading.png"/></a></figure><figure id="4a5ac822-af8d-4d14-b767-91e54dd76c50" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-landmarks.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-landmarks.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-landmarks.png"/></a></figure><figure id="1e356387-04e4-4a37-a4e1-6a06761954bb" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Language.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Language.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Language.png"/></a></figure><figure id="6315e508-af17-4ab1-966b-bb97f9c32e9d" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"/></a></figure><figure id="e0cc7de5-e8fb-442f-9ba7-3020cf2df3cd" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-Comp-Placeholder.png"/></a></figure><figure id="4081a515-f393-42c4-bcf2-ed09e3f903c4" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Orientation.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Orientation.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-Orientation.png"/></a></figure><figure id="94b8fe97-a610-4b92-a019-a4f9020df7ab" class="image" data-notion-image="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-PageTitle.png" dir="ltr"><a href="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-PageTitle.png"><img style="width:340px" src="Guidelines%20-%20The%20basics%20-WIP/Thumb-a11y-PageTitle.png"/></a></figure><p id="64ba7a52-14d6-49b5-a5c1-f20aa734849b" class="" dir="auto">
+</p><p id="09368fce-b005-4c4e-ad54-5bb8f0451252" class="" dir="auto">additional comments</p><h1 id="3a946e40-4849-4fa1-847c-85c223306484" class="" dir="auto">Subpages</h1><figure id="fbb794e8-4df7-4dc7-9157-dfe28ee041c0" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Charts%20fbb794e84df74dc79157dfe28ee041c0.html" data-notion-page-id="fbb794e8-4df7-4dc7-9157-dfe28ee041c0" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Charts</a></figure><figure id="38d96f52-132c-4525-8919-267db63440ff" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Colour%20contrast%2038d96f52132c45258919267db63440ff.html" data-notion-page-id="38d96f52-132c-4525-8919-267db63440ff" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Colour contrast</a></figure><figure id="4cfe40fd-997b-4043-9a2a-194720636add" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Copy%204cfe40fd997b40439a2a194720636add.html" data-notion-page-id="4cfe40fd-997b-4043-9a2a-194720636add" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Copy</a></figure><figure id="e17ea46c-2b1f-43df-99c6-e379da4bb4e4" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Control%20states%20e17ea46c2b1f43df99c6e379da4bb4e4.html" data-notion-page-id="e17ea46c-2b1f-43df-99c6-e379da4bb4e4" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Control states</a></figure><figure id="ec799651-e189-4853-b7fa-a99c224aead4" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Focus%20order%20ec799651e1894853b7faa99c224aead4.html" data-notion-page-id="ec799651-e189-4853-b7fa-a99c224aead4" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Focus order</a></figure><figure id="6e381d65-cadf-4ca0-bcc5-230a79a38f45" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Reading%20Order%206e381d65cadf4ca0bcc5230a79a38f45.html" data-notion-page-id="6e381d65-cadf-4ca0-bcc5-230a79a38f45" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Reading Order</a></figure><figure id="c928b5de-a533-40aa-9e01-40d72ce67259" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Form%20inputs%20c928b5dea53340aa9e0140d72ce67259.html" data-notion-page-id="c928b5de-a533-40aa-9e01-40d72ce67259" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Form inputs</a></figure><figure id="1cf44f07-4c74-4cd7-9527-57ebf0801162" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Headings%201cf44f074c744cd7952757ebf0801162.html" data-notion-page-id="1cf44f07-4c74-4cd7-9527-57ebf0801162" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Headings</a></figure><figure id="90b4bf94-4a56-403c-bf5a-3a0bf7b805c2" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Images%20and%20icons%2090b4bf944a56403cbf5a3a0bf7b805c2.html" data-notion-page-id="90b4bf94-4a56-403c-bf5a-3a0bf7b805c2" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Images and icons</a></figure><figure id="b6a61813-dcf8-4c4b-8977-732b7f3b143d" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Landmarks%20b6a61813dcf84c4b8977732b7f3b143d.html" data-notion-page-id="b6a61813-dcf8-4c4b-8977-732b7f3b143d" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Landmarks</a></figure><figure id="fdda4dbc-5ee7-4462-a0c0-e94db01212c5" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Language%20fdda4dbc5ee74462a0c0e94db01212c5.html" data-notion-page-id="fdda4dbc-5ee7-4462-a0c0-e94db01212c5" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Language</a></figure><figure id="d11b4e10-0205-4255-8549-06741acb5040" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Links%20&amp;%20buttons%20d11b4e1002054255854906741acb5040.html" data-notion-page-id="d11b4e10-0205-4255-8549-06741acb5040" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Links &amp; buttons</a></figure><figure id="171eb2c2-865c-4c65-973d-04ca2c196645" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Media%20171eb2c2865c4c65973d04ca2c196645.html" data-notion-page-id="171eb2c2-865c-4c65-973d-04ca2c196645" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Media</a></figure><figure id="95da997e-55e2-40a9-a935-be427861789d" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Orientation%2095da997e55e240a9a935be427861789d.html" data-notion-page-id="95da997e-55e2-40a9-a935-be427861789d" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Orientation</a></figure><figure id="eafb38c8-1b11-4b6a-84c7-05ebda260ee9" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Page%20title%20eafb38c81b114b6a84c705ebda260ee9.html" data-notion-page-id="eafb38c8-1b11-4b6a-84c7-05ebda260ee9" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Page title</a></figure><figure id="c34a5c3d-ef8e-4cbc-9212-cbdc7a5c4130" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Pointer%20gestures%20c34a5c3def8e4cbc9212cbdc7a5c4130.html" data-notion-page-id="c34a5c3d-ef8e-4cbc-9212-cbdc7a5c4130" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Pointer gestures</a></figure><figure id="abd84a4e-4389-48bb-a13c-9fbefdf8f7b1" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Tables%20abd84a4e438948bba13c9fbefdf8f7b1.html" data-notion-page-id="abd84a4e-4389-48bb-a13c-9fbefdf8f7b1" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Tables</a></figure><figure id="86e03f0c-e19c-403c-a4ed-8b0acdc6f545" class="link-to-page"><a href="Guidelines%20-%20The%20basics%20-WIP/Zoom%2086e03f0ce19c403ca4ed8b0acdc6f545.html" data-notion-page-id="86e03f0c-e19c-403c-a4ed-8b0acdc6f545" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Zoom</a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

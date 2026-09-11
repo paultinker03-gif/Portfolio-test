@@ -1,0 +1,796 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Button</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="cecb3ddc-8343-4065-806e-21dbc47ec44d" class="page sans"><header><h1 class="page-title" dir="auto">Button</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="22100fe9-0127-4aa9-94bc-a0a4ba60b58c" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=1239%3A19399">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-buttons-button--standard">Storybook link</a></p><hr id="f77d6fda-8729-4e3e-9416-cd7c664fefd6" dir="auto"/><p id="a77e2b07-a01c-4ba5-a048-086b200ea1be" class="" dir="auto">A button triggers a single action.</p><figure id="4ca728ab-325a-45d6-b609-d502a4f4f373" class="image" data-notion-image="Button/Button.png" dir="ltr"><a href="Button/Button.png"><img style="width:652px" src="Button/Button.png"/></a></figure><p id="61e60390-1e1e-4ecb-b065-8cad5d2cd24a" class="" dir="auto"><strong>A button should:</strong></p><ul id="6fb7f13f-98a3-4e92-8910-5d15192f4b8a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">provide a simple label of a single action or next step</li></ul><ul id="72ec941b-e46a-48c5-a330-c3b53cee351e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">trigger a single action or next step</li></ul><h3 id="7d6babf9-bd8a-4bda-a33b-29308fc0abcf" class="" dir="auto">Use to</h3><ul id="e341a334-3149-4cba-b9e0-0ebfffe9aa54" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Signpost an interaction</li></ul><ul id="c9ecacad-6052-4868-9d0e-74438fa98df4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Indicate an action is loading</li></ul><h3 id="7aff2c5e-6748-4f47-8f30-70c428da1974" class="" dir="auto">Don&#x27;t use to</h3><ul id="de67454f-dd8c-430a-88b4-f969285c24d1" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Navigate between pages. Use a text link instead.</li></ul><h2 id="587be0b6-3b62-44aa-a704-cf656306a224" class="" dir="auto">Variants</h2><p id="89476349-a1d1-4134-9e9d-af9c17c900cf" class="" dir="auto">The visual design of the button defines its purpose and place in our information hierarchy.</p><table id="d7f513fa-65fd-4cd0-857c-eacc4c00d4fa" class="simple-table" dir="ltr"><tbody><tr id="ae9db231-b555-470e-bc03-a780682164d8" dir="ltr"><td id="TzRF" class=""></td><td id=";A{_" class="">Purpose</td></tr><tr id="18357846-b0bc-4313-95d1-d45686de4193" dir="ltr"><td id="TzRF" class=""><strong>Primary</strong></td><td id=";A{_" class="">• principle call to action on the page<br/>• should only appear once per page.<br/>• some situations do not need a primary button, for example, &quot;Continue&quot; or &quot;Save&quot; buttons</td></tr><tr id="d27792d2-616c-43fd-ad68-e9a7bda30e19" dir="ltr"><td id="TzRF" class=""><strong>Secondary</strong></td><td id=";A{_" class="">• for secondary actions on each page<br/>• can be used without a primary button, for example, &quot;Edit&quot; or &quot;Back&quot;</td></tr><tr id="90a7d7ed-ed7c-4d95-afe0-f3f2ccbad57a" dir="ltr"><td id="TzRF" class=""><strong>Tertiary</strong></td><td id=";A{_" class="">• For less important and less prominent actions.</td></tr><tr id="0189b873-f5d8-4f9e-b789-f5ef0ff8f5d8" dir="ltr"><td id="TzRF" class=""><strong>Negative</strong></td><td id=";A{_" class="">• used for destructive actions on data, for example, &quot;Delete&quot; or &quot;Cancel&quot;<br/>• the negative button has three styles: primary, secondary and tertiary</td></tr></tbody></table><h2 id="22d8faa2-770a-465c-a835-476998432182" class="" dir="auto">Example of buttons</h2><h3 id="87dd6a0c-d556-4fc4-bb1c-28a264a4f1b4" class="" dir="auto">Primary and secondary buttons</h3><figure id="d81fa0e3-a79e-4d16-9fae-15635d62b54f" class="image" data-notion-image="Button/Account___Edit_organisation_details_variant__manual_address.png" dir="ltr"><a href="Button/Account___Edit_organisation_details_variant__manual_address.png"><img style="width:360px" src="Button/Account___Edit_organisation_details_variant__manual_address.png"/></a></figure><h3 id="4b9b3862-b449-4daf-a484-e092a9b5606c" class="" dir="auto">Ghost/tertiary button</h3><figure id="6c7d4588-b8b8-4b5d-827c-8123326f4dee" class="image" data-notion-image="Button/Clients___Settings.png" dir="ltr"><a href="Button/Clients___Settings.png"><img style="width:360px" src="Button/Clients___Settings.png"/></a></figure><h3 id="11c6667b-d33f-42dd-954e-042771fdc8fe" class="" dir="auto">Negative button</h3><figure id="7f626f50-c67d-4a18-9e59-ab786a531908" class="image" data-notion-image="Button/Users___Delete_user_-_are_you_sure_.png" dir="ltr"><a href="Button/Users___Delete_user_-_are_you_sure_.png"><img style="width:360px" src="Button/Users___Delete_user_-_are_you_sure_.png"/></a></figure><h2 id="f58c59af-bb2d-4859-8197-4c8bab24d32d" class="" dir="auto">Elements</h2><ol type="1" id="337ce240-393d-4cf4-9c4d-2b6cb3668a21" class="numbered-list" start="1" dir="auto"><li><strong>Container </strong>– Defines the variant and purpose</li></ol><ol type="1" id="efe932b7-7316-4714-9ef3-eb21eb2906fa" class="numbered-list" start="2" dir="auto"><li><strong>Label </strong>– Signposts the action</li></ol><ol type="1" id="e9bf6ef7-b461-4c94-8651-faf6048a3967" class="numbered-list" start="3" dir="auto"><li><strong>Icon (optional) </strong>– Can be used instead of a label or in addition to a label</li></ol><h2 id="9794b55e-d5d7-49cb-b0e4-8b0c5905c4b6" class="" dir="auto">Visual</h2><h3 id="f81b7dfc-8213-46a4-b499-cbc54ecc01de" class="" dir="auto">Alignment</h3><p id="917db400-5cec-4cd3-87ce-de5bf0ec75be" class="" dir="auto">Centre-align the label in a button container.</p><h3 id="075dd190-d87e-4829-b2e6-da5b69ecf32a" class="" dir="auto">Placement</h3><p id="33be73ab-70f7-46f3-863c-603a1fbd405c" class="" dir="auto">Placement helps the user scan the page using the <a href="../../Patterns/Reading%20flow%202fdf8ab7a24741f9aa3104a6d1f605a7.html" data-notion-page-id="2fdf8ab7-a247-41f9-aa31-04a6d1f605a7" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Reading flow</a>.</p><ul id="6992dae3-8864-472a-a8fa-27c0e0734d38" class="bulleted-list" dir="auto"><li style="list-style-type:disc">match alignment with the body content</li></ul><ul id="4f2e1766-935c-4294-ac20-cb9f6ce12955" class="bulleted-list" dir="auto"><li style="list-style-type:disc">on mobile vertically stack buttons and place the primary button at the bottom</li></ul><ul id="63e0a289-e888-4659-93a7-342113b04f3e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">on desktop align the buttons inline and right-align the primary button</li></ul><p id="cd29196b-f5a8-4237-8b6f-6cec2c6f7676" class="" dir="auto">
+</p><p id="cb49b016-1788-4313-983d-645154727a36" class="" dir="auto"><strong>Group variations</strong></p><p id="ecbc6365-61e6-4753-b728-740b58dc50a8" class="" dir="auto">Other components have different alignment rules:</p><ul id="9dac07cd-65ec-4f5f-941e-f3a814ce1ffc" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a></li></ul><ul id="a9300eec-3cd1-4e2b-b465-fda72bb60b16" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><a href="../Disclosure/Alert%20dialog%20d757449d05884af08185c72a4e916f8d.html" data-notion-page-id="d757449d-0588-4af0-8185-c72a4e916f8d" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Alert dialog</a></li></ul><h3 id="e7423d3f-ae9f-4508-9e12-48848c82a90a" class="" dir="auto">Sizes</h3><table id="a39939ef-e94b-4a57-aecb-eb19f0295780" class="simple-table" dir="ltr"><tbody><tr id="aeeb7e72-10ff-49b3-b3cf-23270703975e" dir="ltr"><td id="d~O\" class="">Button size</td><td id="}^Sd" class="">Purpose</td></tr><tr id="3a3bfde4-b47e-43f5-baa8-c6e84447e8e5" dir="ltr"><td id="d~O\" class=""><code>small</code></td><td id="}^Sd" class="">For when there&#x27;s not much space to use, such as within other components. For example, the sticky footer on mobile or the genius action bar on desktop.</td></tr><tr id="1c82befd-3f22-4c8a-86d4-df61a842cea8" dir="ltr"><td id="d~O\" class=""><code>medium–mobile</code></td><td id="}^Sd" class="">Default option for mobile.</td></tr><tr id="39e2d377-73a8-41bb-9e1f-9df199671545" dir="ltr"><td id="d~O\" class=""><code>medium–desktop</code></td><td id="}^Sd" class="">Default option for desktop.</td></tr></tbody></table><h3 id="4b34d6ba-73d8-4896-9188-3dff3ff3eb91" class="" dir="auto">Spacing</h3><p id="b2877ca4-0a01-48e4-b700-77aa8dbb593f" class="" dir="auto">Always use <code>md</code> (16px) between buttons within a group. Same whether they&#x27;re vertically or horizontally stacked.</p><p id="aab1f065-8c21-45a8-a5cd-d5feaa0adb64" class="" dir="auto">Button groups within other components may have different spacing rules. See <a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a> and <a href="../Data%20display/Complex%20table%20(Genius)%2002b7db793dac44989d7f35054fdb773c.html" data-notion-page-id="02b7db79-3dac-4498-9d7f-35054fdb773c" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Complex table (Genius)</a> for more details.</p><h3 id="da43281a-f146-43f1-8c16-87f2dd3ae00d" class="" dir="auto">Colour</h3><p id="feffe1b9-c696-4dfa-b6c2-be3aa0840b54" class="" dir="auto">Colour of button containers&#x27; distinguishing colours are all on the <code>base–2</code> palette.</p><table id="f9c748e5-7efb-499a-88f3-84eae186c0ae" class="simple-table" dir="ltr"><tbody><tr id="11993acb-fa39-477d-b205-521d4f9a4598" dir="ltr"><td id="wfKC" class="">Variant</td><td id="nGf]" class="">Colour token</td></tr><tr id="48da6988-756d-4578-aa2e-38b5f366b035" dir="ltr"><td id="wfKC" class=""><strong>Primary</strong></td><td id="nGf]" class=""><code>highlight–core</code></td></tr><tr id="0af517fa-9f64-47ad-b17f-8573bb9d37bc" dir="ltr"><td id="wfKC" class=""><strong>Secondary</strong></td><td id="nGf]" class=""><code>highlight–core</code></td></tr><tr id="0757f8e1-4cb9-4cdb-8e06-de1dd220681c" dir="ltr"><td id="wfKC" class=""><strong>Tertiary</strong></td><td id="nGf]" class=""><code>highlight–outline</code></td></tr><tr id="dd57a999-96b5-487a-a4d5-8a07ba12bb70" dir="ltr"><td id="wfKC" class=""><strong>Negative</strong></td><td id="nGf]" class=""><code>negative–primary</code></td></tr></tbody></table><h3 id="84d78d70-a912-4e17-a84a-cbbe52f0ceb1" class="" dir="auto">Icons</h3><p id="a9cd3efa-e378-42ff-9445-1370ae669739" class="" dir="auto">There are two options for adding icons to buttons:</p><figure id="b31fbc07-2694-49c4-84d2-a1cf7db4f9b8" class="image" data-notion-image="Button/Button_icon.png" dir="ltr"><a href="Button/Button_icon.png"><img style="width:680px" src="Button/Button_icon.png"/></a></figure><p id="40020d54-92ba-401b-9ace-a41fbd8cb17f" class="" dir="auto">
+</p><table id="d9f92941-e30b-45a9-a932-74f38b4b292f" class="simple-table" dir="ltr"><tbody><tr id="d79a9d45-44cc-485e-a45e-de9a8611a42d" dir="ltr"><td id="_bK_" class="">Variant</td><td id="kLV;" class="">Purpose</td></tr><tr id="ab3cc922-88b0-4fca-88e2-a1014df91853" dir="ltr"><td id="_bK_" class=""><strong>Icon and label</strong></td><td id="kLV;" class="">Icons only appear to the left of the label. The only exception is the primary navigation button so that it remained anchored in every language.</td></tr><tr id="31aa3d76-7460-4582-99f3-0267454e0787" dir="ltr"><td id="_bK_" class=""><strong>Icon only</strong></td><td id="kLV;" class="">There are two versions: square and round. Square is currently used on the <a href="https://design.smart.co/9db3b92a4/p/1616db"><span style="border-bottom:0.05em solid">text input</span></a> and <a href="https://design.smart.co/9db3b92a4/p/309013"><span style="border-bottom:0.05em solid">alert dialog</span></a>. Round is currently only part of the <a href="https://design.smart.co/9db3b92a4/p/432e00"><span style="border-bottom:0.05em solid">tag</span></a>.</td></tr></tbody></table><h2 id="ba645867-7b43-40e7-983f-647e2900f957" class="" dir="auto">Behaviour</h2><h3 id="171f57ad-b3dd-4a46-a8ba-7d6a6d369180" class="" dir="auto">States</h3><figure id="c9128db6-123a-4460-aac0-f57bcf75e738" class="image" data-notion-image="Button/Button_state.png" dir="ltr"><a href="Button/Button_state.png"><img style="width:680px" src="Button/Button_state.png"/></a></figure><table id="773ba062-b824-4b15-981c-b0dcaa9a7f1b" class="simple-table" dir="ltr"><tbody><tr id="37ec33e8-9826-4fe7-94fa-18b5c1524ae3" dir="ltr"><td id="oX?a" class="">Button states</td><td id="G:v=" class="">Purpose</td></tr><tr id="aee74002-50bd-4550-bc12-0956ed98b8b5" dir="ltr"><td id="oX?a" class=""><strong>Default</strong></td><td id="G:v=" class="">User hasn&#x27;t interacted with the button yet.</td></tr><tr id="c9b230ee-2479-49b2-8c35-3375bf88578e" dir="ltr"><td id="oX?a" class=""><strong>Hover</strong></td><td id="G:v=" class="">User has moved their cursor over the button touch target.</td></tr><tr id="63c627ab-765f-41ce-94bc-aad24c7fd940" dir="ltr"><td id="oX?a" class=""><strong>Focus</strong></td><td id="G:v=" class="">User has selected the button using their keyboard.</td></tr><tr id="aa92aa59-9835-4f08-9322-02475fdcb6b8" dir="ltr"><td id="oX?a" class=""><strong>Active</strong></td><td id="G:v=" class="">User is currently selecting the button.</td></tr><tr id="f0306919-12b7-4d35-a935-03b96b393353" dir="ltr"><td id="oX?a" class=""><strong>Loading</strong></td><td id="G:v=" class="">User has initiated an action that&#x27;s requesting data from the back end and will delay slightly. It will redirect after loading.</td></tr></tbody></table><hr id="fb895ba2-b5ed-48b3-9eb2-b0a64d2b14ab" dir="auto"/><h2 id="0a76b207-2db5-4516-84c7-c0e542a796ef" class="" dir="auto">Content</h2><ul id="937c2e24-686e-4880-8386-1e30c7b87584" class="bulleted-list" dir="auto"><li style="list-style-type:disc">The label is the most important element on a button, so they need to be as clear as possible.</li></ul><ul id="83238883-4516-49ae-9577-c286ba044e2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Keep button labels short and concise.</li></ul><ul id="88c3437e-1d0a-488e-8839-7e3f542eed2a" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Focus on the action the user can take.</li></ul><h3 id="f9dbf30b-730a-4784-861f-99c603658495" class="" dir="auto">Pattern</h3><p id="4385d62f-1bc4-4bf5-847d-8ca98a84944e" class="" dir="auto">Where there is an action heading, use the same verb that’s been used in the heading. For example, the primary button should start with “Edit” if the page heading is “Edit personal details”.</p><table id="d2ad048a-b00a-4601-9eaa-7425ae5ece81" class="simple-table" dir="ltr"><tbody><tr id="6e48ecba-3da9-437d-bd31-5c2994acaf53" dir="ltr"><td id="x^[\" class=""><strong>Pattern</strong></td><td id="&gt;PsK" class=""><strong>Example</strong></td></tr><tr id="eb24461a-847f-4732-bbea-5bcb1bcebf41" dir="ltr"><td id="x^[\" class=""><strong>Verb</strong></td><td id="&gt;PsK" class=""><strong>Continue</strong><br/><strong>Back</strong></td></tr><tr id="e6bbd8cd-4936-44ef-baa8-fdfb4ce46702" dir="ltr"><td id="x^[\" class=""><strong>Verb</strong> the noun</td><td id="&gt;PsK" class=""><strong>Add</strong> new mandate<br/><strong>Change</strong> password<br/><strong>Edit</strong> personal details</td></tr><tr id="5c507cc2-4757-4e2c-b611-83d50eb84a40" dir="ltr"><td id="x^[\" class=""><strong>Verb</strong> now</td><td id="&gt;PsK" class=""><strong>Download</strong> now</td></tr><tr id="bd2ec5f4-4830-4b00-a10f-1fc683993bc5" dir="ltr"><td id="x^[\" class=""><strong>Verb </strong>your noun</td><td id="&gt;PsK" class=""><strong>Complete</strong> your declaration<br/><strong>Send</strong> your request</td></tr></tbody></table><h3 id="30a21cb2-6eae-4c80-9ffd-676f28c17449" class="" dir="auto">Standard button labels</h3><p id="794c6d12-d3ca-47a2-aa16-6b48be4083f2" class="" dir="auto">Some standard terms we use on buttons:</p><ul id="3d2802ef-a57e-48a8-9fb6-88f269b3ea7f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">“Back” – not “Previous” or “Go back”</li></ul><ul id="2cbc7880-9792-4757-b43f-c047ac2eeaaf" class="bulleted-list" dir="auto"><li style="list-style-type:disc">“Continue” – not “Next” or “Proceed”</li></ul><ul id="fdce6201-b05b-444e-be4d-1ce3ec47fab2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">“Edit” – not “Change” or “Amend”</li></ul><ul id="3f21515b-697b-44b2-b2d1-99ac5f2dc310" class="bulleted-list" dir="auto"><li style="list-style-type:disc">“Start”</li></ul><ul id="ac0068a6-75a1-4d6f-9724-80fc03ef8129" class="bulleted-list" dir="auto"><li style="list-style-type:disc">“Cancel” – not “Quit”</li></ul><hr id="e1b1538e-8a9f-48b1-89bd-8886602e9df3" dir="auto"/><h2 id="971574b2-e279-45fa-a6a6-8e2071d3367f" class="" dir="auto">Related</h2><p id="309efab1-a5c1-4ac3-8312-24d6970efda6" class="" dir="auto"><a href="../Data%20display/Complex%20table%20(Genius)%2002b7db793dac44989d7f35054fdb773c.html" data-notion-page-id="02b7db79-3dac-4498-9d7f-35054fdb773c" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Complex table (Genius)</a></p><p id="fa94888c-40d4-4356-a0ce-b4b87374e68f" class="" dir="auto"><a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

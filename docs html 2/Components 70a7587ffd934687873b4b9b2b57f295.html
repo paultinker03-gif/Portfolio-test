@@ -1,0 +1,799 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Components</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="70a7587f-fd93-4687-873b-4b9b2b57f295" class="page sans"><header><h1 class="page-title" dir="auto">Components</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h1 id="7e367db5-f59f-4af8-a4ac-9a57a70b36ae" class="" dir="auto">Components are the reusable building blocks of our design system.</h1><p id="64b80726-3e48-40d1-8fd9-5ee3db34d385" class="" dir="auto">
+</p><h1 id="6a4ddf23-21c4-462e-829e-ebb3a888dd7b" class="" dir="auto"><a href="Components/Data%20display%207abd0f94390c406a97566fca5fcefa8b.html" data-notion-page-id="7abd0f94-390c-406a-9756-6fca5fcefa8b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Data display</a></h1><figure id="de1b90b3-59c6-4304-9e35-529e60092a2c" class="image" data-notion-image="Components/Thumb-Comp-Complex-list.png" dir="ltr"><a href="Components/Thumb-Comp-Complex-list.png"><img style="width:340px" src="Components/Thumb-Comp-Complex-list.png"/></a></figure><figure id="2602e2a3-8bdb-4084-9005-4785688f7c6c" class="image" data-notion-image="Components/Thumb-Comp-Genius.png" dir="ltr"><a href="Components/Thumb-Comp-Genius.png"><img style="width:340px" src="Components/Thumb-Comp-Genius.png"/></a></figure><figure id="5a8a9f13-5771-4a5f-a900-dd6e93f1b62d" class="image" data-notion-image="Components/Thumb-Comp-Currency-list.png" dir="ltr"><a href="Components/Thumb-Comp-Currency-list.png"><img style="width:340px" src="Components/Thumb-Comp-Currency-list.png"/></a></figure><figure id="8f4d7f14-fbfd-42f6-8bee-d5b57ceb59d2" class="image" data-notion-image="Components/Thumb-Comp-Draggable.png" dir="ltr"><a href="Components/Thumb-Comp-Draggable.png"><img style="width:340px" src="Components/Thumb-Comp-Draggable.png"/></a></figure><figure id="1b96841f-177c-4c2b-9f25-20f9ea5cd4c0" class="image" data-notion-image="Components/Thumb-Comp-List.png" dir="ltr"><a href="Components/Thumb-Comp-List.png"><img style="width:340px" src="Components/Thumb-Comp-List.png"/></a></figure><figure id="3439c68c-f01d-42d0-83de-375d0ce4d2ef" class="image" data-notion-image="Components/Thumb-Comp-Table.png" dir="ltr"><a href="Components/Thumb-Comp-Table.png"><img style="width:340px" src="Components/Thumb-Comp-Table.png"/></a></figure><figure id="188f2e25-e9f9-40e0-b7ca-20c610fb52d5" class="image" data-notion-image="Components/Thumb-Comp-Tag.png" dir="ltr"><a href="Components/Thumb-Comp-Tag.png"><img style="width:340px" src="Components/Thumb-Comp-Tag.png"/></a></figure><p id="7b529f10-f6e6-4ada-acff-18e92182d2a5" class="" dir="auto">
+</p><h1 id="1f8fc045-a562-4a5c-9c32-b3b8ed0db7fd" class="" dir="auto"><a href="Components/Disclosure%20fb5aa2f4073441d983329629a25cb491.html" data-notion-page-id="fb5aa2f4-0734-41d9-8332-9629a25cb491" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Disclosure</a></h1><figure id="9212eafa-83db-4d2d-98b8-9315c27c6971" class="image" data-notion-image="Components/Thumb-Comp-Accordion.png" dir="ltr"><a href="Components/Thumb-Comp-Accordion.png"><img style="width:340px" src="Components/Thumb-Comp-Accordion.png"/></a></figure><figure id="1dffc9c1-2508-4f4e-bcec-fb353bf3ce4c" class="image" data-notion-image="Components/Thumb-Comp-Alert-Dialog.png" dir="ltr"><a href="Components/Thumb-Comp-Alert-Dialog.png"><img style="width:340px" src="Components/Thumb-Comp-Alert-Dialog.png"/></a></figure><figure id="0bb258ca-28dd-4033-b46c-07050db214ea" class="image" data-notion-image="Components/Thumb-Comp-Drawer.png" dir="ltr"><a href="Components/Thumb-Comp-Drawer.png"><img style="width:340px" src="Components/Thumb-Comp-Drawer.png"/></a></figure><figure id="71ea23c8-0adf-482c-b4ce-0e04bb42b497" class="image" data-notion-image="Components/Thumb-Comp-Pagination.png" dir="ltr"><a href="Components/Thumb-Comp-Pagination.png"><img style="width:340px" src="Components/Thumb-Comp-Pagination.png"/></a></figure><figure id="a67fa179-6598-489e-8399-7ec0a4d3e86f" class="image" data-notion-image="Components/Thumb-Comp-PDF-viewer.png" dir="ltr"><a href="Components/Thumb-Comp-PDF-viewer.png"><img style="width:340px" src="Components/Thumb-Comp-PDF-viewer.png"/></a></figure><figure id="4e029407-8213-4091-83de-8274b6fd5f47" class="image" data-notion-image="Components/Thumb-Comp-Tabs.png" dir="ltr"><a href="Components/Thumb-Comp-Tabs.png"><img style="width:340px" src="Components/Thumb-Comp-Tabs.png"/></a></figure><figure id="077a03e3-16b6-4195-b08e-f47fda490018" class="image" data-notion-image="Components/Thumb-Comp-Toggle.png" dir="ltr"><a href="Components/Thumb-Comp-Toggle.png"><img style="width:340px" src="Components/Thumb-Comp-Toggle.png"/></a></figure><p id="022186b1-eea3-4f61-ae37-139e894aa565" class="" dir="auto">
+</p><h1 id="773e7ce6-0038-4e2d-b1bf-e8176f7ef415" class="" dir="auto"><a href="Components/Feedback%20518d16adadfd4506b16ecd6a3d2ccfe0.html" data-notion-page-id="518d16ad-adfd-4506-b16e-cd6a3d2ccfe0" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Feedback</a></h1><figure id="8624b766-9bc5-4221-86db-4d94ddcee5d8" class="image" data-notion-image="Components/Thumb-Comp-Alert.png" dir="ltr"><a href="Components/Thumb-Comp-Alert.png"><img style="width:340px" src="Components/Thumb-Comp-Alert.png"/></a></figure><figure id="04a8b02c-0eeb-40e1-a681-acc512218398" class="image" data-notion-image="Components/Thumb-Comp-Badge.png" dir="ltr"><a href="Components/Thumb-Comp-Badge.png"><img style="width:340px" src="Components/Thumb-Comp-Badge.png"/></a></figure><figure id="9d8addc5-613c-4735-9a9c-0618d69d23fe" class="image" data-notion-image="Components/Thumb-Comp-Confirmation.png" dir="ltr"><a href="Components/Thumb-Comp-Confirmation.png"><img style="width:340px" src="Components/Thumb-Comp-Confirmation.png"/></a></figure><figure id="2c1e2237-17ff-45c9-bb49-b44bc4212a8a" class="image" data-notion-image="Components/Thumb-Comp-Error-Summary.png" dir="ltr"><a href="Components/Thumb-Comp-Error-Summary.png"><img style="width:340px" src="Components/Thumb-Comp-Error-Summary.png"/></a></figure><figure id="9622c0ff-f306-4ffd-934a-3c031ad1bd7b" class="image" data-notion-image="Components/Thumb-Comp-Inline-alert.png" dir="ltr"><a href="Components/Thumb-Comp-Inline-alert.png"><img style="width:340px" src="Components/Thumb-Comp-Inline-alert.png"/></a></figure><figure id="eee7fd62-9275-48bd-82dd-30e6376b4ff9" class="image" data-notion-image="Components/Thumb-Comp-Spinner.png" dir="ltr"><a href="Components/Thumb-Comp-Spinner.png"><img style="width:340px" src="Components/Thumb-Comp-Spinner.png"/></a></figure><p id="34c80e4a-f5e9-4a7f-85a3-8f9971c51bd6" class="" dir="auto">
+</p><h1 id="8a9a7ae3-edda-4e16-b497-3082491e50e6" class="" dir="auto"><a href="Components/Forms%20c6e96707f7844fd7ad548f1f7553b915.html" data-notion-page-id="c6e96707-f784-4fd7-ad54-8f1f7553b915" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Forms</a></h1><figure id="f9ba3701-7db2-4c50-b879-2a0d5bc91e46" class="image" data-notion-image="Components/Thumb-Comp-Structure.png" dir="ltr"><a href="Components/Thumb-Comp-Structure.png"><img style="width:340px" src="Components/Thumb-Comp-Structure.png"/></a></figure><figure id="046cd9ea-56ce-491c-93cd-874e0d4ba701" class="image" data-notion-image="Components/Thumb-Comp-Button.png" dir="ltr"><a href="Components/Thumb-Comp-Button.png"><img style="width:340px" src="Components/Thumb-Comp-Button.png"/></a></figure><figure id="92c7d1be-58d9-469b-a068-64d6a3ed0029" class="image" data-notion-image="Components/Thumb-Comp-Check.png" dir="ltr"><a href="Components/Thumb-Comp-Check.png"><img style="width:340px" src="Components/Thumb-Comp-Check.png"/></a></figure><figure id="295ec5e0-4d2b-4501-a939-e6a4e17525f2" class="image" data-notion-image="Components/Thumb-Comp-Upload.png" dir="ltr"><a href="Components/Thumb-Comp-Upload.png"><img style="width:340px" src="Components/Thumb-Comp-Upload.png"/></a></figure><figure id="42499b0a-d8a1-4904-bab5-a48203dc3e8b" class="image" data-notion-image="Components/Thumb-Comp-Image.png" dir="ltr"><a href="Components/Thumb-Comp-Image.png"><img style="width:340px" src="Components/Thumb-Comp-Image.png"/></a></figure><figure id="6099550e-e847-4f1f-8e4f-b568d602d20d" class="image" data-notion-image="Components/Thumb-Comp-Number.png" dir="ltr"><a href="Components/Thumb-Comp-Number.png"><img style="width:340px" src="Components/Thumb-Comp-Number.png"/></a></figure><figure id="470d2a41-50cf-4840-869f-9a7577703cfc" class="image" data-notion-image="Components/Thumb-Comp-Radio.png" dir="ltr"><a href="Components/Thumb-Comp-Radio.png"><img style="width:340px" src="Components/Thumb-Comp-Radio.png"/></a></figure><figure id="2da4b99e-382f-47f0-829e-46630b951a45" class="image" data-notion-image="Components/Thumb-Comp-Search.png" dir="ltr"><a href="Components/Thumb-Comp-Search.png"><img style="width:340px" src="Components/Thumb-Comp-Search.png"/></a></figure><figure id="18ae0f14-2616-4bac-9e85-c18eb077b3fb" class="image" data-notion-image="Components/Thumb-Comp-Select.png" dir="ltr"><a href="Components/Thumb-Comp-Select.png"><img style="width:340px" src="Components/Thumb-Comp-Select.png"/></a></figure><figure id="999dfbbb-46de-468c-8f5c-ac828f98ccd1" class="image" data-notion-image="Components/Thumb-Comp-Switch.png" dir="ltr"><a href="Components/Thumb-Comp-Switch.png"><img style="width:340px" src="Components/Thumb-Comp-Switch.png"/></a></figure><figure id="59ae111c-a146-433c-aceb-a66b332fed46" class="image" data-notion-image="Components/Thumb-Comp-TextArea.png" dir="ltr"><a href="Components/Thumb-Comp-TextArea.png"><img style="width:340px" src="Components/Thumb-Comp-TextArea.png"/></a></figure><figure id="21ddc48e-090a-4b4b-a7b1-6bf23317ca76" class="image" data-notion-image="Components/Thumb-Comp-Text.png" dir="ltr"><a href="Components/Thumb-Comp-Text.png"><img style="width:340px" src="Components/Thumb-Comp-Text.png"/></a></figure><p id="d3e280ea-a116-4b8d-aac1-b030ce1423ae" class="" dir="auto">
+</p><h1 id="1fa1f986-ec3d-4e19-8e8e-c30703f3a58b" class="" dir="auto"><a href="Components/Page%20layout%2084d45948e91f4e818eef1030a1131cac.html" data-notion-page-id="84d45948-e91f-4e81-8eef-1030a1131cac" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Page layout</a></h1><figure id="ff62e47d-2c6b-40fb-b70c-eb2c614f829a" class="image" data-notion-image="Components/Thumb-Comp-Banner.png" dir="ltr"><a href="Components/Thumb-Comp-Banner.png"><img style="width:340px" src="Components/Thumb-Comp-Banner.png"/></a></figure><figure id="2eb89f74-a5be-456d-add7-242fb9aa6db4" class="image" data-notion-image="Components/Thumb-Comp-card-highlight.png" dir="ltr"><a href="Components/Thumb-Comp-card-highlight.png"><img style="width:340px" src="Components/Thumb-Comp-card-highlight.png"/></a></figure><figure id="21095d34-d6c3-4554-bd0b-8b6e5f4538e4" class="image" data-notion-image="Components/Thumb-Comp-card-info.png" dir="ltr"><a href="Components/Thumb-Comp-card-info.png"><img style="width:340px" src="Components/Thumb-Comp-card-info.png"/></a></figure><figure id="c6d919e6-6e88-424a-9a9a-5a8ed03db8bf" class="image" data-notion-image="Components/Thumb-Comp-card-dash.png" dir="ltr"><a href="Components/Thumb-Comp-card-dash.png"><img style="width:340px" src="Components/Thumb-Comp-card-dash.png"/></a></figure><figure id="28c64df1-80c3-4a31-8f46-e4c62207739d" class="image" data-notion-image="Components/Thumb-Comp-Greetings.png" dir="ltr"><a href="Components/Thumb-Comp-Greetings.png"><img style="width:340px" src="Components/Thumb-Comp-Greetings.png"/></a></figure><figure id="c33d9cb6-2864-4a16-8d86-c989544dcd2d" class="image" data-notion-image="Components/Thumb-Comp-Divider.png" dir="ltr"><a href="Components/Thumb-Comp-Divider.png"><img style="width:340px" src="Components/Thumb-Comp-Divider.png"/></a></figure><figure id="c68e5ea7-fd13-4cfb-8f99-97fc4906b239" class="image" data-notion-image="Components/Thumb-Comp-Footer.png" dir="ltr"><a href="Components/Thumb-Comp-Footer.png"><img style="width:340px" src="Components/Thumb-Comp-Footer.png"/></a></figure><figure id="3ce14c86-be34-4393-b33b-ff8cdf1626c6" class="image" data-notion-image="Components/Thumb-Comp-infoblock.png" dir="ltr"><a href="Components/Thumb-Comp-infoblock.png"><img style="width:340px" src="Components/Thumb-Comp-infoblock.png"/></a></figure><figure id="717e2a4d-55c4-4579-a37f-6a974bf67829" class="image" data-notion-image="Components/Thumb-Comp-Page-Heading.png" dir="ltr"><a href="Components/Thumb-Comp-Page-Heading.png"><img style="width:340px" src="Components/Thumb-Comp-Page-Heading.png"/></a></figure><figure id="e8cf84c8-9694-4290-8467-f76459199d8f" class="image" data-notion-image="Components/Thumb-Comp-Progress.png" dir="ltr"><a href="Components/Thumb-Comp-Progress.png"><img style="width:340px" src="Components/Thumb-Comp-Progress.png"/></a></figure><figure id="572076ab-77dc-42ae-ad8e-48c36f3fdbe6" class="image" data-notion-image="Components/Thumb-Comp-Nav.png" dir="ltr"><a href="Components/Thumb-Comp-Nav.png"><img style="width:340px" src="Components/Thumb-Comp-Nav.png"/></a></figure><figure id="d1b8e2b6-a9b1-441c-bc5b-51c7d62f49bc" class="image" data-notion-image="Components/Thumb-Comp-sticky.png" dir="ltr"><a href="Components/Thumb-Comp-sticky.png"><img style="width:340px" src="Components/Thumb-Comp-sticky.png"/></a></figure><h1 id="8dca9b65-d62b-4ef6-aae1-09de7e3d3d5e" class="" dir="auto">Subpages</h1><figure id="7abd0f94-390c-406a-9756-6fca5fcefa8b" class="link-to-page"><a href="Components/Data%20display%207abd0f94390c406a97566fca5fcefa8b.html" data-notion-page-id="7abd0f94-390c-406a-9756-6fca5fcefa8b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Data display</a></figure><figure id="fb5aa2f4-0734-41d9-8332-9629a25cb491" class="link-to-page"><a href="Components/Disclosure%20fb5aa2f4073441d983329629a25cb491.html" data-notion-page-id="fb5aa2f4-0734-41d9-8332-9629a25cb491" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Disclosure</a></figure><figure id="e4e91b1a-5b85-4eda-bf41-58a23750d757" class="link-to-page"><a href="Components/Favicon%20e4e91b1a5b854edabf4158a23750d757.html" data-notion-page-id="e4e91b1a-5b85-4eda-bf41-58a23750d757" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Favicon</a></figure><figure id="518d16ad-adfd-4506-b16e-cd6a3d2ccfe0" class="link-to-page"><a href="Components/Feedback%20518d16adadfd4506b16ecd6a3d2ccfe0.html" data-notion-page-id="518d16ad-adfd-4506-b16e-cd6a3d2ccfe0" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Feedback</a></figure><figure id="c6e96707-f784-4fd7-ad54-8f1f7553b915" class="link-to-page"><a href="Components/Forms%20c6e96707f7844fd7ad548f1f7553b915.html" data-notion-page-id="c6e96707-f784-4fd7-ad54-8f1f7553b915" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Forms</a></figure><figure id="84d45948-e91f-4e81-8eef-1030a1131cac" class="link-to-page"><a href="Components/Page%20layout%2084d45948e91f4e818eef1030a1131cac.html" data-notion-page-id="84d45948-e91f-4e81-8eef-1030a1131cac" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Page layout</a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

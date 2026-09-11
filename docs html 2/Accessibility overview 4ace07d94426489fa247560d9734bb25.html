@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Accessibility overview</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="4ace07d9-4426-489f-a247-560d9734bb25" class="page sans"><header><h1 class="page-title" dir="auto">Accessibility overview</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="29f5f8f9-1cc8-486f-a1d7-58d66500890a" class="" dir="auto">Smart is committed to making sure our products are accessible to people with disabilities. We have a responsibility to make sure that people with a range of disabilities can use our products as well as possible. So, within Smart we will work towards achieving level AA of the <a href="https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships">Web Content Accessibility Guidelines 2.1 (WCAG 2.1)</a> as a minimum.</p><h2 id="bd4deb58-4a7c-4aab-a143-c14c083d4778" class="" dir="auto">Why are we doing this?</h2><p id="e6791417-b0d8-43fe-9289-3c8ef15aa890" class="" dir="auto">Making our products accessible benefits our members and our partners. We have communicated to our partners that we strive for a level AA, and that we will continuously audit our products.</p><p id="eb78effe-24e9-4e1e-8b6a-60fd7fe41913" class="" dir="auto">Roughly <a href="https://www.w3.org/WAI/videos/standards-and-benefits/">15-20%</a> of people have a disability, and each country has its own <a href="https://www.w3.org/WAI/policies/">governmental policies</a> related to web accessibility, so we should be mindful of any market we operate in.</p><p id="d5a161f5-7b8a-4a9b-8d43-0c3de850819a" class="" dir="auto">Many of our members will be older web users and as people age they experience multiple minor impairments (Hearing, vision, dexterity, memory), so if we aim for AA standards we will be addressing many of their needs.</p><p id="50ef88c4-68f3-422f-9ae1-35538069db34" class="" dir="auto">Digital products that are more accessible are better for everyone. We can all have temporary situational impairments, such as low contrast screens on a sunny day. It helps with better performance, task completion and overall trust.</p><h2 id="97857550-1e4b-4381-899f-1e82780c4025" class="" dir="auto">Status as of Nov 2022</h2><p id="afb9931e-c12b-438f-8c00-be221df01e6f" class="" dir="auto">During our new front end initiative we have been releasing products that are not fully AA accessible. They were not in a terrible state, but there is more we should be doing. Things have been missed because we currently have no clear process in place, no guidelines to follow, and there are no clear responsibilities for teams and individuals.</p><h2 id="ff639346-f0ea-4661-9a94-a6558712bd31" class="" dir="auto">How are we going to achieve AA?</h2><p id="062cee36-d700-4bee-a9fb-663f63f59868" class="" dir="auto">One by one we will be auditing each app for each partner, and the audit will have two stages.</p><table id="6d220d17-eeab-4113-9f7c-06329c3505c8" class="simple-table" dir="ltr"><tbody><tr id="4451c87a-5744-4bed-9128-bfa79b1d938e" dir="ltr"><td id="&gt;;pT" class=""><strong>Stage 1 - Internal audit</strong></td><td id="u@n[" class=""><strong>Stage 2 - External audit</strong></td></tr><tr id="d7d02031-8c45-4fd5-9172-a651dda9ff74" dir="ltr"><td id="&gt;;pT" class="">Technical stage - Get the code right</td><td id="u@n[" class="">Effective stage - Measure the impact</td></tr><tr id="5ab2d8cf-9d73-492e-b46d-13e25474fe0e" dir="ltr"><td id="&gt;;pT" class="">Follow the right standard - WCAG - In theory if users use the right assisted technology and its accessibility settings then they can use it</td><td id="u@n[" class="">Can users with disabilities use it effectively and efficiently? (including assisted tech)</td></tr></tbody></table><p id="cec3fb75-886c-47d6-b7f5-93cad3eb5759" class="" dir="auto">The running order will be as follows.</p><table id="8a62d0ed-ff79-4fbe-9573-b3494f60a42e" class="simple-table" dir="ltr"><tbody><tr id="04695899-b12e-40cd-80ce-7c0599bcf87f" dir="ltr"><td id="[gVp" class=""><strong>Stage 1 - Internal audit</strong></td><td id=";y[^" class=""><strong>Stage 2 - External audit</strong></td></tr><tr id="55e797d2-0777-419a-9a30-aa61ab77b038" dir="ltr"><td id="[gVp" class=""><a href="https://docs.google.com/spreadsheets/d/1jasgVBnhORojMV-I6l5O3eTdkBtVbB5PXO4BkJ58c_k/edit?pli=1#gid=0">SPMT member</a> - In progress</td><td id=";y[^" class="">Aiming for February 2023</td></tr><tr id="9c7d8ce6-5eac-480d-8d4c-17c3c1af02e8" dir="ltr"><td id="[gVp" class="">NIAC member - Feb 2023</td><td id=";y[^" class="">Required? Learnings form SPMT external audit?</td></tr><tr id="eac36e59-8b90-4a59-957a-73cf372896d4" dir="ltr"><td id="[gVp" class="">NIAC adviser</td><td id=";y[^" class=""></td></tr><tr id="0d83e622-7999-4318-afb7-c1e429e54b82" dir="ltr"><td id="[gVp" class="">Zurich adviser</td><td id=";y[^" class=""></td></tr><tr id="f7875c07-f396-4eed-8407-d1b020b80829" dir="ltr"><td id="[gVp" class="">(to be updated)</td><td id=";y[^" class=""></td></tr></tbody></table><h3 id="601e04b7-202d-407e-850e-ef42b7f0c776" class="" dir="auto">Internal audit</h3><p id="6b450b77-cb40-4f3f-bdb6-5ff68d5da0db" class="" dir="auto">For the internal review of each app we have a dedicated engineer who is manually and systematically reviewing each WCAG criteria against each feature of the app.</p><p id="1effe311-c273-4e00-9fc5-3a1757af8ad8" class="" dir="auto">Manual testing covers issues like keyboard accessibility, colour contrast of text in images, link descriptions and alt text for images.</p><p id="e9687445-143e-4f43-933c-7ccb01dbee66" class="" dir="auto">Automated testing tools will also be used, but they only catch <a href="https://www.deque.com/blog/automated-testing-study-identifies-57-percent-of-digital-accessibility-issues/">50-60%</a> of accessibility issues, so we cannot purely rely on these otherwise we will miss certain issues that are not simply code based.</p><p id="c2310121-7b05-4c36-915b-85f0ee877d3e" class="" dir="auto">It is important to highlight that even if we score 100% within an automated test it doesn&#x27;t mean we are fully accessible. For example, we may have alternative text for images, but do they make sense?</p><p id="bd82fcfd-b628-40c6-87fb-b63e549e70e2" class="" dir="auto">Before we rush into an external audit we need to fix the basic things and get the code right so that we can get the most value from it. We have the skills internally to do this and issues that highlighted are turned into <a href="https://smartpension.atlassian.net/browse/T2-2682">jira tickets</a> so they can monitored and fixed.</p><p id="39ee8dfd-a1d6-4834-ae9a-1cfa86857ffb" class="" dir="auto">Some of the issues that are fixed will isolated within the current app being checked, but some will fix global issues.</p><p id="3135bd2a-29a5-43a7-8a19-36407fbbbca0" class="" dir="auto"><strong>Breakdown of internal audit</strong></p><figure id="e60fd861-e26f-4771-95c8-95b7346321a0" class="image" data-notion-image="Accessibility%20overview/Screenshot_2022-12-13_at_08.57.50.png" dir="ltr"><a href="Accessibility%20overview/Screenshot_2022-12-13_at_08.57.50.png"><img style="width:700px" src="Accessibility%20overview/Screenshot_2022-12-13_at_08.57.50.png"/></a></figure><ul id="148cbee6-4b6c-4a35-aaa9-1e44d56c899f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">One document for each app for each partner.</li></ul><ul id="ff96e463-7436-4119-9300-3b5ac7168cea" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Left - criteria from WCAG, each one is a link to full documentation.</li></ul><ul id="a60cf9c3-81c5-4959-bc82-06d26b9017c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc">4th column - filter by A, AA, AAA.</li></ul><ul id="b2bd974e-99d0-4bf0-b541-9270227d0869" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Top row - a breakdown of each feature eg Sign in, Dashboard, Contributions.</li></ul><ul id="32f7ba6a-011e-4f8d-bc54-4337bbf5a196" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Grey cells - the criteria is not applicable eg if a section has no videos then we don’t need to be concerned with adding video captions.</li></ul><ul id="737b8b61-8081-4fd4-8038-a630c20ee6f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Green cells - meets the criteria</li></ul><ul id="f6d4dc40-9316-4b1b-87f9-58ef5e3c422f" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Red cells - fails to meet the criteria and a link to the ticket which will fix the issue</li></ul><ul id="2d6444f5-46e2-4794-8aeb-661ab492f658" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Additional content that is needed eg table captions, landmarks and page titles.</li></ul><h3 id="fb58d96f-ccca-4e7a-a06c-9a7edeb50400" class="" dir="auto">External audit</h3><p id="52586fa4-1933-44bd-bb69-b660622a9156" class="" dir="auto">We will need to use external agencies because we don&#x27;t have all of the expertise and time. However we can’t rely fully on external agencies because we will still be responsible for fixing our code.</p><p id="a4ade70d-33e6-4641-a50c-aade5263b02c" class="" dir="auto">So once we are more confident that our apps meet these standards we will move onto stage 2 and run formal external accessibility audits to understand how accessible our apps are, and check if users with disabilities can use them effectively and efficiently.</p><p id="586eb7e2-dba1-4952-9e5c-190d1c2cd098" class="" dir="auto">These user research sessions will include participants who use assistive technology. For example those with screen readers, voice control and magnifiers.</p><h3 id="b65f6431-2614-48da-8972-40e133d19568" class="" dir="auto">Guidelines</h3><p id="be4f5e50-2a5c-4185-aaa1-41d25887c8c5" class="" dir="auto">Checking that are products are accessible is complex and ongoing. We are working with multiple teams, products, partners, languages and markets; we are constantly updating and adding new features to our products; WCAG guidelines will evolve; plus there are changes in the technology people use. So we need to we need to make sure accessibility is embedded into our digital production process and the mindsets across teams. From product owners to design, engineering and research.</p><p id="a01a35f2-2a66-4c6b-87ba-6d4287c30c93" class="" dir="auto">The aim is to be considering accessibility at the start and during projects, not at the end or after. To be proactive, not reactive.</p><p id="c2c2a102-292e-4187-b5f0-389dbbbfa1a7" class="" dir="auto">So during the first couple of internal audits we will start work on documenting the guidelines and processes. These will be shared across Smart and we can track adoption and offer support.</p><h2 id="5311cbf3-8f24-4005-af26-b2dc1976f612" class="" dir="auto">Contacts</h2><table id="6b52c8ca-b2d5-43ba-a619-5aac7a82db3d" class="simple-table" dir="ltr"><tbody><tr id="c0cb1e90-b4b6-4620-acf0-a886fbbf6179" dir="ltr"><td id="oHkK" class=""><strong>Content</strong></td><td id="[hyR" class="">Al Thomas - Senior Content designer</td></tr><tr id="e9d7349f-8199-4f91-bf38-a76ef7b3b9e1" dir="ltr"><td id="oHkK" class=""><strong>Design system</strong></td><td id="[hyR" class="">Paul Tinker - Head of Design System</td></tr><tr id="d05870f6-53b0-4be4-ba99-4b8d6dc110dc" dir="ltr"><td id="oHkK" class=""><strong>Engineering</strong></td><td id="[hyR" class="">Lidia Oosthuizen - Front End Practice Lead<br/>Maryia Sinkevich - React Engineer<br/>Oliver Wright - Senior Java Script Engineer</td></tr><tr id="99ec34bf-9c85-40cf-9303-0ae4f8690605" dir="ltr"><td id="oHkK" class=""><strong>QA</strong></td><td id="[hyR" class="">Usman Raza - Senior QA Engineer</td></tr></tbody></table></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
