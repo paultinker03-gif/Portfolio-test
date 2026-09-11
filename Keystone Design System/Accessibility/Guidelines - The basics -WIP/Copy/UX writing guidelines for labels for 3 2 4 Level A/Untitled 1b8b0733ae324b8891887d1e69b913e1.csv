@@ -1,0 +1,6 @@
+﻿Purpose,Files,Tell users what the search field does.
+Notes,UX%20writing%20guidelines%20for%20labels%20for%203%202%204%20Level%20A/Untitled%201b8b-13e1/Notes/jFCsfIAyABpIsPq5kjGwC5uHup2fU5PJLRbAqm8_18dg6eubdWr8zw7r__w2X5PyxSXBgOGKb9hl3sd4oLyitYn8V_luHuXvC_ltjfGw2v7_3oVHEyArLIqU2Q5wdIqufr5aC20RO5g5FCfTnR5FG_k,"Keep labels as short as possible.
+The maximum length is 45 characters or one line in a mobile viewport, whichever is shorter.
+Example:
+•  “Search for an address”"
+Pattern,,• “Verb <description of what to verb>”

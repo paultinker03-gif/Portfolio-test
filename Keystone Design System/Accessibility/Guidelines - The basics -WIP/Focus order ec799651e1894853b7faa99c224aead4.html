@@ -1,0 +1,795 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Focus order</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="ec799651-e189-4853-b7fa-a99c224aead4" class="page sans"><header><h1 class="page-title" dir="auto">Focus order</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="89b4638a-ac72-4ef3-aea8-699aabefacf7" class="" dir="auto">Focus order, also known as <em>keyboard focus order</em> or <em>tab order</em>, refers to the sequence in which elements on a web page receive keyboard focus when a user navigates through the page using the &quot;Tab&quot; key. Screen reader, keyboard, and other assistive-technology users may navigate and interact with our apps without the use of a traditional mouse or touch screen.</p><aside class="block-color-blue_background callout" data-notion-callout="" data-notion-callout-icon="ℹ️" data-notion-callout-background="blue_background" style="white-space:pre-wrap;display:flex" id="1cf7716d-897f-42ec-91ee-e9f45851d283" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="ℹ️"></span></div><div style="width:100%"><strong>How to test the focus order</strong><p id="7e98f908-12cf-4936-9612-62369663aa8d" class="" dir="auto">Pressing the tab key continuously on a browser will focus on <strong>all interactive elements</strong> in order.</p><p id="fbc84b4d-2777-42eb-b54d-6979f124188d" class="" dir="auto">If a screen reader is turn on, then continuously pressing tab will focus on <strong>all elements</strong>.</p></div></aside><p id="10e57831-5ffa-411e-9257-47571b311d44" class="" dir="auto">Focus order starts from main content when clicking on a link - when you are on the page and you move to another page then focus will start not from the top but from the main content.<br/>Here are some best practices for ensuring a proper focus order:</p><p id="98a10183-d72d-4650-971c-73844c74dbbe" class="" dir="auto"><strong>Natural Flow: </strong><br/>Organise the focus order to follow the natural reading and navigation flow of the content. Users should be able to tab through elements as they would read or interact with them visually.</p><p id="0a807b4b-9cfd-45c4-b1f8-89a70ee744de" class="" dir="auto"><strong>Logical Order: </strong><br/>Elements should be presented in a logical order. Typically, this means top-to-bottom and left-to-right for most languages and cultures.</p><p id="1c115038-4a2f-4a57-a2aa-e9c881c3c891" class="" dir="auto"><strong>Languages: </strong><br/>Left to right - the order goes from top to bottom and left to right (e.g. English).<br/>Right to left - the order goes from top to bottom and right to left (e.g. Arabic).</p><p id="f481846f-ce12-4bd8-9fc4-d7d40c24529a" class="" dir="auto"><strong>Skip Links: </strong><br/>Include skip links at the beginning of the page to allow keyboard users to jump directly to the main content, navigation, or other essential sections of the page. This helps them bypass repetitive elements, such as the header and sidebar, and quickly access the relevant content.</p><p id="dcfd8e84-e381-415b-a99e-9d56ab6b6fb2" class="" dir="auto"><strong>Form Elements: </strong><br/>Ensure form fields follow a logical order. For example, in a registration form, the focus should move from the username to the email, then the password fields, and so on.</p><p id="1cfe97a2-823a-497f-ba4f-646e6bec4b5e" class="" dir="auto"><strong>Visible Focus Indicator: </strong><br/>Provide a clear and visible focus indicator for elements in focus. This indicator should be easy to distinguish from the default outline that browsers provide. It helps users understand which element currently has focus, aiding those with visual impairments or cognitive challenges.</p><p id="df8076dd-2e86-4f37-8832-9630900684d4" class="" dir="auto"><strong>Avoid Trapping Focus: </strong><br/>Make sure users can navigate to all interactive elements on the page using the &quot;Tab&quot; key and can also navigate away from each element. Avoid trapping the keyboard focus within certain areas, as it can be frustrating and confusing for users.</p><p id="39c25e3b-bc4e-4e3f-8d0e-837bd2025d8a" class="" dir="auto"><strong>Test with Keyboard Navigation: </strong><br/>Regularly test the website&#x27;s focus order and overall keyboard accessibility using only the keyboard. This helps identify any issues and ensures a seamless experience for keyboard-only users.</p><figure id="dbb8549b-0b71-4d28-b7a4-3d4248a79812" class="image" data-notion-image="Focus%20order/Focus_order_-_Dashboard.png" dir="ltr"><a href="Focus%20order/Focus_order_-_Dashboard.png"><img style="width:700px" src="Focus%20order/Focus_order_-_Dashboard.png"/></a></figure><ol type="1" id="efb5224d-f747-4179-9151-eaf4bbc89e67" class="numbered-list" start="1" dir="auto"><li>Skip to main content</li></ol><ol type="1" id="73de8e2a-95e8-4671-9227-1fce68e77a41" class="numbered-list" start="2" dir="auto"><li>Logo</li></ol><ol type="1" id="90ca350c-6cfe-492f-9225-8b33cfee0b9c" class="numbered-list" start="3" dir="auto"><li>Button - Menu</li></ol><ol type="1" id="4f3dd7f8-0081-4d6f-91bd-1c2ad27d0cf6" class="numbered-list" start="4" dir="auto"><li>Card 1</li></ol><ol type="1" id="61eae0c3-ebd8-4680-a54d-54ba688b2cb0" class="numbered-list" start="5" dir="auto"><li>Card 2</li></ol><ol type="1" id="b76f1a77-93be-447f-8f9c-5b26ab7051a8" class="numbered-list" start="6" dir="auto"><li>Card 3</li></ol><ol type="1" id="18a3e09f-36f8-40b3-ba47-7e79be2cbe8f" class="numbered-list" start="7" dir="auto"><li>Card 4</li></ol><ol type="1" id="c007c75b-6f64-483e-9995-fd75fc9bfc1e" class="numbered-list" start="8" dir="auto"><li>Card 5</li></ol><ol type="1" id="e450888c-1329-4e15-b2b9-e3565d30c9b0" class="numbered-list" start="9" dir="auto"><li>Card 6</li></ol><ol type="1" id="03d89129-ef81-4aec-a580-ed55174d980e" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Text link - Terms and conditions</li></ol><ol type="1" id="1a0fb66c-ac0b-49ff-81f8-d6e5b4e620e7" class="numbered-list numbered-list-digits-2" start="11" dir="auto"><li>Text link - Cookies</li></ol><ol type="1" id="493a9e63-9814-490b-8711-6e037c9c0de9" class="numbered-list numbered-list-digits-2" start="12" dir="auto"><li>Text link - Privacy policy</li></ol><ol type="1" id="8aa9e050-bef1-43cf-bd66-a264978c8d5f" class="numbered-list numbered-list-digits-2" start="13" dir="auto"><li>Text link - Accessibility</li></ol><ol type="1" id="d9c51367-43cb-44a9-8f33-28381c4a05e9" class="numbered-list numbered-list-digits-2" start="14" dir="auto"><li>Button - Language selector</li></ol><ol type="1" id="2ab9bb09-b928-4d2e-9abf-dfd7f21e0e3e" class="numbered-list numbered-list-digits-2" start="15" dir="auto"><li>Keystone logo</li></ol><ol type="1" id="7f57cfa5-ae75-4fea-988b-505111110bf0" class="numbered-list numbered-list-digits-2" start="16" dir="auto"><li>Usersnap</li></ol><ol type="1" id="ab4a2f5d-049c-4f98-b943-086d9cb4c114" class="numbered-list numbered-list-digits-2" start="17" dir="auto"><li>Intercom</li></ol><figure id="b5d573e1-3225-47ae-9a5f-9c257744aa05" class="image" data-notion-image="Focus%20order/Focus_order_Multistep.png" dir="ltr"><a href="Focus%20order/Focus_order_Multistep.png"><img style="width:700px" src="Focus%20order/Focus_order_Multistep.png"/></a></figure><ol type="1" id="de6e0e54-fe3a-4260-b5e2-f4b425cba343" class="numbered-list" start="1" dir="auto"><li>Skip to main content</li></ol><ol type="1" id="b5b699b3-fd54-4a1c-90d4-6045c131c779" class="numbered-list" start="2" dir="auto"><li>Logo</li></ol><ol type="1" id="c4424305-0c4f-4ff0-bb8c-916a2b22a350" class="numbered-list" start="3" dir="auto"><li>Button - Menu</li></ol><ol type="1" id="cd981cff-f4e0-44e2-bfca-d4d4af1751c7" class="numbered-list" start="4" dir="auto"><li>Text link - Breadcrumb</li></ol><ol type="1" id="2e860f52-b7c2-454b-b4dd-8739e4959d09" class="numbered-list" start="5" dir="auto"><li>Input state - Dropdown</li></ol><ol type="1" id="cacf8b8b-d45a-4d7e-87de-c64acb5cd527" class="numbered-list" start="6" dir="auto"><li>Input state</li></ol><ol type="1" id="aae2b0c1-39a0-4f29-8b74-5b18008d4eb8" class="numbered-list" start="7" dir="auto"><li>Input state</li></ol><ol type="1" id="f166b9e2-b5c5-4a84-af71-fedf8ec9751b" class="numbered-list" start="8" dir="auto"><li>Button - Cancel</li></ol><ol type="1" id="3e1ba056-c8e4-401c-a7eb-6755e5cf88c1" class="numbered-list" start="9" dir="auto"><li>Button - Save</li></ol><ol type="1" id="a0e65644-1d14-473d-b4ea-0dc29ce78921" class="numbered-list numbered-list-digits-2" start="10" dir="auto"><li>Button - Cancel</li></ol><ol type="1" id="b3bf7e42-d2bb-4e83-9a0e-2e2c954acc67" class="numbered-list numbered-list-digits-2" start="11" dir="auto"><li>Button - Save</li></ol><ol type="1" id="4c238140-0c26-42a1-bdf8-c43eae564075" class="numbered-list numbered-list-digits-2" start="12" dir="auto"><li>Text link - Terms and conditions</li></ol><ol type="1" id="dca95bcc-c7c6-4d4c-91a7-163bdfbefa07" class="numbered-list numbered-list-digits-2" start="13" dir="auto"><li>Text link - Cookies</li></ol><ol type="1" id="638ccecc-4474-46a0-ba99-def3c82bd697" class="numbered-list numbered-list-digits-2" start="14" dir="auto"><li>Text link - Privacy policy</li></ol><ol type="1" id="413f2bf1-1cb7-4e57-b231-97a965ef6eb8" class="numbered-list numbered-list-digits-2" start="15" dir="auto"><li>Text link - Accessibility</li></ol><ol type="1" id="c0e0b37f-155b-4fcc-9dab-dde9eebb1db8" class="numbered-list numbered-list-digits-2" start="16" dir="auto"><li>Button - Language selector</li></ol><ol type="1" id="1c50292a-12a6-4715-be21-d973249a82c5" class="numbered-list numbered-list-digits-2" start="17" dir="auto"><li>Keystone logo</li></ol><ol type="1" id="f44a7135-a04b-4b11-a4aa-fff3518ec6ff" class="numbered-list numbered-list-digits-2" start="18" dir="auto"><li>Usersnap</li></ol><ol type="1" id="3a6189fd-13e6-4625-9975-492f3bf0af34" class="numbered-list numbered-list-digits-2" start="19" dir="auto"><li>Intercom</li></ol><p id="0af178c0-19e8-48ce-82e1-d6e0f7d35e8a" class="" dir="auto">
+</p><hr id="b5dbfc24-a2d5-420b-8d55-ef01a1b444fb" dir="auto"/><p id="c8bf650e-b072-4150-8d4d-90e53ca81b92" class="" dir="auto">OLD CONTENT TO REMOVE</p><p id="d1a943e8-2a74-478e-9262-0d015c1c0ee1" class="" dir="auto">Screen reader, keyboard, and other assistive-technology users may navigate and interact with our apps without the use of a traditional mouse or touch screen. To do this the user should be able to tab through a page. The visual representation of the content should match whats read by a screen reader.</p><p id="c0e726b9-7980-481b-823d-2ee89b365f42" class="" dir="auto">‘Skip links’ are available for keyboard users to jump past the navigation. They must be available on every page and should be the first focusable element.</p><p id="e56f9223-3282-4e15-8615-5728f4370184" class="" dir="auto">There should be no keyboard traps, for example if a user opens a modal with a keyboard and cant get back to where they were.</p><p id="fb0bdece-90c6-490f-96b7-deadc8fcd5ec" class="" dir="auto"><strong>For languages that read</strong></p><ul id="f8fd723d-1a1e-43b7-b3b5-45fd494978f4" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>left to right</strong> - the order goes from top to bottom and left to right (e.g. English).</li></ul><ul id="5e09b9fd-1e0b-49be-8ca6-d2ea5e8d40aa" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><strong>right to left</strong> - the order goes from top to bottom and right to left (e.g. Arabic).</li></ul><aside class="block-color-blue_background callout" data-notion-callout="" data-notion-callout-icon="ℹ️" data-notion-callout-background="blue_background" style="white-space:pre-wrap;display:flex" id="8e7b849b-e7a9-4e64-9c20-a4d6a04d2136" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="ℹ️"></span></div><div style="width:100%"><strong>How to test the focus order</strong><p id="b12bdfac-3b1e-446f-a0f5-6b7413ad8709" class="" dir="auto">Pressing the tab key continuously on a browser will focus on <strong>all interactive elements</strong> in order.</p><p id="04cd39b3-991d-4143-803b-0c0129d9fe82" class="" dir="auto">If a screen reader is turn on, then continuously pressing tab will focus on <strong>all elements</strong>.</p></div></aside><h3 id="8c22b6e9-3e20-4b3d-ac6e-d699053fa529" class="" dir="auto">Dashboard template (Left-to-right)</h3><figure id="82a1e189-6da6-41fa-a67a-1e3df7b183d3" class="image" data-notion-image="Focus%20order/Focus_order_1.png" dir="ltr"><a href="Focus%20order/Focus_order_1.png"><img style="width:700px" src="Focus%20order/Focus_order_1.png"/></a></figure><h3 id="2d988999-a205-4fe5-a7b3-d44a7e1872f3" class="" dir="auto">Standard template (Left-to-right)</h3><figure id="93f2afa0-32dc-43e0-8f65-fbd67a219d8e" class="image" data-notion-image="Focus%20order/Focus_order_3.png" dir="ltr"><a href="Focus%20order/Focus_order_3.png"><img style="width:700px" src="Focus%20order/Focus_order_3.png"/></a></figure><h3 id="41e447ce-4633-410e-bf09-4a26cb9ace51" class="" dir="auto">Dashboard template - Skip link</h3><figure id="58271474-0d94-4128-9180-18a4b9f4eeb5" class="image" data-notion-image="Focus%20order/Skip_2.png" dir="ltr"><a href="Focus%20order/Skip_2.png"><img style="width:700px" src="Focus%20order/Skip_2.png"/></a></figure><h3 id="26d39d0d-0b4e-423b-9fda-9b57dfd2e6c3" class="" dir="auto">Standard template - Skip link</h3><figure id="e05fffd9-8625-4a0e-bdc9-1415734011fc" class="image" data-notion-image="Focus%20order/Skip_4.png" dir="ltr"><a href="Focus%20order/Skip_4.png"><img style="width:700px" src="Focus%20order/Skip_4.png"/></a></figure><h3 id="2711baa1-1711-4570-9401-54510a1ce999" class="" dir="auto">Skip link - Multi-step template</h3><figure id="e0e6ab50-b888-4e81-9c88-90f1f935277e" class="image" data-notion-image="Focus%20order/Skip_3.png" dir="ltr"><a href="Focus%20order/Skip_3.png"><img style="width:700px" src="Focus%20order/Skip_3.png"/></a></figure><hr id="801af0bc-6734-4655-a400-3638ae6202ce" dir="auto"/><h2 id="84a1ace8-bf74-47b1-ba36-975b948f57d0" class="" dir="auto">Related</h2><p id="2821f005-2f4b-495b-9ad8-47674414f5c0" class="" dir="auto"><a href="../../Patterns/Skip%20e4bff9ff97124a71b1c44d68204400f7.html" data-notion-page-id="e4bff9ff-9712-4a71-b1c4-4d68204400f7" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Skip</a></p><p id="459632b1-0b2a-41c5-ab67-2ad6522a07c1" class="" dir="auto"><a href="../../Patterns/Multi-step%20c1f46868bd4d479cbe10984b68718741.html" data-notion-page-id="c1f46868-bd4d-479c-be10-984b68718741" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Multi-step</a></p><p id="7c1c76b9-7d2e-4994-8010-a20a0680f0e3" class="" dir="auto">Cookies<br/>Next page<br/>Add video example<br/>remove focus from hidden elements</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
