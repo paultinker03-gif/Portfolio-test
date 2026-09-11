@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Patterns audit</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="10a20991-6c7d-4685-bc65-b1563b80163e" class="page sans"><header><h1 class="page-title" dir="auto">Patterns audit</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><h3 id="3c0094a6-ef1d-4e29-b87c-3ee39fdc249e" class="" dir="auto">Status legend</h3><p id="9f21a7f1-2a2e-4385-ad74-f290cec37f9c" class="" dir="auto"><mark class="highlight-purple_background" data-notion-highlight="purple_background">TO DO</mark> <mark class="highlight-yellow_background" data-notion-highlight="yellow_background">IN PROGRESS</mark> <mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark> <mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark> <mark class="highlight-blue_background" data-notion-highlight="blue_background">NEW PAGE REQUIRED</mark></p><p id="0e8af2dc-598e-455d-9053-8d0a20fb6b62" class="" dir="auto">If there is missing content, please add this to the notes column.</p><table id="42594f51-38ff-4aa3-969a-6c81c1492e1b" class="simple-table" dir="ltr"><tbody><tr id="0d77016e-483f-43a9-bd3f-3a9ce35e5ea7" dir="ltr"><td id="L[\a" class=""><strong>Page</strong></td><td id="|sRR" class=""><strong>Contents</strong></td><td id="Bsj&gt;" class=""><strong>Status</strong></td><td id="JzNx" class=""><strong>Notes</strong></td></tr><tr id="82fedaf1-18fb-4c43-b5ba-6d9e17544e1f" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Address%20look%20up%20442e259e607e4eacbc9c6ba10ed3a66a.html" data-notion-page-id="442e259e-607e-4eac-bc9c-6ba10ed3a66a" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Address look up</a></td><td id="|sRR" class="">Search, loading state, manual</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="c28e0014-65a6-4336-a4e3-2317e744370d" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Analytics%20e65d458a7b9c4145bf64059e984e993e.html" data-notion-page-id="e65d458a-7b9c-4145-bf64-059e984e993e" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Analytics</a></td><td id="|sRR" class="">Examples</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class="">What description to add here?</td></tr><tr id="52c4640f-fac1-4133-84f5-fcedae5d92ed" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Buttons%20-%20Back%20Cancel%2018b492855b2b420dbdf14f46da917b36.html" data-notion-page-id="18b49285-5b2b-420d-bdf1-4f46da917b36" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Buttons - Back/ Cancel</a></td><td id="|sRR" class="">Logic and examples</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr><tr id="affec745-1d68-42a0-ab21-16e3b39f91a0" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Chat%205443efaa7d174a0aa8194966e9f04ab3.html" data-notion-page-id="5443efaa-7d17-4a0a-a819-4966e9f04ab3" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Chat</a></td><td id="|sRR" class="">Large and small viewports,</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="035e3e46-1486-42d2-909d-a2ff22481206" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Cookies%20908de478b9944d55ac104d8e96ba945f.html" data-notion-page-id="908de478-b994-4d55-ac10-4d8e96ba945f" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Cookies</a></td><td id="|sRR" class="">Position, accepting and rejecting cookies</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="c6b84c5c-8185-42c0-8a64-46f9b2d5e535" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Dynamic%20form%20fb5da2532e1e49e697912450751c2906.html" data-notion-page-id="fb5da253-2e1e-49e6-9791-2450751c2906" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Dynamic form</a></td><td id="|sRR" class="">Behaviour, examples</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="eedc9493-8a28-4322-b6cb-90ec26eb793f" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Form%20validation%20a848ac194fef4d339e172003aa54218b.html" data-notion-page-id="a848ac19-4fef-4d33-9e17-2003aa54218b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Form validation</a></td><td id="|sRR" class="">Front-end, back-end, error pages</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr><tr id="bdb77779-4eca-4e33-98cc-f569e988e246" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Multilingual%201b82a6a2d48242628f00b4e264038b43.html" data-notion-page-id="1b82a6a2-d482-4262-8f00-b4e264038b43" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Multilingual</a></td><td id="|sRR" class="">Left to right, right to left, exceptions, storybook</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="1141935a-15fa-4f03-9e60-98317c4f373c" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Multi-step%20c1f46868bd4d479cbe10984b68718741.html" data-notion-page-id="c1f46868-bd4d-479c-be10-984b68718741" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Multi-step</a></td><td id="|sRR" class="">Hub and Spoke, review page</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="d6f554ad-fd50-4f12-97c4-dfc08fc3da50" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Native%20app%20pages%205ec5036409c74409bf38d229574a79b3.html" data-notion-page-id="5ec50364-09c7-4409-bf38-d229574a79b3" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Native app pages</a></td><td id="|sRR" class="">Partner variants, wrapper apps</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="37d4873c-df97-404d-af76-e2fc05a66aa8" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Overlay%20cd86eb97151748bca61568a390029947.html" data-notion-page-id="cd86eb97-1517-48bc-a615-68a390029947" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Overlay</a></td><td id="|sRR" class="">Description and examples</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr><tr id="471299c7-597a-4e84-8bf5-85632b37fb88" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Password%20787e7b8dc9144f94a05a6f3c3b9fa18a.html" data-notion-page-id="787e7b8d-c914-4f94-a05a-6f3c3b9fa18a" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Password</a></td><td id="|sRR" class="">Layout, guidelines</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="4fb5d5c3-e669-4ad4-ad08-3c314d9b4372" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Radio%20button%20-%20default%20c2967e927be144ab959406408a9789a8.html" data-notion-page-id="c2967e92-7be1-44ab-9594-06408a9789a8" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Radio button - default</a></td><td id="|sRR" class="">Best practices and default selected radio button</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""><a href="https://docs.google.com/document/d/1Yc-yhl_j0ggtvwBa7lrkUdLa8IxTqivl7Qzt2boZIZY/edit#heading=h.io4iw8ichb3w">https://docs.google.com/document/d/1Yc-yhl_j0ggtvwBa7lrkUdLa8IxTqivl7Qzt2boZIZY/edit#heading=h.io4iw8ichb3w</a></td></tr><tr id="c3bf26db-af96-4b73-9a2b-76699205fc48" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Reading%20flow%202fdf8ab7a24741f9aa3104a6d1f605a7.html" data-notion-page-id="2fdf8ab7-a247-41f9-aa31-04a6d1f605a7" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Reading flow</a></td><td id="|sRR" class="">F pattern, z pattern</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="f5f28107-14bd-4e97-b2d5-28025c1d7e23" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Skeleton%20eb490bf19f0a454990ed99b204348018.html" data-notion-page-id="eb490bf1-9f0a-4549-90ed-99b204348018" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Skeleton</a></td><td id="|sRR" class="">Complex table, chart, image selector</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr><tr id="9454e8c4-c42b-48d9-b6ee-7c529007ab58" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Skip%20e4bff9ff97124a71b1c44d68204400f7.html" data-notion-page-id="e4bff9ff-9712-4a71-b1c4-4d68204400f7" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Skip</a></td><td id="|sRR" class="">Skip link</td><td id="Bsj&gt;" class=""><mark class="highlight-teal_background" data-notion-highlight="teal_background">COMPLETED</mark></td><td id="JzNx" class=""></td></tr><tr id="49b02a38-eee6-4567-89f5-45d0ceacaf3f" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/Splash%20ef795d988ece4446b8033244b557a07d.html" data-notion-page-id="ef795d98-8ece-4446-b803-3244b557a07d" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Splash</a></td><td id="|sRR" class="">Light mode and dark mode example</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr><tr id="b7b54015-f679-4e31-b52f-38afe480861a" dir="ltr"><td id="L[\a" class=""><a href="../Patterns/To-do%20list%20bf130dc2a7c44e53b7f86d904a0513b1.html" data-notion-page-id="bf130dc2-a7c4-4e53-b7f8-6d904a0513b1" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">To-do list</a></td><td id="|sRR" class="">Traditional list and task list</td><td id="Bsj&gt;" class=""><mark class="highlight-red_background" data-notion-highlight="red_background">FOR REVIEW</mark></td><td id="JzNx" class=""></td></tr></tbody></table></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

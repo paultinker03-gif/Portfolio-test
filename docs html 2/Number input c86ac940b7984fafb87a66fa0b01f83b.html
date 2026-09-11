@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Number input</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="c86ac940-b798-4faf-b87a-66fa0b01f83b" class="page sans"><header><h1 class="page-title" dir="auto">Number input</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="a7238af2-32e7-4784-b6b9-139f2c7a41bf" class="" dir="auto">Number inputs allow users to input short-form data.</p><ul id="6085ceee-fe09-4e60-bf95-c24967d456dc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Number inputs don’t support letters or special characters. The only exceptions:<ul id="9418dea4-9717-4a46-b12e-c30d9670bac5" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Some number inputs support decimals.</li></ul><ul id="ab406978-1d84-4821-9be0-aa122c70b9b9" class="bulleted-list" dir="auto"><li style="list-style-type:circle">Phone input supports ‘+’.</li></ul></li></ul><ul id="2b1aaad3-be94-4eab-8b76-3edd7f344bba" class="bulleted-list" dir="auto"><li style="list-style-type:disc">When whole numbers are required use additional hint text to highlight this.</li></ul><ul id="ea40666f-62b1-4123-9c59-8e2a4b73f9f8" class="bulleted-list" dir="auto"><li style="list-style-type:disc">If decimals are not allowed, then the backend <a href="../../Patterns/Form%20validation%20a848ac194fef4d339e172003aa54218b.html" data-notion-page-id="a848ac19-4fef-4d33-9e17-2003aa54218b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Form validation</a> will highlight this once the user clicks ‘Save’ or ‘Continue’.</li></ul><h3 id="dec818dc-2e03-4156-997b-193102afd4a0" class="" dir="auto">Don&#x27;t use to</h3><ul id="1d43bca4-71a4-4c90-a59a-191208a12dcc" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Support short-form content and data. Use <a href="Text%20Input%202cff5a235136462db85486421f432ad5.html" data-notion-page-id="2cff5a23-5136-462d-b854-86421f432ad5" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Text Input</a> instead.</li></ul><hr id="db62debd-344b-4a04-83ed-c9b9b5df4c14" dir="auto"/><h2 id="121a4866-c990-463b-892b-bfeac911c579" class="" dir="auto">Date</h2><ul id="780afe74-a0d4-45fc-aaa2-6afc02e64f4c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Does NOT support decimals.</li></ul><figure id="783a8255-a11c-447a-8ba2-b50f02c4b6e2" class="image" data-notion-image="Number%20input/Date.png" dir="ltr"><a href="Number%20input/Date.png"><img style="width:368px" src="Number%20input/Date.png"/></a></figure><p id="d86e602a-a7c8-4d37-8d95-19f449397551" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Keystone-Design-System?node-id=1429%3A28573">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-forms-dateinput--standard">Storybook link</a></p><hr id="97d0e608-8dad-478b-af15-4948d1f8f06c" dir="auto"/><h2 id="3635dc93-1816-4485-b0cd-7e6c3f36a5cd" class="" dir="auto">Phone number</h2><ul id="452b9442-e54f-4694-9ef6-464bb644e1c9" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Does NOT support decimals.</li></ul><ul id="3eb741b2-2d7f-4895-b8be-c08253999d2d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Does support &#x27;+&#x27;.</li></ul><figure id="96f49013-c1e0-4ad2-aab4-4f1a6476592d" class="image" data-notion-image="Number%20input/PhoneNumber-Select.png" dir="ltr"><a href="Number%20input/PhoneNumber-Select.png"><img style="width:368px" src="Number%20input/PhoneNumber-Select.png"/></a></figure><p id="94ffb635-f68f-4b26-8e1b-c1d36b3150f1" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Keystone-Design-System?node-id=12627%3A18386">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-forms-phoneinput--standard">Storybook link</a></p><hr id="8115bbed-ecf0-413f-bb6b-5441a4932445" dir="auto"/><h2 id="d18eec30-75ec-4c85-be2f-745c3ac44d16" class="" dir="auto">Age</h2><ul id="40d20ba3-3f6e-4e2d-8b94-8fdeb9bc6ac7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Does NOT support decimals. Maximum 3 characters.</li></ul><figure id="836322fb-dbb9-4691-8cf3-c9aea7df9310" class="image" data-notion-image="Number%20input/Retirement_age.png" dir="ltr"><a href="Number%20input/Retirement_age.png"><img style="width:368px" src="Number%20input/Retirement_age.png"/></a></figure><p id="ab1790b0-dc20-4e08-97ca-66091afae4cb" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Keystone-Design-System?node-id=1246%3A2800">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-forms-numberinput--standard">Storybook link</a></p><hr id="725442a8-db42-451f-9187-2825764391db" dir="auto"/><h2 id="85134aef-0cf1-47c2-bb64-ef7ae6ead55d" class="" dir="auto">Currency</h2><ul id="36add1d8-b70d-49d6-bde9-fe2c729a905d" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Does support decimals.</li></ul><ul id="43c60718-19b4-4399-83b7-4d2eeb6e5725" class="bulleted-list" dir="auto"><li style="list-style-type:disc">A maximum of two decimals can be added</li></ul><figure id="84eaa059-7008-4567-ae5a-498acf3a2b39" class="image" data-notion-image="Number%20input/Number-Input-Currency.png" dir="ltr"><a href="Number%20input/Number-Input-Currency.png"><img style="width:368px" src="Number%20input/Number-Input-Currency.png"/></a></figure><p id="b27a6e23-6890-4583-a922-1ea0651a305c" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Keystone-Design-System?node-id=26640%3A113049">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-forms-currencyinput--standard">Storybook link</a></p><hr id="e4d3c636-ec6f-427e-939e-ae23b6798c1a" dir="auto"/><h2 id="83af38cd-8690-4dc2-8e3b-d0f927b11184" class="" dir="auto">Percentage</h2><h3 id="7526beb9-bf15-4fca-819c-c10b9697a8fe" class="" dir="auto">If page/client supports decimals</h3><ul id="f72a5afc-650f-4499-b9df-67bcd541c6f7" class="bulleted-list" dir="auto"><li style="list-style-type:disc">then we will allow the user to enter one or two decimals depending on their acceptance rules.</li></ul><ul id="0ebcb354-88aa-40ec-94f5-0b8aafc8a167" class="bulleted-list" dir="auto"><li style="list-style-type:disc">when 1 decimal is supported users can use the button and keyboard up and down arrow keys go through whole numbers.</li></ul><ul id="e0caa468-17ac-4937-adab-448c62775e08" class="bulleted-list" dir="auto"><li style="list-style-type:disc">when 2 decimals are supported users can use the button and keyboard up and down arrow keys go through 1 decimal numbers.</li></ul><h3 id="1c310f11-29ab-49c3-823b-102a52b1ec56" class="" dir="auto">If the page/client does not support decimals</h3><ul id="de7270df-b43f-40c6-b831-ee33b3f446f2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">then we will still allow the user to enter one decimal, but this will be picked up by the backend validation.</li></ul><p id="3f10f454-e448-42f4-9725-7cc8f91c01ba" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Keystone-Design-System?node-id=26640%3A113048">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-forms-percentageinput--standard">Storybook link</a></p><h3 id="7d85ef28-6c95-4af6-b654-c7da2321d3b7" class="" dir="auto">Contribution</h3><p id="a45bc185-3fd6-4f30-b648-f280bc0f8d38" class="" dir="auto"><span style="border-bottom:0.05em solid"><strong>SPMT</strong></span></p><ul id="58a42867-817e-4dd2-a61d-146ad11f5042" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Whole numbers required. Maximum one decimal can be entered but will be picked up validation.</li></ul><figure id="bfc0dbad-a632-4ff0-855c-e6ff238a7242" class="image" data-notion-image="Number%20input/Percentage_SPMT.png" dir="ltr"><a href="Number%20input/Percentage_SPMT.png"><img style="width:368px" src="Number%20input/Percentage_SPMT.png"/></a></figure><figure id="3faf4f82-c750-4445-a5f6-90bf7edc2c09" class="image" data-notion-image="Number%20input/Percentage_SPMT_error.png" dir="ltr"><a href="Number%20input/Percentage_SPMT_error.png"><img style="width:368px" src="Number%20input/Percentage_SPMT_error.png"/></a></figure><p id="4ecca0ff-566e-4f13-8b7e-6de63728545b" class="" dir="auto"><span style="border-bottom:0.05em solid"><strong>NIAC</strong></span></p><ul id="303cc9d7-dc77-464e-af85-f57564ca7938" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Whole numbers or single decimal. Maximum two decimals can be entered but will be picked up validation.</li></ul><figure id="8d31c2ea-b82d-4bd0-a9cf-ffa6ec17dd82" class="image" data-notion-image="Number%20input/Contribution.png" dir="ltr"><a href="Number%20input/Contribution.png"><img style="width:368px" src="Number%20input/Contribution.png"/></a></figure><figure id="d0ff69c0-a06e-4dbc-863d-e9c74570d5af" class="image" data-notion-image="Number%20input/Contribution_error.png" dir="ltr"><a href="Number%20input/Contribution_error.png"><img style="width:368px" src="Number%20input/Contribution_error.png"/></a></figure><h3 id="26bc6f6c-9432-4efd-9ff1-21b47d385003" class="" dir="auto">Investments</h3><ul id="9f7a1b4c-7581-4178-84d8-9106f8ea7029" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Whole numbers required. Maximum one decimal can be entered but will be picked up validation.</li></ul><figure id="a9d8a5d4-adf3-4d27-898f-c943177ca550" class="image" data-notion-image="Number%20input/Investment.png" dir="ltr"><a href="Number%20input/Investment.png"><img style="width:368px" src="Number%20input/Investment.png"/></a></figure><figure id="550462b2-4922-427a-b76b-1f46b52023a9" class="image" data-notion-image="Number%20input/Investment_error.png" dir="ltr"><a href="Number%20input/Investment_error.png"><img style="width:368px" src="Number%20input/Investment_error.png"/></a></figure><h3 id="13e1f744-5630-449a-94fe-7ca08c2cf05b" class="" dir="auto">Beneficiaries</h3><ul id="8144e91b-8008-4ba3-be87-396a019d345e" class="bulleted-list" dir="auto"><li style="list-style-type:disc">Whole numbers required. Maximum one decimal can be entered but will be picked up validation.</li></ul><figure id="7559100f-d191-4839-8595-e2f4a2725e4d" class="image" data-notion-image="Number%20input/Beneficiaries.png" dir="ltr"><a href="Number%20input/Beneficiaries.png"><img style="width:368px" src="Number%20input/Beneficiaries.png"/></a></figure><figure id="516de78f-e013-42d8-a73a-4589c71fd821" class="image" data-notion-image="Number%20input/Beneficiaries_error.png" dir="ltr"><a href="Number%20input/Beneficiaries_error.png"><img style="width:368px" src="Number%20input/Beneficiaries_error.png"/></a></figure><hr id="9ca754d9-5bc5-4f17-8a5d-fbaefa00070e" dir="auto"/><h2 id="fe30e11e-1a32-4f73-b70d-ed36b94ee946" class="" dir="auto">Related</h2><p id="5d81483f-922c-4129-847e-d531d14cb48f" class="" dir="auto"><a href="../Page%20layout/Sticky%20footer%20b9b2b1cdd02d4dc1a67b153808b98c90.html" data-notion-page-id="b9b2b1cd-d02d-4dc1-a67b-153808b98c90" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Sticky footer</a></p><p id="25cd6cbc-4437-4df5-8e9a-e88421ce22d5" class="" dir="auto"><a href="../../Patterns/Form%20validation%20a848ac194fef4d339e172003aa54218b.html" data-notion-page-id="a848ac19-4fef-4d33-9e17-2003aa54218b" data-notion-space-id="c501ca8d-2877-4730-bdc0-8506828d6e98">Form validation</a></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
