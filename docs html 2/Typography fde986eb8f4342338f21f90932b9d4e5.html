@@ -1,0 +1,794 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Typography</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+/* For default-background callouts, render the border outline. */
+.callout.block-color-default_background {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+/*
+ * Toggles and callouts hold arbitrary content, so they can easily be taller
+ * than a page. They must stay breakable: avoiding breaks inside them makes
+ * Chromium push the whole block onto the next page, which leaves the previous
+ * page mostly empty before every long toggle.
+ */
+details,
+aside {
+	margin: 1.25em 0;
+}
+
+/* Keep a toggle's title on the same page as the start of its content. */
+summary {
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+/*
+ * Toggle headings render as <h1/h2/h3 style="display:inline-block"> inside
+ * <summary>. Without this reset, the heading's margin-top pushes it below the
+ * ::marker (▼), so the triangle and the title appear on separate lines.
+ */
+summary h1,
+summary h2,
+summary h3,
+summary h4 {
+	margin-top: 0;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding-inline: 0.125rem;
+	padding-block: 0.375rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+/*
+ * Render emoji icons using a ::before pseudo-element to keep the glyph
+ * out of the DOM textContent traversal. This avoids double-rendering icons
+ * in callouts and page titles.
+ * NOTE(slim/html-export-pseudo-icons): I can't tagref this because it will
+ * flag as a duplicate tag after codegen.
+ */
+.icon[data-emoji]::before {
+	content: attr(data-emoji);
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	margin-right: 0.4em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.tab {
+	margin: 1.25em 0;
+	padding-inline: 1rem;
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><style>@import url('https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex-swap.min.css')</style></head><body><article id="fde986eb-8f43-4233-8f21-f90932b9d4e5" class="page sans"><header><h1 class="page-title" dir="auto">Typography</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><p id="77c7d23f-ccce-448b-bef6-bcd0f6f13f1d" class="" dir="auto">Typography guidelines help us provide a clear and consistent visual hierarchy in all written content.</p><nav id="f6fa0d6d-a30e-46ed-a0d7-42d946691243" class="block-color-gray table_of_contents" data-notion-highlight="gray" data-notion-toc="" dir="ltr"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#6d9e798f-d107-4328-ae97-0d2c0ab3d1a5">Fonts</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#dee0634d-97e7-455c-9a55-3696a41fc3c9">Size</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#37f32281-fcd0-4f3a-b182-c44c91bae69d">Tokens</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#bc3953d2-d15f-4d87-b3a1-5faeb46fd723">Headings</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c5a0a5dc-53cb-441e-b24b-b5b97ac6c141">Text</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#03fc4ebe-ef79-4d4d-86fb-533329eadd2c">Text links</a></div></nav><h2 id="6d9e798f-d107-4328-ae97-0d2c0ab3d1a5" class="" dir="auto">Fonts</h2><p id="7b7b3647-bbd1-42f1-829a-ae21ae9f9775" class="" dir="auto">We use two fonts in our products - a header font and a text font for everything else.</p><p id="3c6c9e13-3534-4072-851e-dcaae55204f8" class="" dir="auto">The default line weight is regular but bold can indicate actions/buttons in instructional content. For example, “press <strong>Continue</strong>”. You can also use bold sparingly to emphasise important information.</p><table id="65c96f23-f02b-4f73-958a-bbcc5aad53da" class="simple-table" dir="ltr"><tbody><tr id="f3f68438-c530-454d-9b86-442b3f76db34" dir="ltr"><td id="LH|E" class=""><strong>Finhabits</strong></td><td id="WNxe" class=""></td></tr><tr id="2586a69e-3690-434c-90e1-e6360f7ed329" dir="ltr"><td id="LH|E" class="">Headings</td><td id="WNxe" class="">Arial - Regular</td></tr><tr id="d9929398-e985-48df-838f-9d5a6433658c" dir="ltr"><td id="LH|E" class="">Body</td><td id="WNxe" class="">Arial - Regular</td></tr><tr id="45222ff4-86d7-4ae8-88df-d32f5174e0a6" dir="ltr"><td id="LH|E" class=""><strong>NIAC</strong></td><td id="WNxe" class=""></td></tr><tr id="d587ac23-5273-4089-868a-43b987352823" dir="ltr"><td id="LH|E" class="">Headings</td><td id="WNxe" class="">League Spartan - Semi Bold</td></tr><tr id="60fa25a7-4eaf-4423-b4b3-6abaa08a13fa" dir="ltr"><td id="LH|E" class="">Body</td><td id="WNxe" class="">Hepta Slab - Regular</td></tr><tr id="c2bb0d50-36ae-46ee-a147-db39b5ada7b1" dir="ltr"><td id="LH|E" class=""><strong>Smart</strong></td><td id="WNxe" class=""></td></tr><tr id="aac1a45c-494b-443e-bcac-5cc971c75c72" dir="ltr"><td id="LH|E" class="">Headings</td><td id="WNxe" class="">Museo Sans - 500</td></tr><tr id="71463492-375b-4104-8447-51ea7f4245a9" dir="ltr"><td id="LH|E" class="">Body</td><td id="WNxe" class="">Lato - Regular</td></tr><tr id="c6ee3f8f-26ac-4d72-8768-58e6bd775534" dir="ltr"><td id="LH|E" class=""><strong>Zurich</strong></td><td id="WNxe" class=""></td></tr><tr id="61f8712e-2afc-458e-8602-8ffcdb41b2d3" dir="ltr"><td id="LH|E" class="">Headings</td><td id="WNxe" class="">Roboto - Medium</td></tr><tr id="f6ada915-0ede-44b2-8376-dd0c1d8bd579" dir="ltr"><td id="LH|E" class="">Body</td><td id="WNxe" class="">Roboto - Regular</td></tr></tbody></table><h2 id="dee0634d-97e7-455c-9a55-3696a41fc3c9" class="" dir="auto">Size</h2><p id="d7de61a8-ed78-46df-af06-537437cedb87" class="" dir="auto">The tables below provide all the typographic elements by size.</p><table id="252f8228-1981-4d48-88cc-c97fc83bae50" class="simple-table" dir="ltr"><tbody><tr id="85f6f51c-52cd-4a40-adb3-64f7b115a45c" dir="ltr"><td id="dZJn" class=""><strong>Size</strong></td><td id="`Gc}" class=""><strong>Mobile token size</strong></td><td id="W=}&gt;" class=""><strong>Tablet/desktop token size</strong></td></tr><tr id="82ae95f0-3d90-4724-b533-0a78f79a86a0" dir="ltr"><td id="dZJn" class="">2xs</td><td id="`Gc}" class="">2xs</td><td id="W=}&gt;" class="">2xs</td></tr><tr id="a2d56313-ddfe-4b20-85cb-48c19c7ddf44" dir="ltr"><td id="dZJn" class="">xs</td><td id="`Gc}" class="">xs</td><td id="W=}&gt;" class="">xs</td></tr><tr id="9071ba85-1e96-43f4-aba0-aa22c440446f" dir="ltr"><td id="dZJn" class="">sm</td><td id="`Gc}" class="">sm</td><td id="W=}&gt;" class="">sm</td></tr><tr id="53ffc966-caf6-43c1-9ddd-44cafc671acb" dir="ltr"><td id="dZJn" class="">md</td><td id="`Gc}" class="">md</td><td id="W=}&gt;" class="">lg</td></tr><tr id="737fb41f-3487-4ab0-8dfe-8aab81ad358f" dir="ltr"><td id="dZJn" class="">lg</td><td id="`Gc}" class="">lg</td><td id="W=}&gt;" class="">xl</td></tr><tr id="a720aa17-7732-471e-9930-b3e613b2d428" dir="ltr"><td id="dZJn" class="">xl</td><td id="`Gc}" class="">xl</td><td id="W=}&gt;" class="">2xl</td></tr><tr id="3c782572-23c1-4a7c-9aba-9ec11de9af7d" dir="ltr"><td id="dZJn" class="">2xl</td><td id="`Gc}" class="">2xl</td><td id="W=}&gt;" class="">3xl</td></tr><tr id="50d79a4c-517f-4527-a7ea-251ff440de61" dir="ltr"><td id="dZJn" class="">3xl</td><td id="`Gc}" class="">3xl</td><td id="W=}&gt;" class="">4xl</td></tr></tbody></table><h2 id="37f32281-fcd0-4f3a-b182-c44c91bae69d" class="" dir="auto">Tokens</h2><table id="e042487c-394e-462f-b505-92021c58b333" class="simple-table" dir="ltr"><tbody><tr id="ea012dfb-bfe3-40c4-a7a3-49ae82729c31" dir="ltr"><td id="vuri" class="">Column</td><td id="a;He" class="">Column</td><td id="okgy" class="">Column</td><td id="GKtX" class="">Column</td><td id="rH`:" class="">Column</td></tr><tr id="ea471ab7-538b-49b2-b5ba-a2c2d3328417" dir="ltr"><td id="vuri" class=""><strong>Size</strong></td><td id="a;He" class=""><strong>Pixels</strong></td><td id="okgy" class=""><strong>rem</strong></td><td id="GKtX" class=""><strong>Line height %</strong></td><td id="rH`:" class=""><strong>Default colour</strong></td></tr><tr id="74c6c682-123e-44ba-8470-b974d1ad3972" dir="ltr"><td id="vuri" class="">2xs</td><td id="a;He" class="">12px</td><td id="okgy" class="">0.75rem</td><td id="GKtX" class="">150%</td><td id="rH`:" class="">Secondary</td></tr><tr id="9b3131d0-6df6-409f-9cc3-1d1670801ec1" dir="ltr"><td id="vuri" class="">xs</td><td id="a;He" class="">14px</td><td id="okgy" class="">0.875rem</td><td id="GKtX" class="">150%</td><td id="rH`:" class="">Secondary</td></tr><tr id="257f452e-f4d1-4a0f-b0e2-618b86742424" dir="ltr"><td id="vuri" class="">sm</td><td id="a;He" class="">16px</td><td id="okgy" class="">1rem</td><td id="GKtX" class="">150%</td><td id="rH`:" class="">Secondary</td></tr><tr id="61964646-8516-44f4-b5fa-3c1e1d546af4" dir="ltr"><td id="vuri" class="">md</td><td id="a;He" class="">18px</td><td id="okgy" class="">1.125rem</td><td id="GKtX" class="">140%</td><td id="rH`:" class="">Secondary</td></tr><tr id="f14af13c-297e-4010-8cc0-52048d43e980" dir="ltr"><td id="vuri" class="">lg</td><td id="a;He" class="">20px</td><td id="okgy" class="">1.25rem</td><td id="GKtX" class="">130%</td><td id="rH`:" class="">Primary</td></tr><tr id="e446d845-6196-4581-9f01-1ef5eaa1a03e" dir="ltr"><td id="vuri" class="">xl</td><td id="a;He" class="">24px</td><td id="okgy" class="">1.5rem</td><td id="GKtX" class="">130%</td><td id="rH`:" class="">Primary</td></tr><tr id="663c7a15-0168-4199-b0a6-1505f952f558" dir="ltr"><td id="vuri" class="">2xl</td><td id="a;He" class="">28px</td><td id="okgy" class="">1.75rem</td><td id="GKtX" class="">120%</td><td id="rH`:" class="">Primary</td></tr><tr id="f5bd02cc-1ee9-4589-a527-643c6bee08b8" dir="ltr"><td id="vuri" class="">3xl</td><td id="a;He" class="">32px</td><td id="okgy" class="">2.25rem</td><td id="GKtX" class="">120%</td><td id="rH`:" class="">Primary</td></tr><tr id="3265c936-64cb-43b7-9d7b-b06b535dde0b" dir="ltr"><td id="vuri" class="">4xl</td><td id="a;He" class="">44px</td><td id="okgy" class="">2.75rem</td><td id="GKtX" class="">110%</td><td id="rH`:" class="">Primary</td></tr></tbody></table><h2 id="bc3953d2-d15f-4d87-b3a1-5faeb46fd723" class="" dir="auto">Headings</h2><p id="5690b58a-9c51-4fa3-af89-37d7f51055de" class="" dir="auto">A heading shows the title or core topics on the page. We use five heading levels which divide sections of information and create a visual hierarchy. Write all headings in sentence case (not Title Case) and without a full stop at the end.</p><p id="49e048f4-21f5-4914-8323-2b0e01859c8e" class="" dir="auto">Every page must have a consecutive heading order &lt;h1&gt; to &lt;h5&gt;. For example, &lt;h2&gt; should not be followed by &lt;H4&gt;.</p><p id="6e48d01a-62ee-4eae-95fb-b6fefa7393db" class="" dir="auto">Skipping this order can be confusing and should be avoided.</p><p id="3a820bed-6e49-4b0c-8906-8b655457b50e" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=1246%3A3379">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-typography--standard">Storybook link</a></p><table id="74625001-6a20-49a8-a3ec-0709e5b5b56c" class="simple-table" dir="ltr"><tbody><tr id="ca579dcf-236d-468f-ae07-0b26b0e93b89" dir="ltr"><td id="sCur" class=""><strong>Headings</strong></td><td id="Z=&lt;&gt;" class=""><strong>Size</strong></td></tr><tr id="af0b194e-67a6-45ec-bfea-168338e26328" dir="ltr"><td id="sCur" class="">H5</td><td id="Z=&lt;&gt;" class="">md</td></tr><tr id="58be090f-d8d7-4eaf-b846-dfaff70bff46" dir="ltr"><td id="sCur" class="">H4</td><td id="Z=&lt;&gt;" class="">lg</td></tr><tr id="f34bda6a-f9a8-437f-9165-5423d9434fb7" dir="ltr"><td id="sCur" class="">H3</td><td id="Z=&lt;&gt;" class="">xl</td></tr><tr id="6ae1980e-ab87-4f86-8301-e3a88b6f811b" dir="ltr"><td id="sCur" class="">H2</td><td id="Z=&lt;&gt;" class="">2xl</td></tr><tr id="b26909d3-9c29-4fd1-999f-602e9454b0da" dir="ltr"><td id="sCur" class="">H1</td><td id="Z=&lt;&gt;" class="">3xl</td></tr></tbody></table><table id="d80a0955-acb9-4c17-8286-b48fcf388f62" class="simple-table" dir="ltr"><tbody><tr id="bba1d08d-0e23-4c80-975e-b143fc881f0d" dir="ltr"><td id="~tjq" class=""><strong>Do</strong></td><td id="||~v" class=""><strong>Dont</strong></td></tr><tr id="b681c919-d9e3-4b2a-852e-5ecec66dc9b8" dir="ltr"><td id="~tjq" class="">Only use one main heading (H1) per page.<br/>Use headers to break up long chunks of text.<br/>Always use headers to introduce content and components that aren’t all text - such as graphics, images, graphs and tables.</td><td id="||~v" class="">Don’t use headings out of order: H3, H2, H1, H4.</td></tr></tbody></table><h2 id="c5a0a5dc-53cb-441e-b24b-b5b97ac6c141" class="" dir="auto">Text</h2><p id="d896b83c-4e22-44a9-8be7-d8290659f472" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=11058%3A283">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-typography-text--standard">Storybook link</a></p><table id="53b947db-49fc-4bb7-b48a-e56b4b88e428" class="simple-table" dir="ltr"><tbody><tr id="84c52c02-7d5d-4205-9bab-52ea43d94e93" dir="ltr"><td id="LMtq" class=""><strong>Text</strong></td><td id="GaD?" class=""><strong>Size</strong></td></tr><tr id="de005100-3924-46af-bb0a-f81e5c2b4b1d" dir="ltr"><td id="LMtq" class="">Text-2Xsmall</td><td id="GaD?" class="">2xs</td></tr><tr id="aca22e7f-db62-47fd-92e8-46875d3746e8" dir="ltr"><td id="LMtq" class="">Text-Xsmall</td><td id="GaD?" class="">xs</td></tr><tr id="83f09a42-f07e-462a-9742-68abe2ee5747" dir="ltr"><td id="LMtq" class="">Text-Small</td><td id="GaD?" class="">sm</td></tr><tr id="cb1f5949-9ee0-4c5a-ae5d-040f1c1dcee5" dir="ltr"><td id="LMtq" class="">Text-Medium</td><td id="GaD?" class="">md</td></tr><tr id="85b133d3-7410-4f7e-95b9-3d630750c737" dir="ltr"><td id="LMtq" class="">Text-Large</td><td id="GaD?" class="">lg</td></tr><tr id="284c2ce2-518e-4b07-8f28-a2e6b4863a94" dir="ltr"><td id="LMtq" class="">Text-XLarge</td><td id="GaD?" class="">xl</td></tr><tr id="07c15070-d9c9-4733-8fdd-665c5ac44b41" dir="ltr"><td id="LMtq" class="">Text-2XLarge</td><td id="GaD?" class="">2xl</td></tr><tr id="449b1a53-47a8-42bb-b754-d7b422974041" dir="ltr"><td id="LMtq" class="">Text-3XLarge</td><td id="GaD?" class="">3xl</td></tr></tbody></table><h2 id="03fc4ebe-ef79-4d4d-86fb-533329eadd2c" class="" dir="auto">Text links</h2><p id="0249698d-d38f-413f-b929-4f68c462ea8a" class="" dir="auto">Links use the colour <code>Layout-Content-Link</code> and are underlined by default. If your link is at the end of a sentence or paragraph, make sure that the linked text doesn’t include a full stop.</p><p id="faba70fd-5d86-4a40-9fe2-c3a85f529874" class="" dir="auto"><a href="https://www.figma.com/file/U6ycL6HBovmxaWOvYCK5h8/Smart-Design-System?node-id=1388%3A193">Figma link</a><a href="https://607d4c49e197430021d999c7-avjvfcqexc.chromatic.com/?path=/story/bright-typography-link--standard">Storybook link</a></p><table id="34c7dd23-dbc1-4e50-ab41-2ce6fead55d4" class="simple-table" dir="ltr"><tbody><tr id="8009bbcc-5375-4ea3-9948-3c88ca76f04c" dir="ltr"><td id="[[g}" class=""><strong>Text-Links</strong></td><td id="yoqP" class=""><strong>Mobile and tablet/desktop</strong></td></tr><tr id="7c3c3b75-598a-4fa0-9a8a-5a09f19794a1" dir="ltr"><td id="[[g}" class="">Text-Link-2Xsmall</td><td id="yoqP" class="">2xs</td></tr><tr id="0bfb99eb-cf5d-40c5-bc2b-10e6326caa3f" dir="ltr"><td id="[[g}" class="">Text-Link-Xsmall</td><td id="yoqP" class="">xs</td></tr><tr id="f1410f6a-7c95-4789-83ec-f4ff612cdac5" dir="ltr"><td id="[[g}" class="">Text-Link-Small</td><td id="yoqP" class="">sm</td></tr></tbody></table></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
